@@ -1,0 +1,30 @@
+Overview
+========
+
+Library with a collection of some more or less usefull functions.
+
+
+Installation
+------------
+
+.. highlight:: none
+
+::
+
+# pip install salmagundi
+
+
+Dependencies
+------------
+
+- none
+
+
+Links
+-----
+
+- PyPI: https://pypi.org/project/salmagundi/
+- GitHub: https://github.com/andreas19/salmagundi/
+
+
+.. include:: ../../CHANGELOG.md

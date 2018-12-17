@@ -1,0 +1,4 @@
+Module *colors*
+===============
+
+.. automodule:: salmagundi.colors

@@ -1,0 +1,4 @@
+Module *files*
+==============
+
+.. automodule:: salmagundi.files

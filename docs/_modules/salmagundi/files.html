@@ -1,0 +1,261 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>salmagundi.files &#8212; salmagundi 0.0.3 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for salmagundi.files</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;File utilities.</span>
+
+<span class="sd">The argument ``file`` in the functions in this module can either be a path-like</span>
+<span class="sd">object or an integer file descriptor of a previously opened file. The argument</span>
+<span class="sd">``encoding`` should only be used in text mode (``binary=False``) if necessary.</span>
+
+<span class="sd">.. seealso:: built-in function :func:`open`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">os</span>
+
+
+<div class="viewcode-block" id="read_all"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.read_all">[docs]</a><span class="k">def</span> <span class="nf">read_all</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read and return the content of the file.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param bool binary: if ``True`` the content will be returned as ``bytes``</span>
+<span class="sd">                        else as ``str``</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: the file content</span>
+<span class="sd">    :rtype: bytes or str</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;rb&#39;</span> <span class="k">if</span> <span class="n">binary</span> <span class="k">else</span> <span class="s1">&#39;rt&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fh</span><span class="o">.</span><span class="n">read</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="read_lines"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.read_lines">[docs]</a><span class="k">def</span> <span class="nf">read_lines</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">predicate</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read and return the content of the file as a list of lines.</span>
+
+<span class="sd">    Line breaks are not included in the resulting list.</span>
+
+<span class="sd">    If a predicate function is given, it must take a single line as</span>
+<span class="sd">    its argument and return a bool. Only the lines for which ``True``</span>
+<span class="sd">    is returned are included in the result.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param predicate: predicate function</span>
+<span class="sd">    :type predicate: func(line)</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: list of lines</span>
+<span class="sd">    :rtype: list(str)</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">fh</span><span class="p">:</span>
+            <span class="n">line</span> <span class="o">=</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">predicate</span> <span class="ow">or</span> <span class="n">predicate</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<div class="viewcode-block" id="write_all"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.write_all">[docs]</a><span class="k">def</span> <span class="nf">write_all</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write the content to a file.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param content: file content</span>
+<span class="sd">    :type content: bytes or str</span>
+<span class="sd">    :param bool binary: if ``True`` the content must be ``bytes`` else ``str``</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: number of bytes or characters written</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;wb&#39;</span> <span class="k">if</span> <span class="n">binary</span> <span class="k">else</span> <span class="s1">&#39;wt&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="write_lines"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.write_lines">[docs]</a><span class="k">def</span> <span class="nf">write_lines</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Write the lines to a file.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param list(str) lines: list of strings w/o newline</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: number of characters written</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+        <span class="n">cnt</span> <span class="o">+=</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cnt</span></div>
+
+
+<div class="viewcode-block" id="append_all"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.append_all">[docs]</a><span class="k">def</span> <span class="nf">append_all</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="n">binary</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Append the content to a file.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param content: file content</span>
+<span class="sd">    :type content: bytes or str</span>
+<span class="sd">    :param bool binary: if ``True`` the content must be ``bytes`` else ``str``</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: number of bytes or characters written</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;ab&#39;</span> <span class="k">if</span> <span class="n">binary</span> <span class="k">else</span> <span class="s1">&#39;at&#39;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">content</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="append_lines"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.append_lines">[docs]</a><span class="k">def</span> <span class="nf">append_lines</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Append the lines to a file.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param list(str) lines: list of strings w/o newline</span>
+<span class="sd">    :param str encoding: name of the encoding</span>
+<span class="sd">    :return: number of characters written</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">)</span> <span class="k">as</span> <span class="n">fh</span><span class="p">:</span>
+        <span class="n">cnt</span> <span class="o">=</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
+        <span class="n">cnt</span> <span class="o">+=</span> <span class="n">fh</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">cnt</span></div>
+
+
+<div class="viewcode-block" id="create"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.create">[docs]</a><span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">exclusive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">truncate</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a file.</span>
+
+<span class="sd">    If the file exists and ``exclusive=False`` the modification</span>
+<span class="sd">    time will be set to the current time.</span>
+
+<span class="sd">    :param file: path to file or file descriptor</span>
+<span class="sd">    :type file: path-like object or int</span>
+<span class="sd">    :param bool exclusive: if ``True`` the file will be created in</span>
+<span class="sd">                           exclusive mode</span>
+<span class="sd">    :param bool truncate: if ``True`` and the file exists it will</span>
+<span class="sd">                          be truncated</span>
+<span class="sd">    :raises OSError: on I/O failure</span>
+<span class="sd">    :raises FileExistsError: if ``exclusive=True`` and the file exists</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="s1">&#39;x&#39;</span> <span class="k">if</span> <span class="n">exclusive</span> <span class="k">else</span> <span class="p">(</span><span class="s1">&#39;w&#39;</span> <span class="k">if</span> <span class="n">truncate</span> <span class="k">else</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">):</span>
+        <span class="k">pass</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">truncate</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">utime</span><span class="p">(</span><span class="n">file</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="on_same_dev"><a class="viewcode-back" href="../../mod_files.html#salmagundi.files.on_same_dev">[docs]</a><span class="k">def</span> <span class="nf">on_same_dev</span><span class="p">(</span><span class="n">file1</span><span class="p">,</span> <span class="n">file2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return ``True`` if both files are on the same device/partition.</span>
+
+<span class="sd">    ``file1, file2`` may also refer to directories.</span>
+
+<span class="sd">    :param file1: path to file or file descriptor</span>
+<span class="sd">    :type file1: path-like object or int</span>
+<span class="sd">    :param file2: path to file or file descriptor</span>
+<span class="sd">    :type file2: path-like object or int</span>
+<span class="sd">    :return: ``True`` if both files are on the same device/partition,</span>
+<span class="sd">             ``False`` otherwise</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stat1</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file1</span><span class="p">)</span>
+    <span class="n">stat2</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">stat</span><span class="p">(</span><span class="n">file2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">stat1</span><span class="o">.</span><span class="n">st_dev</span> <span class="o">==</span> <span class="n">stat2</span><span class="o">.</span><span class="n">st_dev</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Andreas19.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
