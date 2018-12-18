@@ -6,9 +6,10 @@
       - `Extended color keywords <https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords>`_
    - Wikipedia:
       - `RGB color model <https://en.wikipedia.org/wiki/RGB_color_model>`_
-   - SELFHTML-Wiki (german):
-      - `Farbnamen <https://wiki.selfhtml.org/wiki/Grafik/Farbpaletten#Farbnamen>`_
+      - `Web Colors/X11 color names <https://en.wikipedia.org/wiki/Web_colors#X11_color_names>`_
 """  # noqa: E501
+
+import string
 
 _COLOR_NAMES = {
     'aliceblue': ('#F0F8FF', 240, 248, 255),
@@ -202,14 +203,15 @@ def name2hex(name):
 def rgb2hex(r, g, b):
     """Convert from RGB to hexadecimal.
 
-    :param int r, g, b: red, green, and blue values
+    :param int r: red value ∈ [0..255]
+    :param int g: green value ∈ [0..255]
+    :param int b: blue value ∈ [0..255]
     :return: hexadecimal string (# + 6 hex digits)
     :rtype: str
-    :raises ValueError: if one of the values is not in [0..255]
+    :raises ValueError: if one of the arguments is not in [0..255]
     """
-    if all(0 <= x <= 255 for x in (r, g, b)):
-        return '#%02X%02X%02X' % (r, g, b)
-    raise ValueError('rgb values must be in the interval [0..255]')
+    _check_args((r, g, b), (255, 255, 255))
+    return '#%02X%02X%02X' % (r, g, b)
 
 
 def hex2rgb(hexstr):
@@ -219,13 +221,52 @@ def hex2rgb(hexstr):
                        optionally prefixed with #
     :return: RGB-triple
     :rtype: tuple(int, int, int)
-    :raises ValueError: if one of the values is not in [0..255]
+    :raises ValueError: if one of the arguments is not in [0..255]
     """
     if hexstr.startswith('#'):
         hexstr = hexstr[1:]
+    if not all(x in string.hexdigits for x in hexstr):
+        raise ValueError('argument "%s" contains non-hex digit' % hexstr)
+    if len(hexstr) not in (3, 6):
+        raise ValueError('argument "%s" has wrong length '
+                         '(3 or 6 hex digits are required)' % hexstr)
     if len(hexstr) == 3:
         hexstr = ''.join(x + x for x in hexstr)
-    t = tuple(int(hexstr[i:i + 2], 16) for i in range(0, 6, 2))
-    if all(0 <= n for n in t):
-        return t
-    raise ValueError('rgb values must be in the interval [0..255]')
+    return tuple(int(hexstr[i:i + 2], 16) for i in range(0, 6, 2))
+
+
+def rgb2floats(rgb):
+    """Convert a RGB-triple with ints to one with floats.
+
+    Useful when using functions that take or return RGB values as
+    floats from 0 to 1, e.g. the functions in module :mod:`colorsys`.
+
+    :param rgb: RGB-triple with values ∈ [0..255]
+    :type rgb: tuple(int, int, int)
+    :return: RGB-triple with values ∈ [0, 1]
+    :rtype: tuple(float, float, float)
+    """
+    return tuple(x / 255 for x in rgb)
+
+
+def floats2rgb(rgb):
+    """Convert a RGB-triple with floats to one with ints.
+
+    Useful when using functions that take or return RGB values as
+    floats from 0 to 1, e.g. the functions in module :mod:`colorsys`.
+
+    :param rgb: RGB-triple with values ∈ [0, 1]
+    :type rgb: tuple(float, float, float)
+    :return: RGB-triple with values ∈ [0..255]
+    :rtype: tuple(int, int, int)
+    """
+    return tuple(round(x * 255) for x in rgb)
+
+
+def _check_args(args, max_vals):
+    if not all(isinstance(x, int) for x in args):
+        raise TypeError('arguments must be integers')
+    for x, m in zip(args, max_vals):
+        if x < 0 or x > m:
+            raise ValueError(
+                'argument "%d" outside allowed interval [0..%d]' % (x, m))
