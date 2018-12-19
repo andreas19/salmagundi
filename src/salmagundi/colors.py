@@ -245,6 +245,8 @@ def rgb2floats(rgb):
     :type rgb: tuple(int, int, int)
     :return: RGB-triple with values ∈ [0, 1]
     :rtype: tuple(float, float, float)
+
+    .. versionadded:: 0.2.0
     """
     return tuple(x / 255 for x in rgb)
 
@@ -259,6 +261,8 @@ def floats2rgb(rgb):
     :type rgb: tuple(float, float, float)
     :return: RGB-triple with values ∈ [0..255]
     :rtype: tuple(int, int, int)
+
+    .. versionadded:: 0.2.0
     """
     return tuple(round(x * 255) for x in rgb)
 
