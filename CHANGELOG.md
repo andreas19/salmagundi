@@ -1,6 +1,10 @@
 History
 -------
 
+**2018-12-23 (0.2.0)**
+ - Add functions to module colors
+ - Add module strings
+
 **2018-12-17 (0.1.0)**
  - First public release
 
