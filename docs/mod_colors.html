@@ -42,8 +42,9 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
-<li class="toctree-l2 current"><a class="current reference internal" href="#">colors</a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_files.html">files</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>colors</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_strings.html">Module <em>strings</em></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -99,14 +100,7 @@
 <dt>Wikipedia:</dt>
 <dd><ul class="first last">
 <li><a class="reference external" href="https://en.wikipedia.org/wiki/RGB_color_model">RGB color model</a></li>
-</ul>
-</dd>
-</dl>
-</li>
-<li><dl class="first docutils">
-<dt>SELFHTML-Wiki (german):</dt>
-<dd><ul class="first last">
-<li><a class="reference external" href="https://wiki.selfhtml.org/wiki/Grafik/Farbpaletten#Farbnamen">Farbnamen</a></li>
+<li><a class="reference external" href="https://en.wikipedia.org/wiki/Web_colors#X11_color_names">Web Colors/X11 color names</a></li>
 </ul>
 </dd>
 </dl>
@@ -185,13 +179,21 @@
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>r</strong><strong>, </strong><strong>g</strong><strong>, </strong><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – red, green, and blue values</td>
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – red value ∈ [0..255]</li>
+<li><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – green value ∈ [0..255]</li>
+<li><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – blue value ∈ [0..255]</li>
+</ul>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">hexadecimal string (# + 6 hex digits)</td>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">hexadecimal string (# + 6 hex digits)</p>
+</td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if one of the values is not in [0..255]</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</p>
+</td>
 </tr>
 </tbody>
 </table>
@@ -212,10 +214,56 @@ optionally prefixed with #</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>)</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if one of the values is not in [0..255]</td>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</td>
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.colors.rgb2floats">
+<code class="descclassname">salmagundi.colors.</code><code class="descname">rgb2floats</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#rgb2floats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.rgb2floats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RGB-triple with ints to one with floats.</p>
+<p>Useful when using functions that take or return RGB values as
+floats from 0 to 1, e.g. the functions in module <a class="reference external" href="https://docs.python.org/3/library/colorsys.html#module-colorsys" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">colorsys</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em>)</em>) – RGB-triple with values ∈ [0..255]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RGB-triple with values ∈ [0, 1]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)">float</a>)</td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.colors.floats2rgb">
+<code class="descclassname">salmagundi.colors.</code><code class="descname">floats2rgb</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#floats2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.floats2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RGB-triple with floats to one with ints.</p>
+<p>Useful when using functions that take or return RGB values as
+floats from 0 to 1, e.g. the functions in module <a class="reference external" href="https://docs.python.org/3/library/colorsys.html#module-colorsys" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">colorsys</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em>)</em>) – RGB-triple with values ∈ [0, 1]</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">RGB-triple with values ∈ [0..255]</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a>)</td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.2.0.</span></p>
+</div>
 </dd></dl>
 
 </div>

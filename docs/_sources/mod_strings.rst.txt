@@ -1,0 +1,20 @@
+Module *strings*
+================
+
+.. automodule:: salmagundi.strings
+   :exclude-members: BOOLEAN_STATES, NO_PREFIX, BINARY_PREFIXES, DECIMAL_PREFIXES, Prefix
+
+   .. autodata:: BOOLEAN_STATES
+      :annotation:
+
+   .. autodata:: NO_PREFIX
+      :annotation:
+
+   .. autodata:: BINARY_PREFIXES
+      :annotation:
+
+   .. autodata:: DECIMAL_PREFIXES
+      :annotation:
+
+   .. autoclass:: Prefix
+      :no-members:

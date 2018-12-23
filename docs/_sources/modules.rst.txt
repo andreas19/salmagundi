@@ -2,6 +2,6 @@ Modules
 =======
 
 .. toctree::
-
-   colors <mod_colors>
-   files <mod_files>
+   :glob:
+   
+   mod_*

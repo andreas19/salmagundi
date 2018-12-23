@@ -81,9 +81,10 @@
 <span class="sd">      - `Extended color keywords &lt;https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords&gt;`_</span>
 <span class="sd">   - Wikipedia:</span>
 <span class="sd">      - `RGB color model &lt;https://en.wikipedia.org/wiki/RGB_color_model&gt;`_</span>
-<span class="sd">   - SELFHTML-Wiki (german):</span>
-<span class="sd">      - `Farbnamen &lt;https://wiki.selfhtml.org/wiki/Grafik/Farbpaletten#Farbnamen&gt;`_</span>
+<span class="sd">      - `Web Colors/X11 color names &lt;https://en.wikipedia.org/wiki/Web_colors#X11_color_names&gt;`_</span>
 <span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+
+<span class="kn">import</span> <span class="nn">string</span>
 
 <span class="n">_COLOR_NAMES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;aliceblue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;#F0F8FF&#39;</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
@@ -277,14 +278,15 @@
 <div class="viewcode-block" id="rgb2hex"><a class="viewcode-back" href="../../mod_colors.html#salmagundi.colors.rgb2hex">[docs]</a><span class="k">def</span> <span class="nf">rgb2hex</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert from RGB to hexadecimal.</span>
 
-<span class="sd">    :param int r, g, b: red, green, and blue values</span>
+<span class="sd">    :param int r: red value ∈ [0..255]</span>
+<span class="sd">    :param int g: green value ∈ [0..255]</span>
+<span class="sd">    :param int b: blue value ∈ [0..255]</span>
 <span class="sd">    :return: hexadecimal string (# + 6 hex digits)</span>
 <span class="sd">    :rtype: str</span>
-<span class="sd">    :raises ValueError: if one of the values is not in [0..255]</span>
+<span class="sd">    :raises ValueError: if one of the arguments is not in [0..255]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span> <span class="o">&lt;=</span> <span class="mi">255</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)):</span>
-        <span class="k">return</span> <span class="s1">&#39;#</span><span class="si">%02X%02X%02X</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;rgb values must be in the interval [0..255]&#39;</span><span class="p">)</span></div>
+    <span class="n">_check_args</span><span class="p">((</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">),</span> <span class="p">(</span><span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">,</span> <span class="mi">255</span><span class="p">))</span>
+    <span class="k">return</span> <span class="s1">&#39;#</span><span class="si">%02X%02X%02X</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">g</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="hex2rgb"><a class="viewcode-back" href="../../mod_colors.html#salmagundi.colors.hex2rgb">[docs]</a><span class="k">def</span> <span class="nf">hex2rgb</span><span class="p">(</span><span class="n">hexstr</span><span class="p">):</span>
@@ -294,16 +296,59 @@
 <span class="sd">                       optionally prefixed with #</span>
 <span class="sd">    :return: RGB-triple</span>
 <span class="sd">    :rtype: tuple(int, int, int)</span>
-<span class="sd">    :raises ValueError: if one of the values is not in [0..255]</span>
+<span class="sd">    :raises ValueError: if one of the arguments is not in [0..255]</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">hexstr</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;#&#39;</span><span class="p">):</span>
         <span class="n">hexstr</span> <span class="o">=</span> <span class="n">hexstr</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">hexstr</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;argument &quot;</span><span class="si">%s</span><span class="s1">&quot; contains non-hex digit&#39;</span> <span class="o">%</span> <span class="n">hexstr</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;argument &quot;</span><span class="si">%s</span><span class="s1">&quot; has wrong length &#39;</span>
+                         <span class="s1">&#39;(3 or 6 hex digits are required)&#39;</span> <span class="o">%</span> <span class="n">hexstr</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">hexstr</span><span class="p">)</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
         <span class="n">hexstr</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">hexstr</span><span class="p">)</span>
-    <span class="n">t</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hexstr</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-    <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="n">t</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">t</span>
-    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;rgb values must be in the interval [0..255]&#39;</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">hexstr</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="mi">2</span><span class="p">],</span> <span class="mi">16</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="rgb2floats"><a class="viewcode-back" href="../../mod_colors.html#salmagundi.colors.rgb2floats">[docs]</a><span class="k">def</span> <span class="nf">rgb2floats</span><span class="p">(</span><span class="n">rgb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a RGB-triple with ints to one with floats.</span>
+
+<span class="sd">    Useful when using functions that take or return RGB values as</span>
+<span class="sd">    floats from 0 to 1, e.g. the functions in module :mod:`colorsys`.</span>
+
+<span class="sd">    :param rgb: RGB-triple with values ∈ [0..255]</span>
+<span class="sd">    :type rgb: tuple(int, int, int)</span>
+<span class="sd">    :return: RGB-triple with values ∈ [0, 1]</span>
+<span class="sd">    :rtype: tuple(float, float, float)</span>
+
+<span class="sd">    .. versionadded:: 0.2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span> <span class="o">/</span> <span class="mi">255</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rgb</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="floats2rgb"><a class="viewcode-back" href="../../mod_colors.html#salmagundi.colors.floats2rgb">[docs]</a><span class="k">def</span> <span class="nf">floats2rgb</span><span class="p">(</span><span class="n">rgb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a RGB-triple with floats to one with ints.</span>
+
+<span class="sd">    Useful when using functions that take or return RGB values as</span>
+<span class="sd">    floats from 0 to 1, e.g. the functions in module :mod:`colorsys`.</span>
+
+<span class="sd">    :param rgb: RGB-triple with values ∈ [0, 1]</span>
+<span class="sd">    :type rgb: tuple(float, float, float)</span>
+<span class="sd">    :return: RGB-triple with values ∈ [0..255]</span>
+<span class="sd">    :rtype: tuple(int, int, int)</span>
+
+<span class="sd">    .. versionadded:: 0.2.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">x</span> <span class="o">*</span> <span class="mi">255</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rgb</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_check_args</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">max_vals</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">args</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;arguments must be integers&#39;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">args</span><span class="p">,</span> <span class="n">max_vals</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s1">&#39;argument &quot;</span><span class="si">%d</span><span class="s1">&quot; outside allowed interval [0..</span><span class="si">%d</span><span class="s1">]&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span>
 </pre></div>
 
           </div>

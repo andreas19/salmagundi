@@ -1,0 +1,557 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Module strings &#8212; salmagundi 0.1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="License" href="license.html" />
+    <link rel="prev" title="Module files" href="mod_files.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>strings</em></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="modules.html">Modules</a><ul>
+      <li>Previous: <a href="mod_files.html" title="previous chapter">Module <em>files</em></a></li>
+      <li>Next: <a href="license.html" title="next chapter">License</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-salmagundi.strings">
+<span id="module-strings"></span><h1>Module <em>strings</em><a class="headerlink" href="#module-salmagundi.strings" title="Permalink to this headline">¶</a></h1>
+<p>Utilities for working with strings.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.2.0.</span></p>
+</div>
+<dl class="data">
+<dt id="salmagundi.strings.BOOLEAN_STATES">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">BOOLEAN_STATES</code><a class="headerlink" href="#salmagundi.strings.BOOLEAN_STATES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Dictionary with mappings from strings to boolean values.</p>
+<p>Used by the function <a class="reference internal" href="#salmagundi.strings.str2bool" title="salmagundi.strings.str2bool"><code class="xref py py-func docutils literal notranslate"><span class="pre">str2bool()</span></code></a>.</p>
+<dl class="docutils">
+<dt>This dictionary can be modified. The default values are:</dt>
+<dd><ul class="first last simple">
+<li><code class="docutils literal notranslate"><span class="pre">True</span></code>: <code class="docutils literal notranslate"><span class="pre">'1',</span> <span class="pre">'yes',</span> <span class="pre">'true',</span> <span class="pre">'on'</span></code></li>
+<li><code class="docutils literal notranslate"><span class="pre">False</span></code>: <code class="docutils literal notranslate"><span class="pre">'0',</span> <span class="pre">'no',</span> <span class="pre">'false',</span> <span class="pre">'off'</span></code></li>
+</ul>
+</dd>
+</dl>
+<p>These are the same as in <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.BOOLEAN_STATES" title="(in Python v3.7)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">configparser.ConfigParser.BOOLEAN_STATES</span></code></a>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="salmagundi.strings.NO_PREFIX">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">NO_PREFIX</code><a class="headerlink" href="#salmagundi.strings.NO_PREFIX" title="Permalink to this definition">¶</a></dt>
+<dd><p>No prefix</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="salmagundi.strings.BINARY_PREFIXES">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">BINARY_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.BINARY_PREFIXES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Binary prefixes.</p>
+<p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
+</dd></dl>
+
+<dl class="data">
+<dt id="salmagundi.strings.DECIMAL_PREFIXES">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">DECIMAL_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.DECIMAL_PREFIXES" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decimal prefixes.</p>
+<p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="salmagundi.strings.Prefix">
+<em class="property">class </em><code class="descclassname">salmagundi.strings.</code><code class="descname">Prefix</code><a class="headerlink" href="#salmagundi.strings.Prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class for prefixes with fields <code class="docutils literal notranslate"><span class="pre">name,</span> <span class="pre">symbol,</span> <span class="pre">factor</span></code>.</p>
+<p>Used by the <code class="docutils literal notranslate"><span class="pre">*_prefix()</span></code> functions.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.str2bool">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">str2bool</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2bool" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string to a boolean value.</p>
+<p>The string is converted to lowercase before looked up in
+the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a> dictionary.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">a boolean value</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if the string is not in <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.str2tuple">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">str2tuple</code><span class="sig-paren">(</span><em>s</em>, <em>sep='</em>, <em>'</em>, <em>converter=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2tuple" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a string to a tuple.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">converter</span></code> is given and not <code class="docutils literal notranslate"><span class="pre">None</span></code>, it must be a function that
+takes a string parameter and returns an object of the required type,
+or else a tuple with string elements will be returned.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;1, 2, 3,4&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="go">(1, 2, 3, 4)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;on, off, no, true, YES&#39;</span><span class="p">)</span>
+<span class="go">(&#39;on&#39;, &#39;off&#39;, &#39;no&#39;, &#39;true&#39;, &#39;YES&#39;)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;on, off, no, true, YES&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="n">str2bool</span><span class="p">)</span>
+<span class="go">(True, False, False, True, True)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;a, b, , d&#39;</span><span class="p">)</span>
+<span class="go">(&#39;a&#39;, &#39;b&#39;, &#39;&#39;, &#39;d&#39;)</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</li>
+<li><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the separator (whitespace around <code class="docutils literal notranslate"><span class="pre">sep</span></code> will be ignored)</li>
+<li><strong>converter</strong> (<em>function</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>)</em>) – the converter function</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">tuple with elements of the required type</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)">tuple</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.shorten">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">shorten</code><span class="sig-paren">(</span><em>text</em>, <em>width=80</em>, <em>placeholder='…'</em>, <em>pos='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#shorten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.shorten" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shorten the text to fit in the given width.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">len(text)</span> <span class="pre">&lt;=</span> <span class="pre">width</span></code> the <code class="docutils literal notranslate"><span class="pre">text</span></code> is returned unchanged.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<span class="go">&#39;Lorem ipsum do…&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39; ... &#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span>
+<span class="go">&#39;Lorem ...  amet&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="go">&#39;…dolor sit amet&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the text</li>
+<li><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the width</li>
+<li><strong>placeholder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the placeholder</li>
+<li><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – position (<code class="docutils literal notranslate"><span class="pre">'left',</span> <span class="pre">'middle',</span> <span class="pre">'right'</span></code>) of
+placeholder in text</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the shortened text</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">&lt;</span> <span class="pre">len(placeholder)</span></code> or <code class="docutils literal notranslate"><span class="pre">pos</span></code> is unknown</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.bin_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">bin_prefix</code><span class="sig-paren">(</span><em>value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.bin_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an appropriate binary prefix for an integer number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the number</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">binary prefix</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a></td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if value is not an integer</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.find_bin_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">find_bin_prefix</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_bin_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find binary prefix for name or symbol.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">binary prefix or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.format_bin_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">format_bin_prefix</code><span class="sig-paren">(</span><em>num_frmt</em>, <em>value</em>, <em>prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_bin_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a number with a binary prefix.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">)</span>
+<span class="go">&#39;1.001 Mi&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;Gi&#39;</span><span class="p">)</span>
+<span class="go">&#39;0.001 Gi&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></li>
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the number</li>
+<li><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – can be a binary prefix object, name, or symbol</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the result of <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">/</span> <span class="pre">prefix.factor</span></code> formatted according to
+<code class="docutils literal notranslate"><span class="pre">num_frmt</span></code> with a space character and <code class="docutils literal notranslate"><span class="pre">prefix.symbol</span></code> appended</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if value is not an integer</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.dec_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">dec_prefix</code><span class="sig-paren">(</span><em>value</em>, <em>restricted=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.dec_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get an appropriate decimal prefix for a number.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – the number</li>
+<li><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
+i.e. <em>hecto, deca, deci, centi</em> are skipped</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">decimal prefix</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if value is of a wrong type</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.find_dec_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">find_dec_prefix</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_dec_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find decimal prefix for name or symbol.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive);
+instead of the symbol <code class="docutils literal notranslate"><span class="pre">µ</span></code> the letter <code class="docutils literal notranslate"><span class="pre">u</span></code> can be used</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">decimal prefix or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not found</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.format_dec_prefix">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">format_dec_prefix</code><span class="sig-paren">(</span><em>num_frmt</em>, <em>value</em>, <em>prefix=None</em>, <em>restricted=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_dec_prefix" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a number with a decimal prefix.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">)</span>
+<span class="go">&#39;12.0 m&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">,</span> <span class="n">restricted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="go">&#39;1.2 c&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></li>
+<li><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a>) – the number</li>
+<li><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – can be a decimal prefix object, name, or symbol;
+instead of the symbol <code class="docutils literal notranslate"><span class="pre">µ</span></code> the letter <code class="docutils literal notranslate"><span class="pre">u</span></code> can be used</li>
+<li><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
+i.e. <em>hecto, deca, deci, centi</em> are skipped.
+Ignored if <code class="docutils literal notranslate"><span class="pre">prefix</span></code> is set.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the result of <code class="docutils literal notranslate"><span class="pre">value</span> <span class="pre">/</span> <span class="pre">prefix.factor</span></code> formatted according to
+<code class="docutils literal notranslate"><span class="pre">num_frmt</span></code> with a space character and <code class="docutils literal notranslate"><span class="pre">prefix.symbol</span></code> appended</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if value is of a wrong type</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.format_timedelta">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">format_timedelta</code><span class="sig-paren">(</span><em>fmt_str</em>, <em>delta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_timedelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Format a time delta.</p>
+<p>The time delta is the difference between two points in time,
+e.g. a duration.</p>
+<p>The delta can be given in seconds as a <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>,
+or as a <a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></a>. It must be &gt;= 0.</p>
+<p id="ref-timedelta-format-specifiers">A format specifier starts with a <code class="docutils literal notranslate"><span class="pre">'%'</span></code> character followed by a flag
+(optional) and a number for the minimum field width (optional)
+followed by a format code.</p>
+<p>Supported flag:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="39%" />
+<col width="61%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Flag</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'0'</span></code></td>
+<td>zero-padded</td>
+</tr>
+</tbody>
+</table>
+<p>Supported format codes:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="18%" />
+<col width="82%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Code</th>
+<th class="head">Meaning</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'D'</span></code></td>
+<td>days as a decimal number</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">'H'</span></code></td>
+<td>hours as a decimal number</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'M'</span></code></td>
+<td>minutes as a decimal number</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">'S'</span></code></td>
+<td>seconds as a decimal number</td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'s'</span></code></td>
+<td>microseconds as a decimal number</td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">'X'</span></code></td>
+<td>equal to <code class="docutils literal notranslate"><span class="pre">%02H:%02M:%02S</span></code></td>
+</tr>
+<tr class="row-even"><td><code class="docutils literal notranslate"><span class="pre">'Y'</span></code></td>
+<td>equal to <code class="docutils literal notranslate"><span class="pre">%02H:%02M</span></code></td>
+</tr>
+<tr class="row-odd"><td><code class="docutils literal notranslate"><span class="pre">'Z'</span></code></td>
+<td>equal to <code class="docutils literal notranslate"><span class="pre">%02M:%02S</span></code></td>
+</tr>
+</tbody>
+</table>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%03H:%M:%S.</span><span class="si">%06s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">90078.012345678</span><span class="p">)</span>
+<span class="go">&#39;025:1:18.012346&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%Z&#39;</span><span class="p">,</span> <span class="mf">3678.123</span><span class="p">)</span>
+<span class="go">&#39;61:18&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%M min %S sec&#39;</span><span class="p">,</span> <span class="mf">3678.123</span><span class="p">)</span>
+<span class="go">&#39;61 min 18 sec&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the format string</li>
+<li><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.7)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.7)"><em>datetime.timedelta</em></a>) – the time delta</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the formatted time delta</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is not <code class="docutils literal notranslate"><span class="pre">int,</span> <span class="pre">float</span> <span class="pre">or</span> <span class="pre">timedelta</span></code></li>
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is negative or <code class="docutils literal notranslate"><span class="pre">width</span></code> &lt; 1</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.parse_timedelta">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">parse_timedelta</code><span class="sig-paren">(</span><em>string</em>, <em>fmt_str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#parse_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.parse_timedelta" title="Permalink to this definition">¶</a></dt>
+<dd><p>Parse a string as a time delta according to a format.</p>
+<p>The time delta is the difference between two points in time,
+e.g. a duration.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The <a class="reference internal" href="#ref-timedelta-format-specifiers"><span class="std std-ref">format specifier</span></a>
+<code class="docutils literal notranslate"><span class="pre">'%s'</span></code> for microseconds can only be used for the fractional part
+of a second. The string <code class="docutils literal notranslate"><span class="pre">'1'</span></code> is <code class="docutils literal notranslate"><span class="pre">100000</span> <span class="pre">µs</span></code>; but <code class="docutils literal notranslate"><span class="pre">'000001'</span></code> is
+<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">µs</span></code>.</p>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_timedelta</span><span class="p">(</span><span class="s1">&#39;03:21.001&#39;</span><span class="p">,</span> <span class="s1">&#39;%M:%02S.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
+<span class="go">datetime.timedelta(seconds=201, microseconds=1000)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
+<span class="go">&#39;0:03:21.001000&#39;</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</li>
+<li><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – string with
+<a class="reference internal" href="#ref-timedelta-format-specifiers"><span class="std std-ref">format specifiers</span></a></li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">timedelta object</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.7)">datetime.timedelta</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if the string cannot be parsed</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018, Andreas19.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
