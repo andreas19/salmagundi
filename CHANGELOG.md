@@ -1,6 +1,9 @@
 History
 -------
 
+**2018-12-24 (0.3.0)**
+ - Add module inputs
+
 **2018-12-23 (0.2.0)**
  - Add functions to module colors
  - Add module strings
