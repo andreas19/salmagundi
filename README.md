@@ -1,6 +1,6 @@
-# ansictrls
+# salmagundi
 
-Library with a collection of some more or less usefull functions.
+Library with a collection of some more or less useful functions.
 
 More functions will be added soon.
 

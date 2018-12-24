@@ -43,7 +43,7 @@ def str2bool(s):
 def str2tuple(s, sep=',', converter=None):
     """Convert a string to a tuple.
 
-    If ``converter`` is given and not ``None``, it must be a function that
+    If ``converter`` is given and not ``None``, it must be a callable that
     takes a string parameter and returns an object of the required type,
     or else a tuple with string elements will be returned.
 
@@ -59,7 +59,7 @@ def str2tuple(s, sep=',', converter=None):
     :param str s: the string
     :param str sep: the separator (whitespace around ``sep`` will be ignored)
     :param converter: the converter function
-    :type converter: function(str)
+    :type converter: callable(str)
     :return: tuple with elements of the required type
     :rtype: tuple
     """

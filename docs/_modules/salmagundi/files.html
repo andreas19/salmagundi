@@ -107,14 +107,14 @@
 
 <span class="sd">    Line breaks are not included in the resulting list.</span>
 
-<span class="sd">    If a predicate function is given, it must take a single line as</span>
-<span class="sd">    its argument and return a bool. Only the lines for which ``True``</span>
-<span class="sd">    is returned are included in the result.</span>
+<span class="sd">    If ``predicate`` is given, it must be a callable that takes a single</span>
+<span class="sd">    line as its argument and returns a bool. Only the lines for which</span>
+<span class="sd">    ``True`` is returned are included in the result.</span>
 
 <span class="sd">    :param file: path to file or file descriptor</span>
 <span class="sd">    :type file: path-like object or int</span>
 <span class="sd">    :param predicate: predicate function</span>
-<span class="sd">    :type predicate: func(line)</span>
+<span class="sd">    :type predicate: callable(str)</span>
 <span class="sd">    :param str encoding: name of the encoding</span>
 <span class="sd">    :return: list of lines</span>
 <span class="sd">    :rtype: list(str)</span>

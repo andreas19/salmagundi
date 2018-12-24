@@ -1,7 +1,7 @@
 Overview
 ========
 
-Library with a collection of some more or less usefull functions.
+Library with a collection of some more or less useful functions.
 
 
 Installation
@@ -17,7 +17,7 @@ Installation
 Dependencies
 ------------
 
-- none
+- `ansictrls <https://pypi.org/project/ansictrls/>`_
 
 
 Links

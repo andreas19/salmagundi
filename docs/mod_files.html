@@ -16,7 +16,7 @@
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Module strings" href="mod_strings.html" />
+    <link rel="next" title="Module inputs" href="mod_inputs.html" />
     <link rel="prev" title="Module colors" href="mod_colors.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -44,6 +44,7 @@
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>files</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_inputs.html">Module <em>inputs</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_strings.html">Module <em>strings</em></a></li>
 </ul>
 </li>
@@ -56,7 +57,7 @@
   <li><a href="index.html">Documentation overview</a><ul>
   <li><a href="modules.html">Modules</a><ul>
       <li>Previous: <a href="mod_colors.html" title="previous chapter">Module <em>colors</em></a></li>
-      <li>Next: <a href="mod_strings.html" title="next chapter">Module <em>strings</em></a></li>
+      <li>Next: <a href="mod_inputs.html" title="next chapter">Module <em>inputs</em></a></li>
   </ul></li>
   </ul></li>
 </ul>
@@ -125,16 +126,16 @@ else as <code class="docutils literal notranslate"><span class="pre">str</span><
 <code class="descclassname">salmagundi.files.</code><code class="descname">read_lines</code><span class="sig-paren">(</span><em>file</em>, <em>predicate=None</em>, <em>encoding=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return the content of the file as a list of lines.</p>
 <p>Line breaks are not included in the resulting list.</p>
-<p>If a predicate function is given, it must take a single line as
-its argument and return a bool. Only the lines for which <code class="docutils literal notranslate"><span class="pre">True</span></code>
-is returned are included in the result.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">predicate</span></code> is given, it must be a callable that takes a single
+line as its argument and returns a bool. Only the lines for which
+<code class="docutils literal notranslate"><span class="pre">True</span></code> is returned are included in the result.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>file</strong> (<em>path-like object</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – path to file or file descriptor</li>
-<li><strong>predicate</strong> (<em>func</em><em>(</em><em>line</em><em>)</em>) – predicate function</li>
+<li><strong>predicate</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>)</em>) – predicate function</li>
 <li><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name of the encoding</li>
 </ul>
 </td>

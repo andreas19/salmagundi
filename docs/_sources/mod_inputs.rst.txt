@@ -1,0 +1,4 @@
+Module *inputs*
+===============
+
+.. automodule:: salmagundi.inputs

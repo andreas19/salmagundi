@@ -32,14 +32,14 @@ def read_lines(file, predicate=None, encoding=None):
 
     Line breaks are not included in the resulting list.
 
-    If a predicate function is given, it must take a single line as
-    its argument and return a bool. Only the lines for which ``True``
-    is returned are included in the result.
+    If ``predicate`` is given, it must be a callable that takes a single
+    line as its argument and returns a bool. Only the lines for which
+    ``True`` is returned are included in the result.
 
     :param file: path to file or file descriptor
     :type file: path-like object or int
     :param predicate: predicate function
-    :type predicate: func(line)
+    :type predicate: callable(str)
     :param str encoding: name of the encoding
     :return: list of lines
     :rtype: list(str)
