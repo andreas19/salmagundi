@@ -125,9 +125,9 @@ def select(prompt, options, default=None, case_sensitive=False,
     Simple menus can be created like this:
 
     >>> titles = ('Number 1', 'Number 2', 'Num 3', 'Numero 42', 'Number 5')
-    >>> options = range(1, 6)
-    >>> lines = (t.ljust(11, '.') + '[%02d]' % o for t, o in zip(titles, options))
-    >>> select('\n'.join(lines) + '\n-> ', ''.join(map(str, options)))
+    >>> opts = range(1, 6)
+    >>> lines = (t.ljust(11, '.') + '[%02d]' % o for t, o in zip(titles, opts))
+    >>> select('\n'.join(lines) + '\n-> ', ''.join(map(str, opts)))
     Number 1...[01]
     Number 2...[02]
     Num 3......[03]
