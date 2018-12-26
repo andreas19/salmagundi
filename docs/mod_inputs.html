@@ -134,9 +134,6 @@ and returns the (converted) input value or raises
 </tr>
 </tbody>
 </table>
-<div class="versionadded">
-<p><span class="versionmodified">New in version 0.3.0.</span></p>
-</div>
 </dd></dl>
 
 <dl class="function">
@@ -180,8 +177,88 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.inputs.select">
+<code class="descclassname">salmagundi.inputs.</code><code class="descname">select</code><span class="sig-paren">(</span><em>prompt</em>, <em>options</em>, <em>default=None</em>, <em>case_sensitive=False</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show an input with selectable options.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; &#39;</span><span class="p">,</span> <span class="s1">&#39;TBLR&#39;</span><span class="p">)</span>
+<span class="go">Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; b</span>
+<span class="go">1</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the prompt</li>
+<li><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – the options; if all options are only 1 character a string
+can be used, else a tuple of strings</li>
+<li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – default value that will be used if no input is provided</li>
+<li><strong>case_sensitive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code> case of typed characters will
+be ignored</li>
+<li><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">index of the selected option in <code class="docutils literal notranslate"><span class="pre">options</span></code> or None if cancelled
+and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.7)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></li>
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">options</span></code> is not str or tuple of strings</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.3.0.</span></p>
+<p><span class="versionmodified">New in version 0.4.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.inputs.menu">
+<code class="descclassname">salmagundi.inputs.</code><code class="descname">menu</code><span class="sig-paren">(</span><em>prompt</em>, <em>titles</em>, <em>cols=1</em>, <em>col_by_col=True</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show a simple menu.</p>
+<p>The caller has to take care that the menu will fit in the terminal.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the prompt</li>
+<li><strong>titles</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.7)"><em>tuple</em></a>) – the titles of the menu options</li>
+<li><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – number of columns</li>
+<li><strong>col_by_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the menu will be filled
+column-by-column, otherwise row-by-row</li>
+<li><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">index of the selected option in <code class="docutils literal notranslate"><span class="pre">titles</span></code> or None if cancelled
+and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.7)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></li>
+<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">titles</span></code> is not a tuple</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.4.0.</span></p>
 </div>
 </dd></dl>
 
