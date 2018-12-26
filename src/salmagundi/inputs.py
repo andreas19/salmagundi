@@ -6,6 +6,7 @@ The terminal must support `ANSI escape sequences
 .. versionadded:: 0.3.0
 """
 
+import math
 from functools import partial
 
 from ansictrls import CS
@@ -116,25 +117,11 @@ def yesno(prompt, yesno, exc_on_cancel=False):
 
 def select(prompt, options, default=None, case_sensitive=False,
            exc_on_cancel=False):
-    r"""Show an input with selectable options.
+    """Show an input with selectable options.
 
     >>> select('Select: [T]op, [B]ottom, [L]eft, [R]ight > ', 'TBLR')
     Select: [T]op, [B]ottom, [L]eft, [R]ight > b
     1
-
-    Simple menus can be created like this:
-
-    >>> titles = ('Number 1', 'Number 2', 'Num 3', 'Numero 42', 'Number 5')
-    >>> opts = range(1, 6)
-    >>> lines = (t.ljust(11, '.') + '[%02d]' % o for t, o in zip(titles, opts))
-    >>> select('\n'.join(lines) + '\n-> ', ''.join(map(str, opts)))
-    Number 1...[01]
-    Number 2...[02]
-    Num 3......[03]
-    Numero 42..[04]
-    Number 5...[05]
-    -> 4
-    3
 
     :param str prompt: the prompt
     :param options: the options; if all options are only 1 character a string
@@ -166,3 +153,55 @@ def select(prompt, options, default=None, case_sensitive=False,
         return options.index(s)
 
     return line(prompt, default=default, check=f, exc_on_cancel=exc_on_cancel)
+
+
+def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
+    """Show a simple menu.
+
+    The caller has to take care that the menu will fit in the terminal.
+
+    :param str prompt: the prompt
+    :param tuple titles: the titles of the menu options
+    :param int cols: number of columns
+    :param bool col_by_col: if ``True`` the menu will be filled
+                            column-by-column, otherwise row-by-row
+    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :return: index of the selected option in ``titles`` or None if cancelled
+             and ``exc_on_cancel=False``
+    :rtype: bool or None
+    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
+    :raises TypeError: if ``titles`` is not a tuple
+
+    .. versionadded:: 0.4.0
+    """
+    if not isinstance(titles, tuple):
+        raise TypeError('argument titles must be of type tuple')
+    rows = math.ceil(len(titles) / cols)
+    num_width = len(str(len(titles)))
+    title_width = max(map(len, titles))
+    if col_by_col:
+        indices = tuple(x + rows * y for x in range(rows) for y in range(cols))
+    else:
+        indices = tuple(range(len(titles)))
+    lines = []
+    row = []
+    for cnt, idx in enumerate(indices, 1):
+        if idx < len(titles):
+            row.append(f'[{idx + 1:{num_width}}] {titles[idx]:{title_width}}  ')
+        if cnt % cols == 0:
+            row[-1] = row[-1].rstrip()
+            row.append('\n')
+            lines.append(''.join(row))
+            row.clear()
+    if row:
+        row[-1] = row[-1].rstrip()
+        row.append('\n')
+        lines.append(''.join(row))
+
+    def f(s):
+        i = int(s)
+        if 0 < i <= len(titles):
+            return i - 1
+        raise ValueError
+
+    return line(''.join(lines) + prompt, check=f, exc_on_cancel=exc_on_cancel)
