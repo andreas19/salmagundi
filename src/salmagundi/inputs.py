@@ -134,7 +134,7 @@ def select(prompt, options, default=None, case_sensitive=False,
     :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
     :return: index of the selected option in ``options`` or None if cancelled
              and ``exc_on_cancel=False``
-    :rtype: bool or None
+    :rtype: int or None
     :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
     :raises TypeError: if ``options`` is not str or tuple of strings
 
@@ -168,7 +168,7 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
     :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
     :return: index of the selected option in ``titles`` or None if cancelled
              and ``exc_on_cancel=False``
-    :rtype: bool or None
+    :rtype: int or None
     :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
     :raises TypeError: if ``titles`` is not a tuple
 
