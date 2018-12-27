@@ -180,23 +180,21 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
     num_width = len(str(len(titles)))
     title_width = max(map(len, titles))
     if col_by_col:
-        indices = tuple(x + rows * y for x in range(rows) for y in range(cols))
+        indices = (x + rows * y for x in range(rows) for y in range(cols))
     else:
-        indices = tuple(range(len(titles)))
+        indices = range(len(titles))
     lines = []
     row = []
     for cnt, idx in enumerate(indices, 1):
         if idx < len(titles):
-            row.append(f'[{idx + 1:{num_width}}] {titles[idx]:{title_width}}  ')
+            row.append(f'[{idx + 1:{num_width}}] {titles[idx]:{title_width}}')
         if cnt % cols == 0:
-            row[-1] = row[-1].rstrip()
-            row.append('\n')
-            lines.append(''.join(row))
+            lines.append('   '.join(row))
+            lines.append('\n')
             row.clear()
     if row:
-        row[-1] = row[-1].rstrip()
-        row.append('\n')
-        lines.append(''.join(row))
+        lines.append('   '.join(row))
+        lines.append('\n')
 
     def f(s):
         i = int(s)
