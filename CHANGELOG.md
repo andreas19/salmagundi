@@ -1,6 +1,10 @@
 History
 -------
 
+**2018-12-27 (0.4.0)**
+ - Add functions to module inputs
+ - Rename line() to read() in module inputs
+
 **2018-12-24 (0.3.0)**
  - Add module inputs
 

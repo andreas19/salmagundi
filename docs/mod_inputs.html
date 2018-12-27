@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Module inputs &#8212; salmagundi 0.3.0 documentation</title>
+    <title>Module inputs &#8212; salmagundi 0.4.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -183,6 +183,8 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 <dt id="salmagundi.inputs.select">
 <code class="descclassname">salmagundi.inputs.</code><code class="descname">select</code><span class="sig-paren">(</span><em>prompt</em>, <em>options</em>, <em>default=None</em>, <em>case_sensitive=False</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show an input with selectable options.</p>
+<p>If the input is not allowed the prompt will be shown again. The
+input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; &#39;</span><span class="p">,</span> <span class="s1">&#39;TBLR&#39;</span><span class="p">)</span>
 <span class="go">Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; b</span>
 <span class="go">1</span>
@@ -227,6 +229,8 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 <dt id="salmagundi.inputs.menu">
 <code class="descclassname">salmagundi.inputs.</code><code class="descname">menu</code><span class="sig-paren">(</span><em>prompt</em>, <em>titles</em>, <em>cols=1</em>, <em>col_by_col=True</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show a simple menu.</p>
+<p>If the input is not allowed the prompt will be shown again. The
+input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
 <p>The caller has to take care that the menu will fit in the terminal.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
