@@ -89,8 +89,8 @@
 <span class="n">_cs_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="line"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.line">[docs]</a><span class="k">def</span> <span class="nf">line</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get a line of input and check if it is allowed.</span>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a line of input and check if it is allowed.</span>
 
 <span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
 <span class="sd">    input can be cancelled with EOF (``^D``).</span>
@@ -100,17 +100,17 @@
 <span class="sd">    and returns the (converted) input value or raises</span>
 <span class="sd">    :class:`ValueError` if the input is not allowed.</span>
 
-<span class="sd">    &gt;&gt;&gt; line(&#39;Number: &#39;, default=&#39;42&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; read(&#39;Number: &#39;, default=&#39;42&#39;)</span>
 <span class="sd">    Number: 21</span>
 <span class="sd">    &#39;21&#39;</span>
-<span class="sd">    &gt;&gt;&gt; line(&#39;Number: &#39;, default=&#39;42&#39;, check=int)</span>
+<span class="sd">    &gt;&gt;&gt; read(&#39;Number: &#39;, default=&#39;42&#39;, check=int)</span>
 <span class="sd">    Number:</span>
 <span class="sd">    42</span>
 
 <span class="sd">    :param str prompt: the prompt</span>
 <span class="sd">    :param default: default value that will be used if no input is provided</span>
 <span class="sd">    :type default: str or None</span>
-<span class="sd">    :param check: the check parameter</span>
+<span class="sd">    :param check: the check parameter (see above)</span>
 <span class="sd">    :type check: callable(str) or None</span>
 <span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
 <span class="sd">    :return: (converted) input value or ``None`` if input was cancelled and</span>
@@ -186,7 +186,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span>
         <span class="k">return</span> <span class="n">s1</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">return</span> <span class="n">line</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%s%s</span><span class="s1">] &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">*</span><span class="n">yesno</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%s%s</span><span class="s1">] &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">*</span><span class="n">yesno</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span>
                 <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
 
 
@@ -209,7 +209,7 @@
 <span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
 <span class="sd">    :return: index of the selected option in ``options`` or None if cancelled</span>
 <span class="sd">             and ``exc_on_cancel=False``</span>
-<span class="sd">    :rtype: bool or None</span>
+<span class="sd">    :rtype: int or None</span>
 <span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
 <span class="sd">    :raises TypeError: if ``options`` is not str or tuple of strings</span>
 
@@ -227,7 +227,7 @@
             <span class="k">raise</span> <span class="ne">ValueError</span>
         <span class="k">return</span> <span class="n">options</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
 
-    <span class="k">return</span> <span class="n">line</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="menu"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.menu">[docs]</a><span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col_by_col</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -243,7 +243,7 @@
 <span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
 <span class="sd">    :return: index of the selected option in ``titles`` or None if cancelled</span>
 <span class="sd">             and ``exc_on_cancel=False``</span>
-<span class="sd">    :rtype: bool or None</span>
+<span class="sd">    :rtype: int or None</span>
 <span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
 <span class="sd">    :raises TypeError: if ``titles`` is not a tuple</span>
 
@@ -255,23 +255,21 @@
     <span class="n">num_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)))</span>
     <span class="n">title_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">titles</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">col_by_col</span><span class="p">:</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">indices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)))</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">))</span>
     <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="k">for</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
-            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;[{idx + 1:</span><span class="si">{num_width}</span><span class="s1">}] {titles[idx]:</span><span class="si">{title_width}</span><span class="s1">}  &#39;</span><span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;[{idx + 1:</span><span class="si">{num_width}</span><span class="s1">}] {titles[idx]:</span><span class="si">{title_width}</span><span class="s1">}&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">cnt</span> <span class="o">%</span> <span class="n">cols</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
-            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">row</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">row</span><span class="p">:</span>
-        <span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">rstrip</span><span class="p">()</span>
-        <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
@@ -279,7 +277,7 @@
             <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">raise</span> <span class="ne">ValueError</span>
 
-    <span class="k">return</span> <span class="n">line</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="n">prompt</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

@@ -35,7 +35,7 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     :param str prompt: the prompt
     :param default: default value that will be used if no input is provided
     :type default: str or None
-    :param check: the check parameter
+    :param check: the check parameter (see above)
     :type check: callable(str) or None
     :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
     :return: (converted) input value or ``None`` if input was cancelled and

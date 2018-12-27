@@ -90,19 +90,19 @@
 <p><span class="versionmodified">New in version 0.3.0.</span></p>
 </div>
 <dl class="function">
-<dt id="salmagundi.inputs.line">
-<code class="descclassname">salmagundi.inputs.</code><code class="descname">line</code><span class="sig-paren">(</span><em>prompt=''</em>, <em>default=None</em>, <em>check=None</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#line"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.line" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get a line of input and check if it is allowed.</p>
+<dt id="salmagundi.inputs.read">
+<code class="descclassname">salmagundi.inputs.</code><code class="descname">read</code><span class="sig-paren">(</span><em>prompt=''</em>, <em>default=None</em>, <em>check=None</em>, <em>exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.read" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a line of input and check if it is allowed.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
 <p>If the <code class="docutils literal notranslate"><span class="pre">check</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> any input is allowed,
 else it must be a <code class="docutils literal notranslate"><span class="pre">callable</span></code> that takes a string as a parameter
 and returns the (converted) input value or raises
 <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> if the input is not allowed.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">line</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
 <span class="go">Number: 21</span>
 <span class="go">&#39;21&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">line</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">Number:</span>
 <span class="go">42</span>
 </pre></div>
@@ -114,7 +114,7 @@ and returns the (converted) input value or raises
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the prompt</li>
 <li><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – default value that will be used if no input is provided</li>
-<li><strong>check</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – the check parameter</li>
+<li><strong>check</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)"><em>None</em></a>) – the check parameter (see above)</li>
 <li><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</li>
 </ul>
 </td>
@@ -207,7 +207,7 @@ be ignored</li>
 and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
@@ -246,7 +246,7 @@ column-by-column, otherwise row-by-row</li>
 and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
 </td>
 </tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.7)">None</a></p>
 </td>
 </tr>
 <tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
