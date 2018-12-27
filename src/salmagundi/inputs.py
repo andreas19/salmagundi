@@ -119,6 +119,9 @@ def select(prompt, options, default=None, case_sensitive=False,
            exc_on_cancel=False):
     """Show an input with selectable options.
 
+    If the input is not allowed the prompt will be shown again. The
+    input can be cancelled with EOF (``^D``).
+
     >>> select('Select: [T]op, [B]ottom, [L]eft, [R]ight > ', 'TBLR')
     Select: [T]op, [B]ottom, [L]eft, [R]ight > b
     1
@@ -157,6 +160,9 @@ def select(prompt, options, default=None, case_sensitive=False,
 
 def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
     """Show a simple menu.
+
+    If the input is not allowed the prompt will be shown again. The
+    input can be cancelled with EOF (``^D``).
 
     The caller has to take care that the menu will fit in the terminal.
 
