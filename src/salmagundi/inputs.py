@@ -14,8 +14,8 @@ from ansictrls import CS
 _cs_print = partial(print, end='', sep='', flush=True)
 
 
-def line(prompt='', default=None, check=None, exc_on_cancel=False):
-    """Get a line of input and check if it is allowed.
+def read(prompt='', default=None, check=None, exc_on_cancel=False):
+    """Read a line of input and check if it is allowed.
 
     If the input is not allowed the prompt will be shown again. The
     input can be cancelled with EOF (``^D``).
@@ -25,10 +25,10 @@ def line(prompt='', default=None, check=None, exc_on_cancel=False):
     and returns the (converted) input value or raises
     :class:`ValueError` if the input is not allowed.
 
-    >>> line('Number: ', default='42')
+    >>> read('Number: ', default='42')
     Number: 21
     '21'
-    >>> line('Number: ', default='42', check=int)
+    >>> read('Number: ', default='42', check=int)
     Number:
     42
 
@@ -111,7 +111,7 @@ def yesno(prompt, yesno, exc_on_cancel=False):
             raise ValueError
         return s1 == s2[0]
 
-    return line('%s [%s%s] ' % (prompt, *yesno), default=default, check=f,
+    return read('%s [%s%s] ' % (prompt, *yesno), default=default, check=f,
                 exc_on_cancel=exc_on_cancel)
 
 
@@ -152,7 +152,7 @@ def select(prompt, options, default=None, case_sensitive=False,
             raise ValueError
         return options.index(s)
 
-    return line(prompt, default=default, check=f, exc_on_cancel=exc_on_cancel)
+    return read(prompt, default=default, check=f, exc_on_cancel=exc_on_cancel)
 
 
 def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
@@ -202,4 +202,4 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
             return i - 1
         raise ValueError
 
-    return line(''.join(lines) + prompt, check=f, exc_on_cancel=exc_on_cancel)
+    return read(''.join(lines) + prompt, check=f, exc_on_cancel=exc_on_cancel)
