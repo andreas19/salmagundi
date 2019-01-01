@@ -166,6 +166,35 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
 
     The caller has to take care that the menu will fit in the terminal.
 
+    ::
+
+        def update():
+            ...
+
+        def sort(desc=True, duration=True):
+            ...
+
+        items = (
+            ('Update', update),
+            ('Sort duration desc', sort),
+            ('Sort duration asc', sort, False),
+            ('Sort size desc', sort, True, False),
+            ('Sort size asc', sort, False, False),
+        )
+        i = menu('> ', tuple(x[0] for x in items))
+        print()
+        if i is not None:
+            items[i][1](*items[i][2:])
+
+    .. raw:: html
+
+       <pre style="color:#FFFFFF;background-color:#000000">[1] Update
+       [2] Sort duration desc
+       [3] Sort duration asc
+       [4] Sort size desc
+       [5] Sort size asc
+       &gt; </pre>
+
     :param str prompt: the prompt
     :param tuple titles: the titles of the menu options
     :param int cols: number of columns
