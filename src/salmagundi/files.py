@@ -124,7 +124,7 @@ def append_lines(file, lines, encoding=None):
         return cnt
 
 
-def create(file, exclusive=False, truncate=True):
+def touch(file, exclusive=False, truncate=True):
     """Create a file.
 
     If the file exists and ``exclusive=False`` the modification
