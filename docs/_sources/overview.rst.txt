@@ -18,6 +18,7 @@ Dependencies
 ------------
 
 - `ansictrls <https://pypi.org/project/ansictrls/>`_
+- `cryptography <https://pypi.org/project/cryptography/>`_
 
 
 Links

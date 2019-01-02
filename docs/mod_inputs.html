@@ -43,6 +43,7 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_crypto.html">Module <em>crypto</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>inputs</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_strings.html">Module <em>strings</em></a></li>
@@ -232,7 +233,31 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
 <p>The caller has to take care that the menu will fit in the terminal.</p>
-<table class="docutils field-list" frame="void" rules="none">
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">update</span><span class="p">():</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">sort</span><span class="p">(</span><span class="n">desc</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">duration</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="o">...</span>
+
+<span class="n">items</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="p">(</span><span class="s1">&#39;Update&#39;</span><span class="p">,</span> <span class="n">update</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Sort duration desc&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Sort duration asc&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Sort size desc&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+    <span class="p">(</span><span class="s1">&#39;Sort size asc&#39;</span><span class="p">,</span> <span class="n">sort</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="kc">False</span><span class="p">),</span>
+<span class="p">)</span>
+<span class="n">i</span> <span class="o">=</span> <span class="n">menu</span><span class="p">(</span><span class="s1">&#39;&gt; &#39;</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">()</span>
+<span class="k">if</span> <span class="n">i</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">1</span><span class="p">](</span><span class="o">*</span><span class="n">items</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="mi">2</span><span class="p">:])</span>
+</pre></div>
+</div>
+<pre style="color:#FFFFFF;background-color:#000000">[1] Update
+[2] Sort duration desc
+[3] Sort duration asc
+[4] Sort size desc
+[5] Sort size asc
+&gt; </pre><table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
@@ -276,7 +301,7 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018, Andreas19.
+      &copy;2018-2019, Andreas19.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>

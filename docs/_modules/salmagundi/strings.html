@@ -81,6 +81,7 @@
 <span class="kn">import</span> <span class="nn">configparser</span>
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">lru_cache</span>
@@ -143,6 +144,73 @@
         <span class="n">f</span> <span class="o">=</span> <span class="n">converter</span> <span class="ow">or</span> <span class="nb">str</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="str2port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2port">[docs]</a><span class="k">def</span> <span class="nf">str2port</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a string to a network port number.</span>
+
+<span class="sd">    :param str s: the string to convert</span>
+<span class="sd">    :return: port number</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises ValueError: if ``s`` cannot be converted to a number in [0..65535]</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">port</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">port</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="split_host_port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.split_host_port">[docs]</a><span class="k">def</span> <span class="nf">split_host_port</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dflt_port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split a string into host and port.</span>
+
+<span class="sd">    &gt;&gt;&gt; split_host_port(&#39;example.com:42&#39;, 21)</span>
+<span class="sd">    (&#39;example.com&#39;, 42)</span>
+<span class="sd">    &gt;&gt;&gt; split_host_port(&#39;example.com&#39;, 21)</span>
+<span class="sd">    (&#39;example.com&#39;, 21)</span>
+
+<span class="sd">    :param str s: the string to split</span>
+<span class="sd">    :param int dflt_port: port that is used if there is none in the string</span>
+<span class="sd">    :return: host and port number</span>
+<span class="sd">    :rtype: str, int</span>
+<span class="sd">    :raises ValueError: if ``dflt_port`` or the port number in ``s``</span>
+<span class="sd">                        are not in [0..65535] or neither of them is given</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dflt_port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">dflt_port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dflt_port</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">dflt_port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no port in parameter and dflt_port is None&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dflt_port</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">str2port</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="format_hex_string"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.format_hex_string">[docs]</a><span class="k">def</span> <span class="nf">format_hex_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">group_size</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a hexadecimal string.</span>
+
+<span class="sd">    &gt;&gt;&gt; format_hex_string(&#39;008041aefd7e&#39;)</span>
+<span class="sd">    00:80:41:ae:fd:7e</span>
+
+<span class="sd">    :param str s: string with only hexadecimal digits</span>
+<span class="sd">    :param str sep: the separator character</span>
+<span class="sd">    :param int group_size: the number of characters between separators</span>
+<span class="sd">    :return: formatted string</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: if ``s`` contains not only hexadecimal digits</span>
+<span class="sd">                        or ``group_size &lt; 1``</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;string contains not only hexadecimal digits&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">group_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;group_size must be &gt;= 1&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">group_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">group_size</span><span class="p">)])</span></div>
 
 
 <div class="viewcode-block" id="shorten"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.shorten">[docs]</a><span class="k">def</span> <span class="nf">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;…&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
@@ -453,13 +521,13 @@
     <span class="n">fmt</span><span class="p">,</span> <span class="n">max_unit</span> <span class="o">=</span> <span class="n">_timedelta_format</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">)</span>
     <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
     <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
-        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86</span><span class="n">_400</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="o">*</span>
-                     <span class="mi">1</span><span class="n">_000_000</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">microseconds</span><span class="p">)</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86_400</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="o">*</span>
+                     <span class="mi">1_000_000</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">microseconds</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">microseconds</span>
         <span class="n">delta_rest</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">seconds</span>
         <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span>
-            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86</span><span class="n">_400</span> <span class="o">+</span> <span class="n">delta_rest</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86_400</span> <span class="o">+</span> <span class="n">delta_rest</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">delta_rest</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">delta_rest</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span>
@@ -535,7 +603,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018, Andreas19.
+      &copy;2018-2019, Andreas19.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>

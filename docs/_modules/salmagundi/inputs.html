@@ -241,6 +241,35 @@
 
 <span class="sd">    The caller has to take care that the menu will fit in the terminal.</span>
 
+<span class="sd">    ::</span>
+
+<span class="sd">        def update():</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        def sort(desc=True, duration=True):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        items = (</span>
+<span class="sd">            (&#39;Update&#39;, update),</span>
+<span class="sd">            (&#39;Sort duration desc&#39;, sort),</span>
+<span class="sd">            (&#39;Sort duration asc&#39;, sort, False),</span>
+<span class="sd">            (&#39;Sort size desc&#39;, sort, True, False),</span>
+<span class="sd">            (&#39;Sort size asc&#39;, sort, False, False),</span>
+<span class="sd">        )</span>
+<span class="sd">        i = menu(&#39;&gt; &#39;, tuple(x[0] for x in items))</span>
+<span class="sd">        print()</span>
+<span class="sd">        if i is not None:</span>
+<span class="sd">            items[i][1](*items[i][2:])</span>
+
+<span class="sd">    .. raw:: html</span>
+
+<span class="sd">       &lt;pre style=&quot;color:#FFFFFF;background-color:#000000&quot;&gt;[1] Update</span>
+<span class="sd">       [2] Sort duration desc</span>
+<span class="sd">       [3] Sort duration asc</span>
+<span class="sd">       [4] Sort size desc</span>
+<span class="sd">       [5] Sort size asc</span>
+<span class="sd">       &amp;gt; &lt;/pre&gt;</span>
+
 <span class="sd">    :param str prompt: the prompt</span>
 <span class="sd">    :param tuple titles: the titles of the menu options</span>
 <span class="sd">    :param int cols: number of columns</span>
@@ -293,7 +322,7 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018, Andreas19.
+      &copy;2018-2019, Andreas19.
       
       |
       Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
