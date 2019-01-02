@@ -42,6 +42,9 @@ def _keys(password, salt, backend):
 def encrypt_with_password(password, data):
     """Encrypt data using a password.
 
+    The data will be encrypted with a key derived from the
+    password and signed.
+
     :param bytes password: the password
     :param bytes data: the data to encrypt
     :return: encrypted data
@@ -67,6 +70,8 @@ def encrypt_with_password(password, data):
 
 def decrypt_with_password(password, data):
     """Decrypt data using a password.
+
+    The data must have been encrypted with :func:`encrypt_with_password`.
 
     :param bytes password: the password
     :param bytes data: the encrypted data
