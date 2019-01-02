@@ -20,7 +20,7 @@ _KEY_SIZE = 32
 _IV_SIZE = 16
 _MAC_SIZE = 32
 _ITERATIONS = 100000
-_VERSION_1 = b'\x80'
+_VERSION_1 = b'\x8a'
 
 
 class DecryptError(Exception):
