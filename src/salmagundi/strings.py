@@ -6,6 +6,7 @@
 import configparser
 import math
 import re
+import string
 from collections import namedtuple
 from datetime import timedelta
 from functools import lru_cache
@@ -68,6 +69,73 @@ def str2tuple(s, sep=',', converter=None):
         f = converter or str
         return tuple(f(x.strip()) for x in s.split(sep))
     return ()
+
+
+def str2port(s):
+    """Convert a string to a network port number.
+
+    :param str s: the string to convert
+    :return: port number
+    :rtype: int
+    :raises ValueError: if ``s`` cannot be converted to a number in [0..65535]
+
+    .. versionadded:: 0.5.0
+    """
+    port = int(s)
+    if 0 <= port <= 65535:
+        return port
+    raise ValueError('not a valid port number: %d' % port)
+
+
+def split_host_port(s, dflt_port=None):
+    """Split a string into host and port.
+
+    >>> split_host_port('example.com:42', 21)
+    ('example.com', 42)
+    >>> split_host_port('example.com', 21)
+    ('example.com', 21)
+
+    :param str s: the string to split
+    :param int dflt_port: port that is used if there is none in the string
+    :return: host and port number
+    :rtype: str, int
+    :raises ValueError: if ``dflt_port`` or the port number in ``s``
+                        are not in [0..65535] or neither of them is given
+
+    .. versionadded:: 0.5.0
+    """
+    if dflt_port is not None and not (0 <= dflt_port <= 65535):
+        raise ValueError('not a valid port number: %d' % dflt_port)
+    a = s.split(':', 1)
+    if len(a) == 1:
+        if dflt_port is None:
+            raise ValueError('no port in parameter and dflt_port is None')
+        return a[0], dflt_port
+    else:
+        return a[0], str2port(a[1])
+
+
+def format_hex_string(s, sep=':', group_size=2):
+    """Format a hexadecimal string.
+
+    >>> format_hex_string('008041aefd7e')
+    00:80:41:ae:fd:7e
+
+    :param str s: string with only hexadecimal digits
+    :param str sep: the separator character
+    :param int group_size: the number of characters between separators
+    :return: formatted string
+    :rtype: str
+    :raises ValueError: if ``s`` contains not only hexadecimal digits
+                        or ``group_size < 1``
+
+    .. versionadded:: 0.5.0
+    """
+    if not all(x in string.hexdigits for x in s):
+        raise ValueError('string contains not only hexadecimal digits')
+    if group_size < 1:
+        raise ValueError('group_size must be >= 1')
+    return sep.join([s[i:i + group_size] for i in range(0, len(s), group_size)])
 
 
 def shorten(text, width=80, placeholder='…', pos='right'):
