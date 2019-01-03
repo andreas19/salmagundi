@@ -39,6 +39,16 @@ def _keys(password, salt, backend):
     return key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
 
 
+def _verify(data, sig_key, backend):
+    h = HMAC(sig_key, SHA256(), backend)
+    h.update(data[:-_MAC_SIZE])
+    try:
+        h.verify(data[-_MAC_SIZE:])
+        return True
+    except InvalidSignature:
+        return False
+
+
 def encrypt_with_password(password, data):
     """Encrypt data using a password.
 
@@ -87,11 +97,7 @@ def decrypt_with_password(password, data):
     backend = default_backend()
     salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
     enc_key, sig_key = _keys(password, salt, backend)
-    h = HMAC(sig_key, SHA256(), backend)
-    h.update(data[:-_MAC_SIZE])
-    try:
-        h.verify(data[-_MAC_SIZE:])
-    except InvalidSignature:
+    if not _verify(data, sig_key, backend):
         raise DecryptError('signature could not be verified') from None
     pos = len(_VERSION_1) + _SALT_SIZE + _IV_SIZE
     iv = data[len(_VERSION_1) + _SALT_SIZE:pos]
@@ -103,3 +109,24 @@ def decrypt_with_password(password, data):
         return unpadder.update(padded_plaintext) + unpadder.finalize()
     except ValueError:
         raise DecryptError('data could not be decrypted') from None
+
+
+def verify_with_password(password, data):
+    """Verify the encrypted data.
+
+    This function verifies the correctness of the password as well as
+    the authenticity and the integrity of the data that was encrypted
+    with :func:`encrypt_with_password`. This is also done during decryption.
+
+    :param bytes password: the password
+    :param bytes data: the encrypted data
+    :return: ``True`` if password, authenticity and integrity are okay
+    :rtype: bool
+    :raises TypeError: if ``password`` or ``data`` are not ``bytes``
+    """
+    _check_bytes('password', password)
+    _check_bytes('data', data)
+    backend = default_backend()
+    salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
+    _, sig_key = _keys(password, salt, backend)
+    return _verify(data, sig_key, backend)
