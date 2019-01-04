@@ -4,10 +4,14 @@ The argument ``file`` in the functions in this module can either be a path-like
 object or an integer file descriptor of a previously opened file. The argument
 ``encoding`` should only be used in text mode (``binary=False``) if necessary.
 
-.. seealso:: built-in function :func:`open`
-"""
+.. seealso::
+   - built-in function :func:`open`
+   - `path-like object <https://docs.python.org/3/glossary.html#term-path-like-object>`_
+"""  # noqa: E501
 
+import datetime
 import os
+import time
 
 
 def read_all(file, binary=False, encoding=None):
@@ -124,26 +128,50 @@ def append_lines(file, lines, encoding=None):
         return cnt
 
 
-def touch(file, exclusive=False, truncate=True):
-    """Create a file.
+def touch(filepath, new_time=None, atime=True, mtime=True, create=True):
+    """Change file timestamps.
 
-    If the file exists and ``exclusive=False`` the modification
-    time will be set to the current time.
+    The ``new_time`` parameter may be:
 
-    :param file: path to file or file descriptor
-    :type file: path-like object or int
-    :param bool exclusive: if ``True`` the file will be created in
-                           exclusive mode
-    :param bool truncate: if ``True`` and the file exists it will
-                          be truncated
-    :raises OSError: on I/O failure
-    :raises FileExistsError: if ``exclusive=True`` and the file exists
+    ====================  ===
+    ``None``              the current time will be used
+    ``datetime``          from module :mod:`datetime`
+    ``struct_time``       from module :mod:`time`
+    ``path-like object``  path to a file which timestamps should be used
+    ====================  ===
+
+    :param filepath: the file for which the timestamps should be changed
+    :type filepath: path-like object
+    :param new_time: the new time (see above for more details)
+    :param bool atime: if ``True`` change access time
+    :param bool mtime: if ``True`` change modification time
+    :param bool create: if ``True`` an empty file will be created if it
+                        does not exist
+    :raises FileNotFoundError: if file does not exist and ``create=False`` or
+                               the reference file for ``new_time``
+                               does not exist
+    :raises TypeError: if ``new_time`` is of wrong type
+
+    .. versionadded:: 0.5.0
     """
-    mode = 'x' if exclusive else ('w' if truncate else 'a')
-    with open(file, mode=mode):
-        pass
-    if not truncate:
-        os.utime(file)
+    if not os.path.exists(filepath) and create:
+        with open(filepath, 'w'):
+            pass
+    file_atime = os.path.getatime(filepath)
+    file_mtime = os.path.getmtime(filepath)
+    if new_time is None:
+        atime_s = mtime_s = time.time()
+    elif isinstance(new_time, datetime.datetime):
+        atime_s = mtime_s = new_time.timestamp()
+    elif isinstance(new_time, time.struct_time):
+        atime_s = mtime_s = time.mktime(new_time)
+    elif isinstance(new_time, (str, bytes, os.PathLike)):
+        atime_s = os.path.getatime(new_time)
+        mtime_s = os.path.getmtime(new_time)
+    else:
+        raise TypeError('wrong type for argument new_time')
+    os.utime(filepath, (atime_s if atime else file_atime,
+                        mtime_s if mtime else file_mtime))
 
 
 def on_same_dev(file1, file2):
