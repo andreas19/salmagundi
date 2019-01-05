@@ -6,7 +6,7 @@
 import os
 
 
-def check_type(obj, classinfo, name, alt_msg=None):
+def check_type(obj, classinfo, name='object', alt_msg=None):
     """Check the type of an object.
 
     >>> utils.check_type(1, str, 'num')
@@ -41,7 +41,7 @@ def check_type(obj, classinfo, name, alt_msg=None):
         raise TypeError(msg)
 
 
-def check_path_like(obj, name, alt_msg=None):
+def check_path_like(obj, name='object', alt_msg=None):
     """Check if an object is path-like.
 
     :param object obj: the object
