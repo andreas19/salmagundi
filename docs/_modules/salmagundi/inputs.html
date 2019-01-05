@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>salmagundi.inputs &#8212; salmagundi 0.4.0 documentation</title>
+    <title>salmagundi.inputs &#8212; salmagundi 0.4.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -86,6 +86,8 @@
 
 <span class="kn">from</span> <span class="nn">ansictrls</span> <span class="k">import</span> <span class="n">CS</span>
 
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_type</span>
+
 <span class="n">_cs_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
@@ -119,8 +121,7 @@
 <span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
 <span class="sd">    :raises TypeError: if ``default`` is not of type ``str``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;default value </span><span class="si">%r</span><span class="s1"> not of type str&#39;</span> <span class="o">%</span> <span class="n">default</span><span class="p">)</span>
+    <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">check_type</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
     <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">_cs_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">CUU</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">SCP</span><span class="p">)</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
@@ -168,8 +169,7 @@
 <span class="sd">    :raises TypeError: if ``yesno`` is not of type ``str``</span>
 <span class="sd">    :raises ValueError: if ``yesno`` is not of length 2</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">yesno</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;yesno argument </span><span class="si">%r</span><span class="s1"> not of type str&#39;</span> <span class="o">%</span> <span class="n">yesno</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">yesno</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;yesno argument&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yesno</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;argument yesno must be a string of to 2 characters&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="ow">and</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">islower</span><span class="p">():</span>
@@ -218,8 +218,7 @@
 
 <span class="sd">    .. versionadded:: 0.4.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;argument options must be of type str or tuple&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">),</span> <span class="s1">&#39;options&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span><span class="p">:</span>
         <span class="n">options</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
 
@@ -284,8 +283,7 @@
 
 <span class="sd">    .. versionadded:: 0.4.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;argument titles must be of type tuple&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="s1">&#39;titles&#39;</span><span class="p">)</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span> <span class="o">/</span> <span class="n">cols</span><span class="p">)</span>
     <span class="n">num_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)))</span>
     <span class="n">title_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">titles</span><span class="p">))</span>

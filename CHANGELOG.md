@@ -1,9 +1,11 @@
 History
 -------
 
- - Rename create() to touch() in module files
+ - Replace create() with touch() in module files
+ - Add functions to module files
  - Add functions to module strings
  - Add module crypto
+ - Add module utils
 
 **2018-12-27 (0.4.0)**
  - Add functions to module inputs
