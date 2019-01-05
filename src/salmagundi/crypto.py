@@ -1,4 +1,4 @@
-"""Crypto module.
+"""Cryptography module.
 
 .. versionadded:: 0.5.0
 """
@@ -15,6 +15,8 @@ from cryptography.hazmat.primitives.hashes import SHA256
 from cryptography.hazmat.primitives.kdf.pbkdf2 import PBKDF2HMAC
 from cryptography.hazmat.primitives.padding import PKCS7
 
+from .utils import check_type
+
 _SALT_SIZE = 16
 _KEY_SIZE = 32
 _IV_SIZE = 16
@@ -25,11 +27,6 @@ _VERSION_1 = b'\x8a'
 
 class DecryptError(Exception):
     """Raised if data could not be decrypted."""
-
-
-def _check_bytes(name, value):
-    if not isinstance(value, bytes):
-        raise TypeError('%r must be bytes' % name)
 
 
 def _keys(password, salt, backend):
@@ -61,8 +58,8 @@ def encrypt_with_password(password, data):
     :rtype: bytes
     :raises TypeError: if ``password`` or ``data`` are not ``bytes``
     """
-    _check_bytes('password', password)
-    _check_bytes('data', data)
+    check_type(password, bytes, 'password')
+    check_type(data, bytes, 'data')
     backend = default_backend()
     salt = os.urandom(_SALT_SIZE)
     enc_key, sig_key = _keys(password, salt, backend)
@@ -90,8 +87,8 @@ def decrypt_with_password(password, data):
     :raises TypeError: if ``password`` or ``data`` are not ``bytes``
     :raises DecryptError: if data could not be decrypted
     """
-    _check_bytes('password', password)
-    _check_bytes('data', data)
+    check_type(password, bytes, 'password')
+    check_type(data, bytes, 'data')
     if not data.startswith(_VERSION_1):
         raise DecryptError('unknown version')
     backend = default_backend()
@@ -124,8 +121,8 @@ def verify_with_password(password, data):
     :rtype: bool
     :raises TypeError: if ``password`` or ``data`` are not ``bytes``
     """
-    _check_bytes('password', password)
-    _check_bytes('data', data)
+    check_type(password, bytes, 'password')
+    check_type(data, bytes, 'data')
     backend = default_backend()
     salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
     _, sig_key = _keys(password, salt, backend)

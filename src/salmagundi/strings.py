@@ -11,6 +11,8 @@ from collections import namedtuple
 from datetime import timedelta
 from functools import lru_cache
 
+from .utils import check_type
+
 BOOLEAN_STATES = configparser.ConfigParser.BOOLEAN_STATES.copy()
 """Dictionary with mappings from strings to boolean values.
 
@@ -238,8 +240,7 @@ def bin_prefix(value):
     :rtype: Prefix
     :raises TypeError: if value is not an integer
     """
-    if not isinstance(value, int):
-        raise TypeError('value must be of type int')
+    check_type(value, int, 'value')
     if value == 0:
         return NO_PREFIX
     for p in BINARY_PREFIXES:
@@ -277,8 +278,7 @@ def format_bin_prefix(num_frmt, value, prefix=None):
     :raises TypeError: if value is not an integer
     """
     if prefix:
-        if not isinstance(value, int):
-            raise TypeError('value must be of type int')
+        check_type(value, int, 'value')
         if not isinstance(prefix, Prefix):
             prefix = find_bin_prefix(prefix) or NO_PREFIX
     else:
@@ -297,8 +297,7 @@ def dec_prefix(value, restricted=True):
     :rtype: Prefix
     :raises TypeError: if value is of a wrong type
     """
-    if not isinstance(value, (int, float)):
-        raise TypeError('value must be of type int or float')
+    check_type(value, (int, float), 'value')
     if value == 0:
         return NO_PREFIX
     for p in DECIMAL_PREFIXES:
@@ -347,8 +346,7 @@ def format_dec_prefix(num_frmt, value, prefix=None, restricted=True):
     :raises TypeError: if value is of a wrong type
     """
     if prefix:
-        if not isinstance(value, (int, float)):
-            raise TypeError('value must be of type int or float')
+        check_type(value, (int, float), 'value')
         if not isinstance(prefix, Prefix):
             prefix = find_dec_prefix(prefix) or NO_PREFIX
     else:
@@ -439,8 +437,9 @@ def format_timedelta(fmt_str, delta):
     """
     if isinstance(delta, (int, float)):
         delta = timedelta(seconds=delta)
-    elif not isinstance(delta, timedelta):
-        raise TypeError('delta must be int, float or datetime.timedelta')
+    else:
+        check_type(delta, timedelta,
+                   alt_msg='delta must be int, float or datetime.timedelta')
     if delta.total_seconds() < 0:
         raise ValueError('delta < 0')
     fmt, max_unit = _timedelta_format(fmt_str)

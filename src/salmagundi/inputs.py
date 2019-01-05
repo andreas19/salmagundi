@@ -11,6 +11,8 @@ from functools import partial
 
 from ansictrls import CS
 
+from .utils import check_type
+
 _cs_print = partial(print, end='', sep='', flush=True)
 
 
@@ -44,8 +46,7 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
     :raises TypeError: if ``default`` is not of type ``str``
     """
-    if default is not None and not isinstance(default, str):
-        raise TypeError('default value %r not of type str' % default)
+    default is not None and check_type(default, str, 'default')
     value = None
     _cs_print('\n', CS.CUU, CS.SCP)
     while True:
@@ -93,8 +94,7 @@ def yesno(prompt, yesno, exc_on_cancel=False):
     :raises TypeError: if ``yesno`` is not of type ``str``
     :raises ValueError: if ``yesno`` is not of length 2
     """
-    if not isinstance(yesno, str):
-        raise TypeError('yesno argument %r not of type str' % yesno)
+    check_type(yesno, str, 'yesno argument')
     if len(yesno) != 2:
         raise ValueError('argument yesno must be a string of to 2 characters')
     if yesno[0].isupper() and yesno[1].islower():
@@ -143,8 +143,7 @@ def select(prompt, options, default=None, case_sensitive=False,
 
     .. versionadded:: 0.4.0
     """
-    if not isinstance(options, (str, tuple)):
-        raise TypeError('argument options must be of type str or tuple')
+    check_type(options, (str, tuple), 'options')
     if not case_sensitive:
         options = tuple(map(str.lower, options))
 
@@ -209,8 +208,7 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
 
     .. versionadded:: 0.4.0
     """
-    if not isinstance(titles, tuple):
-        raise TypeError('argument titles must be of type tuple')
+    check_type(titles, tuple, 'titles')
     rows = math.ceil(len(titles) / cols)
     num_width = len(str(len(titles)))
     title_width = max(map(len, titles))
