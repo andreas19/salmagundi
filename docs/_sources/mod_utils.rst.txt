@@ -1,0 +1,4 @@
+Module *utils*
+==============
+
+.. automodule:: salmagundi.utils
