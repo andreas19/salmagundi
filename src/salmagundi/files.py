@@ -183,10 +183,65 @@ def on_same_dev(file1, file2):
     :type file1: path-like object or int
     :param file2: path to file or file descriptor
     :type file2: path-like object or int
-    :return: ``True`` if both files are on the same device/partition,
-             ``False`` otherwise
+    :return: ``True`` if both files are on the same device/partition
     :rtype: bool
     """
     stat1 = os.stat(file1)
     stat2 = os.stat(file2)
     return stat1.st_dev == stat2.st_dev
+
+
+_COPY_CHUNK_SIZE = 16 * 1024
+
+
+def copyfile(src, dst, callback, cancel_evt):
+    r"""Copy a file.
+
+    The progess of a long running copy process can be monitored
+    and the process can be cancelled.
+
+    The ``callback`` must be a callable that takes two parameters:
+
+    - number of the copied bytes
+    - size of the source file
+
+    ::
+
+        def cb(i, t):
+            print('\r%d / %d (%.1f%%)' % (i, t, i / t * 100),
+                  end='', flush=True)
+
+        evt = threading.Event()
+        print('Start', end='', flush=True)
+        try:
+            copyfile('/path/to/source/file',
+                     '/path/to/destination/file',
+                     cb, evt)
+            print()
+        except KeyboardInterrupt:
+            evt.set()
+            print('\rAbbruch                           \n')
+
+
+    :param src: source filepath
+    :type src: path-like object
+    :param dst: destination filepath (not a directory)
+    :type dst: path-like object
+    :param callback: callback function
+    :param threading.Event cancel_evt: if set the process will be cancelled
+    :raises OSError: if the file could not be copied
+
+    .. versionadded:: 0.5.0
+    """
+    file_size = os.path.getsize(src)
+    copied = 0
+    with open(src, 'rb') as ifh, open(dst, 'wb') as ofh:
+        while True:
+            cnt = ofh.write(ifh.read(_COPY_CHUNK_SIZE))
+            if not cnt:
+                break
+            copied += cnt
+            if callback:
+                callback(copied, file_size)
+            if cancel_evt and cancel_evt.is_set():
+                break
