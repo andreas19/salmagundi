@@ -121,6 +121,50 @@
         <span class="k">return</span> <span class="kc">False</span>
 
 
+<span class="k">def</span> <span class="nf">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_IV_SIZE</span><span class="p">)</span>
+    <span class="n">padder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">padder</span><span class="p">()</span>
+    <span class="n">padded_data</span> <span class="o">=</span> <span class="n">padder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">padder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">encryptor</span><span class="p">()</span>
+    <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_data</span><span class="p">)</span> <span class="o">+</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+    <span class="n">all_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">_VERSION_1</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">sig_key</span><span class="p">,</span> <span class="n">SHA256</span><span class="p">(),</span> <span class="n">backend</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span>
+    <span class="n">hmac</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">all_data</span> <span class="o">+</span> <span class="n">hmac</span>
+
+
+<span class="k">def</span> <span class="nf">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;signature could not be verified&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">_IV_SIZE</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span><span class="n">pos</span><span class="p">]</span>
+    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">decryptor</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">padded_plaintext</span> <span class="o">=</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="o">-</span><span class="n">_MAC_SIZE</span><span class="p">])</span> <span class="o">+</span>
+                            <span class="n">decryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">())</span>
+        <span class="n">unpadder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">unpadder</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_plaintext</span><span class="p">)</span> <span class="o">+</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;data could not be decrypted&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
+
+
+<div class="viewcode-block" id="create_secret_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.create_secret_key">[docs]</a><span class="k">def</span> <span class="nf">create_secret_key</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;Create a secret key.</span>
+
+<span class="sd">    The key is created cryptographically secure by :func:`os.urandom`.</span>
+<span class="sd">    It can be used with the ``*_with_key()`` functions:</span>
+
+<span class="sd">    - :func:`encrypt_with_key`</span>
+<span class="sd">    - :func:`decrypt_with_key`</span>
+<span class="sd">    - :func:`verify_with_key`</span>
+
+<span class="sd">    :return: secret key</span>
+<span class="sd">    :rytpe: bytes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_KEY_SIZE</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="encrypt_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_password">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Encrypt data using a password.</span>
 
@@ -138,16 +182,7 @@
     <span class="n">backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
     <span class="n">salt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_SALT_SIZE</span><span class="p">)</span>
     <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="n">iv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_IV_SIZE</span><span class="p">)</span>
-    <span class="n">padder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">padder</span><span class="p">()</span>
-    <span class="n">padded_data</span> <span class="o">=</span> <span class="n">padder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">padder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">encryptor</span><span class="p">()</span>
-    <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_data</span><span class="p">)</span> <span class="o">+</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="n">all_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">_VERSION_1</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">))</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">sig_key</span><span class="p">,</span> <span class="n">SHA256</span><span class="p">(),</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span>
-    <span class="n">hmac</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="k">return</span> <span class="n">all_data</span> <span class="o">+</span> <span class="n">hmac</span></div>
+    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="decrypt_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.decrypt_with_password">[docs]</a><span class="k">def</span> <span class="nf">decrypt_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -169,18 +204,7 @@
     <span class="n">backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
     <span class="n">salt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span><span class="p">]</span>
     <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;signature could not be verified&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span> <span class="o">+</span> <span class="n">_IV_SIZE</span>
-    <span class="n">iv</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span><span class="p">:</span><span class="n">pos</span><span class="p">]</span>
-    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">decryptor</span><span class="p">()</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">padded_plaintext</span> <span class="o">=</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="o">-</span><span class="n">_MAC_SIZE</span><span class="p">])</span> <span class="o">+</span>
-                            <span class="n">decryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">())</span>
-        <span class="n">unpadder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">unpadder</span><span class="p">()</span>
-        <span class="k">return</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_plaintext</span><span class="p">)</span> <span class="o">+</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;data could not be decrypted&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span></div>
+    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="verify_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_password">[docs]</a><span class="k">def</span> <span class="nf">verify_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -202,6 +226,68 @@
     <span class="n">salt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span><span class="p">]</span>
     <span class="n">_</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_KEY_SIZE</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;incorrect secret key size&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="encrypt_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_key">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Encrypt data using a secret key.</span>
+
+<span class="sd">    :param bytes key: the secret key</span>
+<span class="sd">    :param bytes data: the data to encrypt</span>
+<span class="sd">    :return: encrypted data</span>
+<span class="sd">    :rtype: bytes</span>
+<span class="sd">    :raises TypeError: if ``key`` or ``data`` are not ``bytes``</span>
+<span class="sd">    :raises ValueError: if size of ``key`` is not correct</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">default_backend</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="decrypt_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.decrypt_with_key">[docs]</a><span class="k">def</span> <span class="nf">decrypt_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Decrypt data using a secret key.</span>
+
+<span class="sd">    The data must have been encrypted with :func:`encrypt_with_key`.</span>
+
+<span class="sd">    :param bytes key: the secret key</span>
+<span class="sd">    :param bytes data: the encrypted data</span>
+<span class="sd">    :return: decrypted data</span>
+<span class="sd">    :rtype: bytes</span>
+<span class="sd">    :raises TypeError: if ``key`` or ``data`` are not ``bytes``</span>
+<span class="sd">    :raises ValueError: if size of ``key`` is not correct</span>
+<span class="sd">    :raises DecryptError: if data could not be decrypted</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">default_backend</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="verify_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_key">[docs]</a><span class="k">def</span> <span class="nf">verify_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify the encrypted data.</span>
+
+<span class="sd">    This function verifies the correctness of the secret key as well as</span>
+<span class="sd">    the authenticity and the integrity of the data that was encrypted</span>
+<span class="sd">    with :func:`encrypt_with_key`. This is also done during decryption.</span>
+
+<span class="sd">    :param bytes key: the secret key</span>
+<span class="sd">    :param bytes data: the encrypted data</span>
+<span class="sd">    :return: ``True`` if secret key, authenticity and integrity are okay</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raises TypeError: if ``key`` or ``data`` are not ``bytes``</span>
+<span class="sd">    :raises ValueError: if size of ``key`` is not correct</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:],</span> <span class="n">default_backend</span><span class="p">())</span></div>
 </pre></div>
 
           </div>

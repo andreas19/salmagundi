@@ -164,7 +164,7 @@
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">port</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="split_host_port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.split_host_port">[docs]</a><span class="k">def</span> <span class="nf">split_host_port</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">dflt_port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="split_host_port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.split_host_port">[docs]</a><span class="k">def</span> <span class="nf">split_host_port</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Split a string into host and port.</span>
 
 <span class="sd">    &gt;&gt;&gt; split_host_port(&#39;example.com:42&#39;, 21)</span>
@@ -173,46 +173,72 @@
 <span class="sd">    (&#39;example.com&#39;, 21)</span>
 
 <span class="sd">    :param str s: the string to split</span>
-<span class="sd">    :param int dflt_port: port that is used if there is none in the string</span>
+<span class="sd">    :param int port: port that is used if there is none in the string</span>
 <span class="sd">    :return: host and port number</span>
 <span class="sd">    :rtype: str, int</span>
-<span class="sd">    :raises ValueError: if ``dflt_port`` or the port number in ``s``</span>
+<span class="sd">    :raises ValueError: if ``port`` or the port number in ``s``</span>
 <span class="sd">                        are not in [0..65535] or neither of them is given</span>
 
 <span class="sd">    .. versionadded:: 0.5.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">dflt_port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">dflt_port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">dflt_port</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">port</span><span class="p">)</span>
     <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-        <span class="k">if</span> <span class="n">dflt_port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no port in parameter and dflt_port is None&#39;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dflt_port</span>
+        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no port in parameter and default port is None&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">port</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">str2port</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
 
 
-<div class="viewcode-block" id="format_hex_string"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.format_hex_string">[docs]</a><span class="k">def</span> <span class="nf">format_hex_string</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="n">group_size</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Format a hexadecimal string.</span>
+<div class="viewcode-block" id="insert_separator"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.insert_separator">[docs]</a><span class="k">def</span> <span class="nf">insert_separator</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">group_size</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Insert separators in a string.</span>
 
-<span class="sd">    &gt;&gt;&gt; format_hex_string(&#39;008041aefd7e&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; insert_separator(&#39;008041aefd7e&#39;, &#39;:&#39;, 2)</span>
 <span class="sd">    00:80:41:ae:fd:7e</span>
 
-<span class="sd">    :param str s: string with only hexadecimal digits</span>
-<span class="sd">    :param str sep: the separator character</span>
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str sep: the separator character(s)</span>
 <span class="sd">    :param int group_size: the number of characters between separators</span>
-<span class="sd">    :return: formatted string</span>
+<span class="sd">    :return: string with separators</span>
 <span class="sd">    :rtype: str</span>
-<span class="sd">    :raises ValueError: if ``s`` contains not only hexadecimal digits</span>
-<span class="sd">                        or ``group_size &lt; 1``</span>
+<span class="sd">    :raises ValueError: if ``group_size &lt; 1``</span>
 
 <span class="sd">    .. versionadded:: 0.5.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;string contains not only hexadecimal digits&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">group_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;group_size must be &gt;= 1&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">group_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">group_size</span><span class="p">)])</span></div>
+
+
+<div class="viewcode-block" id="purge"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.purge">[docs]</a><span class="k">def</span> <span class="nf">purge</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">negate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Purge characters from a string.</span>
+
+<span class="sd">    Each character in ``chars`` will be eliminated from the string.</span>
+
+<span class="sd">    If ``chars=None`` or ``chars=&#39;&#39;`` all consecutive whitespace</span>
+<span class="sd">    are replaced by a singe space.</span>
+
+<span class="sd">    if ``negate=True`` all characters **not** in chars will be</span>
+<span class="sd">    purged (only applies when ``chars`` is at least one character)</span>
+
+<span class="sd">    &gt;&gt;&gt; purge(&#39;00:80:41:ae:fd:7e&#39;, &#39;:&#39;)</span>
+<span class="sd">    008041aefd7e</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str chars: the characters</span>
+<span class="sd">    :param bool negate: see above</span>
+<span class="sd">    :return: the purged string</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">negate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="shorten"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.shorten">[docs]</a><span class="k">def</span> <span class="nf">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;…&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
@@ -593,6 +619,19 @@
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;time data </span><span class="si">%r</span><span class="s1"> does not match format </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span>
                          <span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">fmt_str</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="is_hexdigit"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.is_hexdigit">[docs]</a><span class="k">def</span> <span class="nf">is_hexdigit</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if all characters are hexadecimal digits.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if all characters in the string are hexadecimal digits</span>
+<span class="sd">             and there is at least one character</span>
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

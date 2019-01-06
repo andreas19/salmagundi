@@ -218,7 +218,7 @@ or else a tuple with string elements will be returned.</p>
 
 <dl class="function">
 <dt id="salmagundi.strings.split_host_port">
-<code class="descclassname">salmagundi.strings.</code><code class="descname">split_host_port</code><span class="sig-paren">(</span><em>s</em>, <em>dflt_port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#split_host_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.split_host_port" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">salmagundi.strings.</code><code class="descname">split_host_port</code><span class="sig-paren">(</span><em>s</em>, <em>port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#split_host_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.split_host_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split a string into host and port.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_host_port</span><span class="p">(</span><span class="s1">&#39;example.com:42&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
 <span class="go">(&#39;example.com&#39;, 42)</span>
@@ -232,7 +232,7 @@ or else a tuple with string elements will be returned.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string to split</li>
-<li><strong>dflt_port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – port that is used if there is none in the string</li>
+<li><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – port that is used if there is none in the string</li>
 </ul>
 </td>
 </tr>
@@ -242,7 +242,7 @@ or else a tuple with string elements will be returned.</p>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)">int</a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">dflt_port</span></code> or the port number in <code class="docutils literal notranslate"><span class="pre">s</span></code>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">port</span></code> or the port number in <code class="docutils literal notranslate"><span class="pre">s</span></code>
 are not in [0..65535] or neither of them is given</p>
 </td>
 </tr>
@@ -254,10 +254,10 @@ are not in [0..65535] or neither of them is given</p>
 </dd></dl>
 
 <dl class="function">
-<dt id="salmagundi.strings.format_hex_string">
-<code class="descclassname">salmagundi.strings.</code><code class="descname">format_hex_string</code><span class="sig-paren">(</span><em>s</em>, <em>sep=':'</em>, <em>group_size=2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_hex_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_hex_string" title="Permalink to this definition">¶</a></dt>
-<dd><p>Format a hexadecimal string.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_hex_string</span><span class="p">(</span><span class="s1">&#39;008041aefd7e&#39;</span><span class="p">)</span>
+<dt id="salmagundi.strings.insert_separator">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">insert_separator</code><span class="sig-paren">(</span><em>s</em>, <em>sep</em>, <em>group_size</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#insert_separator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.insert_separator" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert separators in a string.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;008041aefd7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="go">00:80:41:ae:fd:7e</span>
 </pre></div>
 </div>
@@ -266,20 +266,56 @@ are not in [0..65535] or neither of them is given</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – string with only hexadecimal digits</li>
-<li><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the separator character</li>
+<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</li>
+<li><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the separator character(s)</li>
 <li><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the number of characters between separators</li>
 </ul>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">formatted string</p>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">string with separators</p>
 </td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </td>
 </tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">s</span></code> contains not only hexadecimal digits
-or <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">&lt;</span> <span class="pre">1</span></code></p>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">&lt;</span> <span class="pre">1</span></code></p>
+</td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.purge">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">purge</code><span class="sig-paren">(</span><em>s</em>, <em>chars=None</em>, <em>negate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.purge" title="Permalink to this definition">¶</a></dt>
+<dd><p>Purge characters from a string.</p>
+<p>Each character in <code class="docutils literal notranslate"><span class="pre">chars</span></code> will be eliminated from the string.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">chars=None</span></code> or <code class="docutils literal notranslate"><span class="pre">chars=''</span></code> all consecutive whitespace
+are replaced by a singe space.</p>
+<p>if <code class="docutils literal notranslate"><span class="pre">negate=True</span></code> all characters <strong>not</strong> in chars will be
+purged (only applies when <code class="docutils literal notranslate"><span class="pre">chars</span></code> is at least one character)</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">purge</span><span class="p">(</span><span class="s1">&#39;00:80:41:ae:fd:7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<span class="go">008041aefd7e</span>
+</pre></div>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</li>
+<li><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the characters</li>
+<li><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – see above</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the purged string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
 </td>
 </tr>
 </tbody>
@@ -629,6 +665,28 @@ of a second. The string <code class="docutils literal notranslate"><span class="
 </tr>
 </tbody>
 </table>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.strings.is_hexdigit">
+<code class="descclassname">salmagundi.strings.</code><code class="descname">is_hexdigit</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#is_hexdigit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.is_hexdigit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if all characters are hexadecimal digits.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><code class="docutils literal notranslate"><span class="pre">True</span></code> if all characters in the string are hexadecimal digits
+and there is at least one character</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.5.0.</span></p>
+</div>
 </dd></dl>
 
 </div>
