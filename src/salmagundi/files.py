@@ -135,6 +135,7 @@ def touch(filepath, new_time=None, atime=True, mtime=True, create=True):
 
     ====================  ===
     ``None``              the current time will be used
+    ``int`` or ``float``  seconds since the epoch
     ``datetime``          from module :mod:`datetime`
     ``struct_time``       from module :mod:`time`
     ``path-like object``  path to a file which timestamps should be used
@@ -161,6 +162,8 @@ def touch(filepath, new_time=None, atime=True, mtime=True, create=True):
     file_mtime = os.path.getmtime(filepath)
     if new_time is None:
         atime_s = mtime_s = time.time()
+    elif isinstance(new_time, (int, float)):
+        atime_s = mtime_s = new_time
     elif isinstance(new_time, datetime.datetime):
         atime_s = mtime_s = new_time.timestamp()
     elif isinstance(new_time, time.struct_time):
