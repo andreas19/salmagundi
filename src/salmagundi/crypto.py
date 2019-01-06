@@ -46,6 +46,50 @@ def _verify(data, sig_key, backend):
         return False
 
 
+def _encrypt(enc_key, sig_key, salt, data, backend):
+    iv = os.urandom(_IV_SIZE)
+    padder = PKCS7(AES.block_size).padder()
+    padded_data = padder.update(data) + padder.finalize()
+    encryptor = Cipher(AES(enc_key), CBC(iv), backend).encryptor()
+    ciphertext = encryptor.update(padded_data) + encryptor.finalize()
+    all_data = b''.join((_VERSION_1, salt, iv, ciphertext))
+    h = HMAC(sig_key, SHA256(), backend)
+    h.update(all_data)
+    hmac = h.finalize()
+    return all_data + hmac
+
+
+def _decrypt(enc_key, sig_key, salt, data, backend):
+    if not _verify(data, sig_key, backend):
+        raise DecryptError('signature could not be verified') from None
+    pos = len(_VERSION_1) + len(salt) + _IV_SIZE
+    iv = data[len(_VERSION_1) + len(salt):pos]
+    decryptor = Cipher(AES(enc_key), CBC(iv), backend).decryptor()
+    try:
+        padded_plaintext = (decryptor.update(data[pos:-_MAC_SIZE]) +
+                            decryptor.finalize())
+        unpadder = PKCS7(AES.block_size).unpadder()
+        return unpadder.update(padded_plaintext) + unpadder.finalize()
+    except ValueError:
+        raise DecryptError('data could not be decrypted') from None
+
+
+def create_secret_key():
+    """Create a secret key.
+
+    The key is created cryptographically secure by :func:`os.urandom`.
+    It can be used with the ``*_with_key()`` functions:
+
+    - :func:`encrypt_with_key`
+    - :func:`decrypt_with_key`
+    - :func:`verify_with_key`
+
+    :return: secret key
+    :rytpe: bytes
+    """
+    return os.urandom(_KEY_SIZE)
+
+
 def encrypt_with_password(password, data):
     """Encrypt data using a password.
 
@@ -63,16 +107,7 @@ def encrypt_with_password(password, data):
     backend = default_backend()
     salt = os.urandom(_SALT_SIZE)
     enc_key, sig_key = _keys(password, salt, backend)
-    iv = os.urandom(_IV_SIZE)
-    padder = PKCS7(AES.block_size).padder()
-    padded_data = padder.update(data) + padder.finalize()
-    encryptor = Cipher(AES(enc_key), CBC(iv), backend).encryptor()
-    ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-    all_data = b''.join((_VERSION_1, salt, iv, ciphertext))
-    h = HMAC(sig_key, SHA256(), backend)
-    h.update(all_data)
-    hmac = h.finalize()
-    return all_data + hmac
+    return _encrypt(enc_key, sig_key, salt, data, backend)
 
 
 def decrypt_with_password(password, data):
@@ -94,18 +129,7 @@ def decrypt_with_password(password, data):
     backend = default_backend()
     salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
     enc_key, sig_key = _keys(password, salt, backend)
-    if not _verify(data, sig_key, backend):
-        raise DecryptError('signature could not be verified') from None
-    pos = len(_VERSION_1) + _SALT_SIZE + _IV_SIZE
-    iv = data[len(_VERSION_1) + _SALT_SIZE:pos]
-    decryptor = Cipher(AES(enc_key), CBC(iv), backend).decryptor()
-    try:
-        padded_plaintext = (decryptor.update(data[pos:-_MAC_SIZE]) +
-                            decryptor.finalize())
-        unpadder = PKCS7(AES.block_size).unpadder()
-        return unpadder.update(padded_plaintext) + unpadder.finalize()
-    except ValueError:
-        raise DecryptError('data could not be decrypted') from None
+    return _decrypt(enc_key, sig_key, salt, data, backend)
 
 
 def verify_with_password(password, data):
@@ -127,3 +151,65 @@ def verify_with_password(password, data):
     salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
     _, sig_key = _keys(password, salt, backend)
     return _verify(data, sig_key, backend)
+
+
+def _check_key_size(key):
+    if len(key) != _KEY_SIZE:
+        raise ValueError('incorrect secret key size')
+
+
+def encrypt_with_key(key, data):
+    """Encrypt data using a secret key.
+
+    :param bytes key: the secret key
+    :param bytes data: the data to encrypt
+    :return: encrypted data
+    :rtype: bytes
+    :raises TypeError: if ``key`` or ``data`` are not ``bytes``
+    :raises ValueError: if size of ``key`` is not correct
+    """
+    check_type(key, bytes, 'secret key')
+    check_type(data, bytes, 'data')
+    _check_key_size(key)
+    enc_key, sig_key = key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
+    return _encrypt(enc_key, sig_key, b'', data, default_backend())
+
+
+def decrypt_with_key(key, data):
+    """Decrypt data using a secret key.
+
+    The data must have been encrypted with :func:`encrypt_with_key`.
+
+    :param bytes key: the secret key
+    :param bytes data: the encrypted data
+    :return: decrypted data
+    :rtype: bytes
+    :raises TypeError: if ``key`` or ``data`` are not ``bytes``
+    :raises ValueError: if size of ``key`` is not correct
+    :raises DecryptError: if data could not be decrypted
+    """
+    check_type(key, bytes, 'secret key')
+    check_type(data, bytes, 'data')
+    _check_key_size(key)
+    enc_key, sig_key = key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
+    return _decrypt(enc_key, sig_key, b'', data, default_backend())
+
+
+def verify_with_key(key, data):
+    """Verify the encrypted data.
+
+    This function verifies the correctness of the secret key as well as
+    the authenticity and the integrity of the data that was encrypted
+    with :func:`encrypt_with_key`. This is also done during decryption.
+
+    :param bytes key: the secret key
+    :param bytes data: the encrypted data
+    :return: ``True`` if secret key, authenticity and integrity are okay
+    :rtype: bool
+    :raises TypeError: if ``key`` or ``data`` are not ``bytes``
+    :raises ValueError: if size of ``key`` is not correct
+    """
+    check_type(key, bytes, 'secret key')
+    check_type(data, bytes, 'data')
+    _check_key_size(key)
+    return _verify(data, key[_KEY_SIZE // 2:], default_backend())

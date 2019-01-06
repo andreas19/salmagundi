@@ -89,7 +89,7 @@ def str2port(s):
     raise ValueError('not a valid port number: %d' % port)
 
 
-def split_host_port(s, dflt_port=None):
+def split_host_port(s, port=None):
     """Split a string into host and port.
 
     >>> split_host_port('example.com:42', 21)
@@ -98,46 +98,72 @@ def split_host_port(s, dflt_port=None):
     ('example.com', 21)
 
     :param str s: the string to split
-    :param int dflt_port: port that is used if there is none in the string
+    :param int port: port that is used if there is none in the string
     :return: host and port number
     :rtype: str, int
-    :raises ValueError: if ``dflt_port`` or the port number in ``s``
+    :raises ValueError: if ``port`` or the port number in ``s``
                         are not in [0..65535] or neither of them is given
 
     .. versionadded:: 0.5.0
     """
-    if dflt_port is not None and not (0 <= dflt_port <= 65535):
-        raise ValueError('not a valid port number: %d' % dflt_port)
+    if port is not None and not (0 <= port <= 65535):
+        raise ValueError('not a valid port number: %d' % port)
     a = s.split(':', 1)
     if len(a) == 1:
-        if dflt_port is None:
-            raise ValueError('no port in parameter and dflt_port is None')
-        return a[0], dflt_port
+        if port is None:
+            raise ValueError('no port in parameter and default port is None')
+        return a[0], port
     else:
         return a[0], str2port(a[1])
 
 
-def format_hex_string(s, sep=':', group_size=2):
-    """Format a hexadecimal string.
+def insert_separator(s, sep, group_size):
+    """Insert separators in a string.
 
-    >>> format_hex_string('008041aefd7e')
+    >>> insert_separator('008041aefd7e', ':', 2)
     00:80:41:ae:fd:7e
 
-    :param str s: string with only hexadecimal digits
-    :param str sep: the separator character
+    :param str s: the string
+    :param str sep: the separator character(s)
     :param int group_size: the number of characters between separators
-    :return: formatted string
+    :return: string with separators
     :rtype: str
-    :raises ValueError: if ``s`` contains not only hexadecimal digits
-                        or ``group_size < 1``
+    :raises ValueError: if ``group_size < 1``
 
     .. versionadded:: 0.5.0
     """
-    if not all(x in string.hexdigits for x in s):
-        raise ValueError('string contains not only hexadecimal digits')
     if group_size < 1:
         raise ValueError('group_size must be >= 1')
     return sep.join([s[i:i + group_size] for i in range(0, len(s), group_size)])
+
+
+def purge(s, chars=None, negate=False):
+    r"""Purge characters from a string.
+
+    Each character in ``chars`` will be eliminated from the string.
+
+    If ``chars=None`` or ``chars=''`` all consecutive whitespace
+    are replaced by a singe space.
+
+    if ``negate=True`` all characters **not** in chars will be
+    purged (only applies when ``chars`` is at least one character)
+
+    >>> purge('00:80:41:ae:fd:7e', ':')
+    008041aefd7e
+
+    :param str s: the string
+    :param str chars: the characters
+    :param bool negate: see above
+    :return: the purged string
+    :rtype: str
+
+    .. versionadded:: 0.5.0
+    """
+    if chars:
+        if negate:
+            return ''.join(c for c in s if c in chars)
+        return ''.join(c for c in s if c not in chars)
+    return re.sub(r'\s+', ' ', s)
 
 
 def shorten(text, width=80, placeholder='…', pos='right'):
@@ -518,3 +544,16 @@ def parse_timedelta(string, fmt_str):
     else:
         raise ValueError('time data %r does not match format %r' %
                          (string, fmt_str))
+
+
+def is_hexdigit(s):
+    """Check if all characters are hexadecimal digits.
+
+    :param str s: the string
+    :return: ``True`` if all characters in the string are hexadecimal digits
+             and there is at least one character
+    :rtype: bool
+
+    .. versionadded:: 0.5.0
+    """
+    return bool(s) and all(x in string.hexdigits for x in s)
