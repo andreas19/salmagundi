@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-01-07 (0.5.0)**
  - Replace create() with touch() in module files
  - Add functions to module files
  - Add functions to module strings
