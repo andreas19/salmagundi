@@ -633,9 +633,9 @@ e.g. a duration.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
 <p class="last">The <a class="reference internal" href="#ref-timedelta-format-specifiers"><span class="std std-ref">format specifier</span></a>
-<code class="docutils literal notranslate"><span class="pre">'%s'</span></code> for microseconds can only be used for the fractional part
-of a second. The string <code class="docutils literal notranslate"><span class="pre">'1'</span></code> is <code class="docutils literal notranslate"><span class="pre">100000</span> <span class="pre">µs</span></code>; but <code class="docutils literal notranslate"><span class="pre">'000001'</span></code> is
-<code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">µs</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">'%s'</span></code> for microseconds can only be used for strings that are the
+fractional part of a second. The string <code class="docutils literal notranslate"><span class="pre">'1'</span></code> is <code class="docutils literal notranslate"><span class="pre">100000</span> <span class="pre">µs</span></code>;
+but <code class="docutils literal notranslate"><span class="pre">'000001'</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">µs</span></code>.</p>
 </div>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_timedelta</span><span class="p">(</span><span class="s1">&#39;03:21.001&#39;</span><span class="p">,</span> <span class="s1">&#39;%M:%02S.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="go">datetime.timedelta(seconds=201, microseconds=1000)</span>

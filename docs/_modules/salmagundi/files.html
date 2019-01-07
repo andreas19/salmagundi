@@ -210,6 +210,7 @@
 
 <span class="sd">    ====================  ===</span>
 <span class="sd">    ``None``              the current time will be used</span>
+<span class="sd">    ``int`` or ``float``  seconds since the epoch</span>
 <span class="sd">    ``datetime``          from module :mod:`datetime`</span>
 <span class="sd">    ``struct_time``       from module :mod:`time`</span>
 <span class="sd">    ``path-like object``  path to a file which timestamps should be used</span>
@@ -236,6 +237,8 @@
     <span class="n">file_mtime</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">getmtime</span><span class="p">(</span><span class="n">filepath</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">new_time</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">atime_s</span> <span class="o">=</span> <span class="n">mtime_s</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
+    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">atime_s</span> <span class="o">=</span> <span class="n">mtime_s</span> <span class="o">=</span> <span class="n">new_time</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="n">datetime</span><span class="o">.</span><span class="n">datetime</span><span class="p">):</span>
         <span class="n">atime_s</span> <span class="o">=</span> <span class="n">mtime_s</span> <span class="o">=</span> <span class="n">new_time</span><span class="o">.</span><span class="n">timestamp</span><span class="p">()</span>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_time</span><span class="p">,</span> <span class="n">time</span><span class="o">.</span><span class="n">struct_time</span><span class="p">):</span>

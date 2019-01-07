@@ -210,9 +210,10 @@
 <div class="viewcode-block" id="verify_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_password">[docs]</a><span class="k">def</span> <span class="nf">verify_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify the encrypted data.</span>
 
-<span class="sd">    This function verifies the correctness of the password as well as</span>
-<span class="sd">    the authenticity and the integrity of the data that was encrypted</span>
-<span class="sd">    with :func:`encrypt_with_password`. This is also done during decryption.</span>
+<span class="sd">    This function verifies the authenticity and the integrity of the data</span>
+<span class="sd">    with the key derived from the password. This is also done during decryption.</span>
+
+<span class="sd">    The data must have been encrypted with :func:`encrypt_with_password`.</span>
 
 <span class="sd">    :param bytes password: the password</span>
 <span class="sd">    :param bytes data: the encrypted data</span>
@@ -273,9 +274,10 @@
 <div class="viewcode-block" id="verify_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_key">[docs]</a><span class="k">def</span> <span class="nf">verify_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify the encrypted data.</span>
 
-<span class="sd">    This function verifies the correctness of the secret key as well as</span>
-<span class="sd">    the authenticity and the integrity of the data that was encrypted</span>
-<span class="sd">    with :func:`encrypt_with_key`. This is also done during decryption.</span>
+<span class="sd">    This function verifies the authenticity and the integrity of the data</span>
+<span class="sd">    with the given key. This is also done during decryption.</span>
+
+<span class="sd">    The data must have been encrypted with :func:`encrypt_with_key`.</span>
 
 <span class="sd">    :param bytes key: the secret key</span>
 <span class="sd">    :param bytes data: the encrypted data</span>

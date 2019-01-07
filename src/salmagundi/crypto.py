@@ -135,9 +135,10 @@ def decrypt_with_password(password, data):
 def verify_with_password(password, data):
     """Verify the encrypted data.
 
-    This function verifies the correctness of the password as well as
-    the authenticity and the integrity of the data that was encrypted
-    with :func:`encrypt_with_password`. This is also done during decryption.
+    This function verifies the authenticity and the integrity of the data
+    with the key derived from the password. This is also done during decryption.
+
+    The data must have been encrypted with :func:`encrypt_with_password`.
 
     :param bytes password: the password
     :param bytes data: the encrypted data
@@ -198,9 +199,10 @@ def decrypt_with_key(key, data):
 def verify_with_key(key, data):
     """Verify the encrypted data.
 
-    This function verifies the correctness of the secret key as well as
-    the authenticity and the integrity of the data that was encrypted
-    with :func:`encrypt_with_key`. This is also done during decryption.
+    This function verifies the authenticity and the integrity of the data
+    with the given key. This is also done during decryption.
+
+    The data must have been encrypted with :func:`encrypt_with_key`.
 
     :param bytes key: the secret key
     :param bytes data: the encrypted data

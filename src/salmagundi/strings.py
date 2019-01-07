@@ -465,7 +465,7 @@ def format_timedelta(fmt_str, delta):
         delta = timedelta(seconds=delta)
     else:
         check_type(delta, timedelta,
-                   alt_msg='delta must be int, float or datetime.timedelta')
+                   msg='delta must be int, float or datetime.timedelta')
     if delta.total_seconds() < 0:
         raise ValueError('delta < 0')
     fmt, max_unit = _timedelta_format(fmt_str)
@@ -502,9 +502,9 @@ def parse_timedelta(string, fmt_str):
 
     .. note::
        The :ref:`format specifier <ref-timedelta-format-specifiers>`
-       ``'%s'`` for microseconds can only be used for the fractional part
-       of a second. The string ``'1'`` is ``100000 µs``; but ``'000001'`` is
-       ``1 µs``.
+       ``'%s'`` for microseconds can only be used for strings that are the
+       fractional part of a second. The string ``'1'`` is ``100000 µs``;
+       but ``'000001'`` is ``1 µs``.
 
     >>> parse_timedelta('03:21.001', '%M:%02S.%s')
     datetime.timedelta(seconds=201, microseconds=1000)
