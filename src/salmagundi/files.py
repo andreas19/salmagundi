@@ -1,13 +1,11 @@
 """File utilities.
 
-The argument ``file`` in the functions in this module can either be a path-like
-object or an integer file descriptor of a previously opened file. The argument
-``encoding`` should only be used in text mode (``binary=False``) if necessary.
+If a file descriptor is given for the parameter ``file`` it will be closed
+after reading from/writing to the file.
 
-.. seealso::
-   - built-in function :func:`open`
-   - `path-like object <https://docs.python.org/3/glossary.html#term-path-like-object>`_
-"""  # noqa: E501
+For a list of supported encodings see module `codecs
+<https://docs.python.org/3/library/codecs.html#standard-encodings>`_.
+"""
 
 import datetime
 import os
@@ -18,15 +16,15 @@ def read_all(file, binary=False, encoding=None):
     """Read and return the content of the file.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param bool binary: if ``True`` the content will be returned as ``bytes``
                         else as ``str``
-    :param str encoding: name of the encoding
+    :param str encoding: name of the encoding (ignored if ``binary=True``)
     :return: the file content
     :rtype: bytes or str
     :raises OSError: on I/O failure
     """
-    mode = 'rb' if binary else 'rt'
+    mode, encoding = ('rb', None) if binary else ('rt', encoding)
     with open(file, mode=mode, encoding=encoding) as fh:
         return fh.read()
 
@@ -41,7 +39,7 @@ def read_lines(file, predicate=None, encoding=None):
     ``True`` is returned are included in the result.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param predicate: predicate function
     :type predicate: callable(str)
     :param str encoding: name of the encoding
@@ -62,16 +60,16 @@ def write_all(file, content, binary=False, encoding=None):
     """Write the content to a file.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param content: file content
     :type content: bytes or str
     :param bool binary: if ``True`` the content must be ``bytes`` else ``str``
-    :param str encoding: name of the encoding
+    :param str encoding: name of the encoding (ignored if ``binary=True``)
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    mode = 'wb' if binary else 'wt'
+    mode, encoding = ('wb', None) if binary else ('wt', encoding)
     with open(file, mode=mode, encoding=encoding) as fh:
         return fh.write(content)
 
@@ -80,7 +78,7 @@ def write_lines(file, lines, encoding=None):
     """Write the lines to a file.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param list(str) lines: list of strings w/o newline
     :param str encoding: name of the encoding
     :return: number of characters written
@@ -97,16 +95,16 @@ def append_all(file, content, binary=False, encoding=None):
     """Append the content to a file.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param content: file content
     :type content: bytes or str
     :param bool binary: if ``True`` the content must be ``bytes`` else ``str``
-    :param str encoding: name of the encoding
+    :param str encoding: name of the encoding (ignored if ``binary=True``)
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    mode = 'ab' if binary else 'at'
+    mode, encoding = ('ab', None) if binary else ('at', encoding)
     with open(file, mode=mode, encoding=encoding) as fh:
         return fh.write(content)
 
@@ -115,7 +113,7 @@ def append_lines(file, lines, encoding=None):
     """Append the lines to a file.
 
     :param file: path to file or file descriptor
-    :type file: path-like object or int
+    :type file: :term:`path-like object` or int
     :param list(str) lines: list of strings w/o newline
     :param str encoding: name of the encoding
     :return: number of characters written
@@ -142,15 +140,15 @@ def touch(filepath, new_time=None, atime=True, mtime=True, create=True):
     ====================  ===
 
     :param filepath: the file for which the timestamps should be changed
-    :type filepath: path-like object
+    :type filepath: :term:`path-like object`
     :param new_time: the new time (see above for more details)
     :param bool atime: if ``True`` change access time
     :param bool mtime: if ``True`` change modification time
     :param bool create: if ``True`` an empty file will be created if it
                         does not exist
-    :raises FileNotFoundError: if file does not exist and ``create=False`` or
-                               the reference file for ``new_time``
-                               does not exist
+    :raises FileNotFoundError: if ``filepath`` does not exist and
+                               ``create=False`` or the reference
+                               file for ``new_time`` does not exist
     :raises TypeError: if ``new_time`` is of wrong type
 
     .. versionadded:: 0.5.0
@@ -183,9 +181,9 @@ def on_same_dev(file1, file2):
     ``file1, file2`` may also refer to directories.
 
     :param file1: path to file or file descriptor
-    :type file1: path-like object or int
+    :type file1: :term:`path-like object` or int
     :param file2: path to file or file descriptor
-    :type file2: path-like object or int
+    :type file2: :term:`path-like object` or int
     :return: ``True`` if both files are on the same device/partition
     :rtype: bool
     """
@@ -227,9 +225,9 @@ def copyfile(src, dst, callback, cancel_evt):
 
 
     :param src: source filepath
-    :type src: path-like object
+    :type src: :term:`path-like object`
     :param dst: destination filepath (not a directory)
-    :type dst: path-like object
+    :type dst: :term:`path-like object`
     :param callback: callback function
     :param threading.Event cancel_evt: if set the process will be cancelled
     :raises OSError: if the file could not be copied
