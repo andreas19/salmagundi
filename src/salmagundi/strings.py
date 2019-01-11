@@ -117,24 +117,39 @@ def split_host_port(s, port=None):
         return a[0], str2port(a[1])
 
 
-def insert_separator(s, sep, group_size):
+def insert_separator(s, sep, group_size, reverse=False):
     """Insert separators in a string.
 
     >>> insert_separator('008041aefd7e', ':', 2)
     00:80:41:ae:fd:7e
+    >>> insert_separator('aaabbbcccd', ':', 3)
+    'aaa:bbb:ccc:d'
+    >>> insert_separator('aaabbbcccd', ':', 3, True)
+    'a:aab:bbc:ccd'
 
     :param str s: the string
     :param str sep: the separator character(s)
     :param int group_size: the number of characters between separators
+    :param bool reverse: if ``True`` group from right to left instead from
+                         left to right
     :return: string with separators
     :rtype: str
     :raises ValueError: if ``group_size < 1``
 
     .. versionadded:: 0.5.0
+    .. versionchanged:: 0.6.0
+       Add parameter ``reverse``
     """
     if group_size < 1:
         raise ValueError('group_size must be >= 1')
-    return sep.join([s[i:i + group_size] for i in range(0, len(s), group_size)])
+    if reverse:
+        start = len(s) % group_size
+        pre = s[:start] + sep
+    else:
+        start = 0
+        pre = ''
+    return pre + sep.join([s[i:i + group_size]
+                          for i in range(start, len(s), group_size)])
 
 
 def purge(s, chars=None, negate=False):

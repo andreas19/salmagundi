@@ -29,6 +29,9 @@ def read_all(file, binary=False, encoding=None, errors=None):
     :return: the file content
     :rtype: bytes or str
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     mode, encoding, errors = (('rb', None, None) if binary
                               else ('rt', encoding, errors))
@@ -54,6 +57,9 @@ def read_lines(file, predicate=None, encoding=None, errors=None):
     :return: list of lines
     :rtype: list(str)
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     result = []
     with open(file, encoding=encoding, errors=errors) as fh:
@@ -77,6 +83,9 @@ def write_all(file, content, binary=False, encoding=None, errors=None):
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     mode, encoding, errors = (('wb', None, None) if binary
                               else ('wt', encoding, errors))
@@ -95,6 +104,9 @@ def write_lines(file, lines, encoding=None, errors=None):
     :return: number of characters written
     :rtype: int
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     with open(file, 'w', encoding=encoding, errors=errors) as fh:
         cnt = fh.write('\n'.join(lines))
@@ -115,6 +127,9 @@ def append_all(file, content, binary=False, encoding=None, errors=None):
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     mode, encoding, errors = (('ab', None, None) if binary
                               else ('at', encoding, errors))
@@ -133,6 +148,9 @@ def append_lines(file, lines, encoding=None, errors=None):
     :return: number of characters written
     :rtype: int
     :raises OSError: on I/O failure
+
+    .. versionchanged:: 0.6.0
+       Add parameter ``errors``
     """
     with open(file, 'a', encoding=encoding, errors=errors) as fh:
         cnt = fh.write('\n'.join(lines))

@@ -212,6 +212,8 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False,
     :raises TypeError: if ``titles`` is not a tuple
 
     .. versionadded:: 0.4.0
+    .. versionchanged:: 0.6.0
+       Add parameter ``caption``
     """
     check_type(titles, tuple, 'titles')
     rows = math.ceil(len(titles) / cols)
