@@ -27,6 +27,9 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     and returns the (converted) input value or raises
     :class:`ValueError` if the input is not allowed.
 
+    There are 3 predefined check functions in this module:
+    :func:`check_str`, :func:`check_int` and :func:`check_float`.
+
     >>> read('Number: ', default='42')
     Number: 21
     '21'
@@ -157,7 +160,8 @@ def select(prompt, options, default=None, case_sensitive=False,
     return read(prompt, default=default, check=f, exc_on_cancel=exc_on_cancel)
 
 
-def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
+def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False,
+         caption=None):
     """Show a simple menu.
 
     If the input is not allowed the prompt will be shown again. The
@@ -200,6 +204,7 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
     :param bool col_by_col: if ``True`` the menu will be filled
                             column-by-column, otherwise row-by-row
     :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param str caption: caption for the menu
     :return: index of the selected option in ``titles`` or None if cancelled
              and ``exc_on_cancel=False``
     :rtype: int or None
@@ -228,6 +233,12 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
     if row:
         lines.append('   '.join(row))
         lines.append('\n')
+    if caption:
+        width = max(len(caption), max(map(len, lines)))
+        text = caption.center(width) + '\n' + '-' * width + '\n'
+    else:
+        text = ''
+    text += ''.join(lines) + prompt
 
     def f(s):
         i = int(s)
@@ -235,4 +246,75 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False):
             return i - 1
         raise ValueError
 
-    return read(''.join(lines) + prompt, check=f, exc_on_cancel=exc_on_cancel)
+    return read(text, check=f, exc_on_cancel=exc_on_cancel)
+
+
+def check_str(min_len=0, max_len=None, chars=None, negate=False):
+    """Return a check function for strings.
+
+    The returned function can be used as the ``check`` argument in the
+    :func:`read` function.
+
+    :param int min_len: minimal length of the string
+    :param int max_len: maximal length of the string (``None`` means no limit)
+    :param str chars: allowed characters
+    :param bool negate: if ``True`` only characters not in ``chars``
+                        are allowed
+
+    .. versionadded:: 0.6.0
+    """
+    def f(s):
+        nonlocal min_len
+        if min_len < 0:
+            min_len = 0
+        if max_len is None:
+            len_ok = min_len <= len(s)
+        else:
+            len_ok = min_len <= len(s) <= max_len
+        if len_ok:
+            if chars:
+                x = (c in chars for c in s)
+                if negate and not any(x) or all(x):
+                    return s
+            else:
+                return s
+        raise ValueError
+    return f
+
+
+def check_int(predicate):
+    """Return a check function for integers.
+
+    The returned function can be used as the ``check`` argument in the
+    :func:`read` function.
+
+    :param predicate: predicate function
+    :type predicate: callable(int)
+
+    .. versionadded:: 0.6.0
+    """
+    def f(s):
+        i = int(s)
+        if predicate(i):
+            return i
+        raise ValueError
+    return f
+
+
+def check_float(predicate):
+    """Return a check function for floats.
+
+    The returned function can be used as the ``check`` argument in the
+    :func:`read` function.
+
+    :param predicate: predicate function
+    :type predicate: callable(float)
+
+    .. versionadded:: 0.6.0
+    """
+    def f(s):
+        i = float(s)
+        if predicate(i):
+            return i
+        raise ValueError
+    return f
