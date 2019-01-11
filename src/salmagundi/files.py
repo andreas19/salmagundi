@@ -3,8 +3,13 @@
 If a file descriptor is given for the parameter ``file`` it will be closed
 after reading from/writing to the file.
 
-For a list of supported encodings see module `codecs
+For a list of supported encodings see `Standard Encodings in module codec
 <https://docs.python.org/3/library/codecs.html#standard-encodings>`_.
+The default encoding is platform dependant.
+
+For a list of error handlers see `Error Handlers in module codec
+<https://docs.python.org/3/library/codecs.html#error-handlers>`_.
+The default error handler is ``'strict'``.
 """
 
 import datetime
@@ -12,7 +17,7 @@ import os
 import time
 
 
-def read_all(file, binary=False, encoding=None):
+def read_all(file, binary=False, encoding=None, errors=None):
     """Read and return the content of the file.
 
     :param file: path to file or file descriptor
@@ -20,16 +25,18 @@ def read_all(file, binary=False, encoding=None):
     :param bool binary: if ``True`` the content will be returned as ``bytes``
                         else as ``str``
     :param str encoding: name of the encoding (ignored if ``binary=True``)
+    :param str errors: error handler (ignored if ``binary=True``)
     :return: the file content
     :rtype: bytes or str
     :raises OSError: on I/O failure
     """
-    mode, encoding = ('rb', None) if binary else ('rt', encoding)
-    with open(file, mode=mode, encoding=encoding) as fh:
+    mode, encoding, errors = (('rb', None, None) if binary
+                              else ('rt', encoding, errors))
+    with open(file, mode=mode, encoding=encoding, errors=errors) as fh:
         return fh.read()
 
 
-def read_lines(file, predicate=None, encoding=None):
+def read_lines(file, predicate=None, encoding=None, errors=None):
     """Read and return the content of the file as a list of lines.
 
     Line breaks are not included in the resulting list.
@@ -43,12 +50,13 @@ def read_lines(file, predicate=None, encoding=None):
     :param predicate: predicate function
     :type predicate: callable(str)
     :param str encoding: name of the encoding
+    :param str errors: error handler
     :return: list of lines
     :rtype: list(str)
     :raises OSError: on I/O failure
     """
     result = []
-    with open(file, encoding=encoding) as fh:
+    with open(file, encoding=encoding, errors=errors) as fh:
         for line in fh:
             line = line.strip()
             if not predicate or predicate(line):
@@ -56,7 +64,7 @@ def read_lines(file, predicate=None, encoding=None):
     return result
 
 
-def write_all(file, content, binary=False, encoding=None):
+def write_all(file, content, binary=False, encoding=None, errors=None):
     """Write the content to a file.
 
     :param file: path to file or file descriptor
@@ -65,33 +73,36 @@ def write_all(file, content, binary=False, encoding=None):
     :type content: bytes or str
     :param bool binary: if ``True`` the content must be ``bytes`` else ``str``
     :param str encoding: name of the encoding (ignored if ``binary=True``)
+    :param str errors: error handler (ignored if ``binary=True``)
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    mode, encoding = ('wb', None) if binary else ('wt', encoding)
-    with open(file, mode=mode, encoding=encoding) as fh:
+    mode, encoding, errors = (('wb', None, None) if binary
+                              else ('wt', encoding, errors))
+    with open(file, mode=mode, encoding=encoding, errors=errors) as fh:
         return fh.write(content)
 
 
-def write_lines(file, lines, encoding=None):
+def write_lines(file, lines, encoding=None, errors=None):
     """Write the lines to a file.
 
     :param file: path to file or file descriptor
     :type file: :term:`path-like object` or int
     :param list(str) lines: list of strings w/o newline
     :param str encoding: name of the encoding
+    :param str errors: error handler
     :return: number of characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    with open(file, 'w', encoding=encoding) as fh:
+    with open(file, 'w', encoding=encoding, errors=errors) as fh:
         cnt = fh.write('\n'.join(lines))
         cnt += fh.write('\n')
         return cnt
 
 
-def append_all(file, content, binary=False, encoding=None):
+def append_all(file, content, binary=False, encoding=None, errors=None):
     """Append the content to a file.
 
     :param file: path to file or file descriptor
@@ -100,27 +111,30 @@ def append_all(file, content, binary=False, encoding=None):
     :type content: bytes or str
     :param bool binary: if ``True`` the content must be ``bytes`` else ``str``
     :param str encoding: name of the encoding (ignored if ``binary=True``)
+    :param str errors: error handler (ignored if ``binary=True``)
     :return: number of bytes or characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    mode, encoding = ('ab', None) if binary else ('at', encoding)
-    with open(file, mode=mode, encoding=encoding) as fh:
+    mode, encoding, errors = (('ab', None, None) if binary
+                              else ('at', encoding, errors))
+    with open(file, mode=mode, encoding=encoding, errors=errors) as fh:
         return fh.write(content)
 
 
-def append_lines(file, lines, encoding=None):
+def append_lines(file, lines, encoding=None, errors=None):
     """Append the lines to a file.
 
     :param file: path to file or file descriptor
     :type file: :term:`path-like object` or int
     :param list(str) lines: list of strings w/o newline
     :param str encoding: name of the encoding
+    :param str errors: error handler
     :return: number of characters written
     :rtype: int
     :raises OSError: on I/O failure
     """
-    with open(file, 'a', encoding=encoding) as fh:
+    with open(file, 'a', encoding=encoding, errors=errors) as fh:
         cnt = fh.write('\n'.join(lines))
         cnt += fh.write('\n')
         return cnt
