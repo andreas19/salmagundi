@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-01-14 (0.6.0)**
  - Add check_*() functions to module inputs
  - Add parameter caption to function menu() in module inputs
  - Add parameter errors to \*_all() and \*_lines() functions in module files
