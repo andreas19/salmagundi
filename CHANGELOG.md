@@ -1,6 +1,11 @@
 History
 -------
 
+ - Add check_*() functions to module inputs
+ - Add parameter caption to function menu() in module inputs
+ - Add parameter errors to \*_all() and \*_lines() functions in module files
+ - Add parameter reverse to function insert_separator() in module strings
+
 **2019-01-07 (0.5.0)**
  - Replace create() with touch() in module files
  - Add functions to module files

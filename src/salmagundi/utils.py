@@ -41,7 +41,7 @@ def check_type(obj, classinfo, name='object', msg=None):
 
 
 def check_path_like(obj, name='object', msg=None):
-    """Check if an object is path-like.
+    """Check if an object is a :term:`path-like object`.
 
     :param object obj: the object
     :param str name: name shown in the exception message
@@ -55,7 +55,7 @@ def check_path_like(obj, name='object', msg=None):
 
 
 def check_bytes_like(obj, name='object', msg=None):
-    """Check if an object is bytes-like.
+    """Check if an object is a :term:`bytes-like object`.
 
     :param object obj: the object
     :param str name: name shown in the exception message
