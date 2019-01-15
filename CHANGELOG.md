@@ -1,6 +1,9 @@
 History
 -------
 
+ - Bugfix: \*_prefix() functions in module strings now handle negative
+   number correctly
+
 **2019-01-14 (0.6.0)**
  - Add check_*() functions to module inputs
  - Add parameter caption to function menu() in module inputs
