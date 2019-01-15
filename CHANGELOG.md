@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-01-15 (0.6.1)**
  - Bugfix: \*_prefix() functions in module strings now handle negative
    number correctly
 
