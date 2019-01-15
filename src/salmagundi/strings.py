@@ -284,6 +284,7 @@ def bin_prefix(value):
     check_type(value, int, 'value')
     if value == 0:
         return NO_PREFIX
+    value = abs(value)
     for p in BINARY_PREFIXES:
         if value / p.factor >= 1.0:
             return p
@@ -336,11 +337,12 @@ def dec_prefix(value, restricted=True):
                             i.e. *hecto, deca, deci, centi* are skipped
     :return: decimal prefix
     :rtype: Prefix
-    :raises TypeError: if value is of a wrong type
+    :raises TypeError: if value is not of a type int or float
     """
     check_type(value, (int, float), 'value')
     if value == 0:
         return NO_PREFIX
+    value = abs(value)
     for p in DECIMAL_PREFIXES:
         if restricted and p.name in ('hecto', 'deca', 'deci', 'centi'):
             continue
@@ -384,7 +386,7 @@ def format_dec_prefix(num_frmt, value, prefix=None, restricted=True):
     :return: the result of ``value / prefix.factor`` formatted according to
              ``num_frmt`` with a space character and ``prefix.symbol`` appended
     :rtype: str
-    :raises TypeError: if value is of a wrong type
+    :raises TypeError: if value is not of a type int or float
     """
     if prefix:
         check_type(value, (int, float), 'value')
