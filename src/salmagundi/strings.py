@@ -67,7 +67,6 @@ def str2tuple(s, sep=',', converter=None):
     :rtype: tuple
     """
     if s:
-        sep = sep.strip()
         f = converter or str
         return tuple(f(x.strip()) for x in s.split(sep))
     return ()
@@ -337,7 +336,7 @@ def dec_prefix(value, restricted=True):
                             i.e. *hecto, deca, deci, centi* are skipped
     :return: decimal prefix
     :rtype: Prefix
-    :raises TypeError: if value is not of a type int or float
+    :raises TypeError: if value is not of type int or float
     """
     check_type(value, (int, float), 'value')
     if value == 0:
@@ -386,7 +385,7 @@ def format_dec_prefix(num_frmt, value, prefix=None, restricted=True):
     :return: the result of ``value / prefix.factor`` formatted according to
              ``num_frmt`` with a space character and ``prefix.symbol`` appended
     :rtype: str
-    :raises TypeError: if value is not of a type int or float
+    :raises TypeError: if value is not of type int or float
     """
     if prefix:
         check_type(value, (int, float), 'value')
@@ -574,3 +573,33 @@ def is_hexdigit(s):
     .. versionadded:: 0.5.0
     """
     return bool(s) and all(x in string.hexdigits for x in s)
+
+
+_DIGITS = tuple(map(str, range(10))) + tuple(string.ascii_lowercase)
+
+
+def int2str(n, base):
+    """Convert an integer to a string.
+
+    For ``base > 10`` lower case letters are used for digits.
+
+    See also the built-in functions :func:`bin`, :func:`oct`, :func:`hex`.
+
+    :param int n: the integer
+    :param int base: the base (``2 <= base <= 36``)
+    :return: converted integer
+    :rtype: str
+    :raises TypeError: if ``n`` or ``base`` are not integers
+    :raises ValueError: if ``base`` is outside the allowed range
+    """
+    check_type(n, int, 'n')
+    check_type(base, int, 'base')
+    if base < 2 or base > 36:
+        raise ValueError('base must be >= 2 and <= 36')
+    s = ''
+    if not n:
+        return '0'
+    while n > 0:
+        n, r = divmod(n, base)
+        s = _DIGITS[r] + s
+    return s
