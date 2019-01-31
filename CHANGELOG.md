@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-01-31 (0.7.0)**
  - Add module config
  - Add function int2str to module strings
  - Bugfix: strings.str2tuple() can now use whitespace as separator
