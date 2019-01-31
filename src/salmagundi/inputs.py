@@ -1,9 +1,9 @@
 """Functions for terminal input.
 
+.. versionadded:: 0.3.0
+
 The terminal must support `ANSI escape sequences
 <https://en.wikipedia.org/wiki/ANSI_escape_code>`_.
-
-.. versionadded:: 0.3.0
 """
 
 import math

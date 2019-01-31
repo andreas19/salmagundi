@@ -142,7 +142,6 @@
 <span class="sd">    :rtype: tuple</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
-        <span class="n">sep</span> <span class="o">=</span> <span class="n">sep</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">converter</span> <span class="ow">or</span> <span class="nb">str</span>
         <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">()</span></div>
@@ -412,7 +411,7 @@
 <span class="sd">                            i.e. *hecto, deca, deci, centi* are skipped</span>
 <span class="sd">    :return: decimal prefix</span>
 <span class="sd">    :rtype: Prefix</span>
-<span class="sd">    :raises TypeError: if value is not of a type int or float</span>
+<span class="sd">    :raises TypeError: if value is not of type int or float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -461,7 +460,7 @@
 <span class="sd">    :return: the result of ``value / prefix.factor`` formatted according to</span>
 <span class="sd">             ``num_frmt`` with a space character and ``prefix.symbol`` appended</span>
 <span class="sd">    :rtype: str</span>
-<span class="sd">    :raises TypeError: if value is not of a type int or float</span>
+<span class="sd">    :raises TypeError: if value is not of type int or float</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
         <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
@@ -649,6 +648,36 @@
 <span class="sd">    .. versionadded:: 0.5.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="n">_DIGITS</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="int2str"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.int2str">[docs]</a><span class="k">def</span> <span class="nf">int2str</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert an integer to a string.</span>
+
+<span class="sd">    For ``base &gt; 10`` lower case letters are used for digits.</span>
+
+<span class="sd">    See also the built-in functions :func:`bin`, :func:`oct`, :func:`hex`.</span>
+
+<span class="sd">    :param int n: the integer</span>
+<span class="sd">    :param int base: the base (``2 &lt;= base &lt;= 36``)</span>
+<span class="sd">    :return: converted integer</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises TypeError: if ``n`` or ``base`` are not integers</span>
+<span class="sd">    :raises ValueError: if ``base`` is outside the allowed range</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;base must be &gt;= 2 and &lt;= 36&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;0&#39;</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">_DIGITS</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">s</span></div>
 </pre></div>
 
           </div>

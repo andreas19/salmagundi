@@ -76,6 +76,13 @@
 <span></span><span class="sd">&quot;&quot;&quot;Cryptography module.</span>
 
 <span class="sd">.. versionadded:: 0.5.0</span>
+
+<span class="sd">This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS7``</span>
+<span class="sd">padding for encryption. The authentication is done with ``HMAC`` using</span>
+<span class="sd">``SHA256``. To derive a key from a password ``PBKDF2HMAC`` is used with</span>
+<span class="sd">``SHA256``, a 128-bit key, a salt of equal size and 100.000 iterations.</span>
+<span class="sd">The ``IV`` for ``CBC``, the keys, and the  the salt are created</span>
+<span class="sd">cryptographically secure with :func:`os.urandom`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
@@ -152,7 +159,6 @@
 <div class="viewcode-block" id="create_secret_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.create_secret_key">[docs]</a><span class="k">def</span> <span class="nf">create_secret_key</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;Create a secret key.</span>
 
-<span class="sd">    The key is created cryptographically secure by :func:`os.urandom`.</span>
 <span class="sd">    It can be used with the ``*_with_key()`` functions:</span>
 
 <span class="sd">    - :func:`encrypt_with_key`</span>

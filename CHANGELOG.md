@@ -1,9 +1,13 @@
 History
 -------
 
+ - Add module config
+ - Add function int2str to module strings
+ - Bugfix: strings.str2tuple() can now use whitespace as separator
+
 **2019-01-15 (0.6.1)**
  - Bugfix: \*_prefix() functions in module strings now handle negative
-   number correctly
+   numbers correctly
 
 **2019-01-14 (0.6.0)**
  - Add check_*() functions to module inputs
