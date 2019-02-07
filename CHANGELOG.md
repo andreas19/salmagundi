@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-02-07 (0.7.1)**
  - Add 2 tags in module config
 
 **2019-01-31 (0.7.0)**
