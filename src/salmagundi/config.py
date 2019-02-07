@@ -2,6 +2,9 @@
 
 .. versionadded:: 0.7.0
 
+.. versionchanged:: 0.7.1
+   Add tags ``:empty:`` and ``:none:`` to specification
+
 .. _ref-spec:
 
 This module uses a specification when reading a configuration file with a
@@ -27,6 +30,8 @@ specification for each option can be modified in a special section
    readonly: yes
    separator: ;
    novalue: :novalue:
+   empty: :empty:
+   none: :none:
    req_tag: :req:
    ro_tag: :ro:
    rw_tag: :rw:
@@ -49,6 +54,11 @@ argument.
 The default value ``dflt`` and the required tag ``:req:`` are mutually
 exclusive. If an option is not found in the configuration and there is no
 default value for it, the option will be set to the value :data:`NOTFOUND`.
+An empty string as a default value can be specified by omitting the value
+or with the ``:empty:`` tag to make it more obvious: ``opt: str; :empty:``
+means the same as ``opt: str;`` (because of the semicolon after the
+converter *str*). For ``None`` as a default value the ``:none:`` tag must
+be used.
 
 With the readwrite tag ``:rw:`` and the readonly tag ``:rw:`` exceptions
 to the global access mode (see above) can be set for each option.
@@ -244,6 +254,8 @@ def _spec(spec, create_properties, convs):
     readonly = cp.getboolean(_NAME, 'readonly', fallback=True)
     separator = cp.get(_NAME, 'separator', fallback=';')
     noval_tag = cp.get(_NAME, 'novalue', fallback=':novalue:')
+    empty_tag = cp.get(_NAME, 'empty', fallback=':empty:')
+    none_tag = cp.get(_NAME, 'none', fallback=':none:')
     req_tag = cp.get(_NAME, 'req_tag', fallback=':req:')
     ro_tag = cp.get(_NAME, 'ro_tag', fallback=':ro:')
     rw_tag = cp.get(_NAME, 'rw_tag', fallback=':rw:')
@@ -279,12 +291,17 @@ def _spec(spec, create_properties, convs):
                                         'a default value and a %r tag '
                                         '(only one allowed)' %
                                         (opt, sec, req_tag))
+                    if s == empty_tag:
+                        s = ''
                     try:
                         if converter is None:
                             raise SpecError('no default value allowed for '
                                             '%r for option %r in section %r' %
                                             (t[0], opt, sec))
-                        default = converter(s)
+                        if s == none_tag:
+                            default = None
+                        else:
+                            default = converter(s)
                     except Exception as ex:
                         raise SpecError('error converting default value %r '
                                         'for option %r in section %r with '

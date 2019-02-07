@@ -91,6 +91,9 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.7.0.</span></p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.7.1: </span>Add tags <code class="docutils literal notranslate"><span class="pre">:empty:</span></code> and <code class="docutils literal notranslate"><span class="pre">:none:</span></code> to specification</p>
+</div>
 <p id="ref-spec">This module uses a specification when reading a configuration file with a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code> (see module <a class="reference external" href="https://docs.python.org/3/library/configparser.html#module-configparser" title="(in Python v3.7)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code></a> for more information).
 Option values will be converted with the specified converter function, it will
@@ -111,6 +114,8 @@ specification for each option can be modified in a special section
 <span class="n">readonly</span><span class="p">:</span> <span class="n">yes</span>
 <span class="n">separator</span><span class="p">:</span> <span class="p">;</span>
 <span class="n">novalue</span><span class="p">:</span> <span class="p">:</span><span class="n">novalue</span><span class="p">:</span>
+<span class="n">empty</span><span class="p">:</span> <span class="p">:</span><span class="n">empty</span><span class="p">:</span>
+<span class="n">none</span><span class="p">:</span> <span class="p">:</span><span class="n">none</span><span class="p">:</span>
 <span class="n">req_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">req</span><span class="p">:</span>
 <span class="n">ro_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">ro</span><span class="p">:</span>
 <span class="n">rw_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">rw</span><span class="p">:</span>
@@ -132,7 +137,12 @@ This dictionary must be passed to <a class="reference internal" href="#salmagund
 argument.</p>
 <p>The default value <code class="docutils literal notranslate"><span class="pre">dflt</span></code> and the required tag <code class="docutils literal notranslate"><span class="pre">:req:</span></code> are mutually
 exclusive. If an option is not found in the configuration and there is no
-default value for it, the option will be set to the value <a class="reference internal" href="#salmagundi.config.NOTFOUND" title="salmagundi.config.NOTFOUND"><code class="xref py py-data docutils literal notranslate"><span class="pre">NOTFOUND</span></code></a>.</p>
+default value for it, the option will be set to the value <a class="reference internal" href="#salmagundi.config.NOTFOUND" title="salmagundi.config.NOTFOUND"><code class="xref py py-data docutils literal notranslate"><span class="pre">NOTFOUND</span></code></a>.
+An empty string as a default value can be specified by omitting the value
+or with the <code class="docutils literal notranslate"><span class="pre">:empty:</span></code> tag to make it more obvious: <code class="docutils literal notranslate"><span class="pre">opt:</span> <span class="pre">str;</span> <span class="pre">:empty:</span></code>
+means the same as <code class="docutils literal notranslate"><span class="pre">opt:</span> <span class="pre">str;</span></code> (because of the semicolon after the
+converter <em>str</em>). For <code class="docutils literal notranslate"><span class="pre">None</span></code> as a default value the <code class="docutils literal notranslate"><span class="pre">:none:</span></code> tag must
+be used.</p>
 <p>With the readwrite tag <code class="docutils literal notranslate"><span class="pre">:rw:</span></code> and the readonly tag <code class="docutils literal notranslate"><span class="pre">:rw:</span></code> exceptions
 to the global access mode (see above) can be set for each option.</p>
 <p>The raw tag <code class="docutils literal notranslate"><span class="pre">:raw:</span></code> indicates that for the option value no interpolation
