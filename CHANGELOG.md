@@ -1,6 +1,8 @@
 History
 -------
 
+ - Add 2 tags in module config
+
 **2019-01-31 (0.7.0)**
  - Add module config
  - Add function int2str to module strings
