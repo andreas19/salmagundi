@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-04-15 (0.7.2)**
  - Bugfix: problem with inputs.menu() when cursor is in the last row
    of the terminal
 
