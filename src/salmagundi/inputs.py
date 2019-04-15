@@ -51,10 +51,14 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     """
     default is not None and check_type(default, str, 'default')
     value = None
+    lines = prompt.split('\n')
+    line = lines[-1]
+    if len(lines) > 1:
+        print('\n'.join(lines[:-1]))
     _cs_print('\n', CS.CUU, CS.SCP)
     while True:
         try:
-            a = input(prompt) or default
+            a = input(line) or default
         except EOFError:
             print()
             if exc_on_cancel:

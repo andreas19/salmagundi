@@ -1,6 +1,9 @@
 History
 -------
 
+ - Fix problem with inputs.menu() when cursor is in the last row
+   of the terminal
+
 **2019-02-07 (0.7.1)**
  - Add 2 tags in module config
 
