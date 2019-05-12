@@ -60,7 +60,7 @@ means the same as ``opt: str;`` (because of the semicolon after the
 converter *str*). For ``None`` as a default value the ``:none:`` tag must
 be used.
 
-With the readwrite tag ``:rw:`` and the readonly tag ``:rw:`` exceptions
+With the readwrite tag ``:rw:`` and the readonly tag ``:ro:`` exceptions
 to the global access mode (see above) can be set for each option.
 
 The raw tag ``:raw:`` indicates that for the option value no interpolation

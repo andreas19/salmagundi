@@ -164,7 +164,7 @@ _COLOR_NAMES = {
 
 
 def color_names():
-    """Return an iterator over all color names."""
+    """Return an iterator over all HTML/CSS color names."""
     return iter(_COLOR_NAMES.keys())
 
 

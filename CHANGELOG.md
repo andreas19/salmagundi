@@ -1,6 +1,9 @@
 History
 -------
 
+ - Minor improvements/corrections of the documentation
+ - Upgrade dependency: cryptography 2.4.2 -> 2.6.1
+
 **2019-04-15 (0.7.2)**
  - Bugfix: problem with inputs.menu() when cursor is in the last row
    of the terminal
