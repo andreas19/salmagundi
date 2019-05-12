@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-05-12 (0.7.3)**
  - Minor improvements/corrections of the documentation
  - Upgrade dependency: cryptography 2.4.2 -> 2.6.1
 
