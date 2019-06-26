@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>salmagundi.crypto &#8212; salmagundi 0.7.3 documentation</title>
+    <title>salmagundi.crypto &#8212; Salmagundi 0.7.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -27,7 +27,7 @@
     
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="../../index.html">salmagundi</a></h1>
+<h1 class="logo"><a href="../../index.html">Salmagundi</a></h1>
 
 
 
@@ -77,15 +77,16 @@
 
 <span class="sd">.. versionadded:: 0.5.0</span>
 
-<span class="sd">This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS7``</span>
+<span class="sd">This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS#7``</span>
 <span class="sd">padding for encryption. The authentication is done with ``HMAC`` using</span>
 <span class="sd">``SHA256``. To derive a key from a password ``PBKDF2HMAC`` is used with</span>
-<span class="sd">``SHA256``, a 128-bit key, a salt of equal size and 100.000 iterations.</span>
+<span class="sd">``SHA256``, a 128-bit key, a salt of equal size and 100,000 iterations.</span>
 <span class="sd">The ``IV`` for ``CBC``, the keys, and the  the salt are created</span>
 <span class="sd">cryptographically secure with :func:`os.urandom`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">enum</span> <span class="k">import</span> <span class="n">Enum</span>
 
 <span class="kn">from</span> <span class="nn">cryptography.hazmat.backends</span> <span class="k">import</span> <span class="n">default_backend</span>
 <span class="kn">from</span> <span class="nn">cryptography.exceptions</span> <span class="k">import</span> <span class="n">InvalidSignature</span>
@@ -99,56 +100,74 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_type</span>
 
-<span class="n">_SALT_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">_KEY_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
-<span class="n">_IV_SIZE</span> <span class="o">=</span> <span class="mi">16</span>
-<span class="n">_MAC_SIZE</span> <span class="o">=</span> <span class="mi">32</span>
+<span class="n">_MAC_HASH</span> <span class="o">=</span> <span class="n">_KDF_HASH</span> <span class="o">=</span> <span class="n">SHA256</span><span class="p">()</span>
+<span class="n">_IV_LEN</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span> <span class="o">//</span> <span class="mi">8</span>  <span class="c1"># 16 bytes</span>
+<span class="n">_MAC_LEN</span> <span class="o">=</span> <span class="n">_MAC_HASH</span><span class="o">.</span><span class="n">digest_size</span>  <span class="c1"># 32 bytes</span>
+<span class="n">_SALT_LEN</span> <span class="o">=</span> <span class="mi">16</span>  <span class="c1"># bytes</span>
 <span class="n">_ITERATIONS</span> <span class="o">=</span> <span class="mi">100000</span>
-<span class="n">_VERSION_1</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x8a</span><span class="s1">&#39;</span>
+<span class="n">_VERSION_LEN</span> <span class="o">=</span> <span class="mi">1</span>  <span class="c1"># byte</span>
+
+<span class="n">_backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
+
+
+<div class="viewcode-block" id="Version"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.Version">[docs]</a><span class="k">class</span> <span class="nc">Version</span><span class="p">(</span><span class="n">Enum</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Version enum.</span>
+
+<span class="sd">    .. versionadded:: 0.8.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">V1</span> <span class="o">=</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x8a</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="mi">16</span><span class="p">)</span>        <span class="c1">#: version 1</span>
+    <span class="n">V2</span> <span class="o">=</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x8b</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">16</span><span class="p">,</span> <span class="n">_MAC_LEN</span><span class="p">)</span>  <span class="c1">#: version 2</span>
+    <span class="n">V3</span> <span class="o">=</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x8c</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">24</span><span class="p">,</span> <span class="n">_MAC_LEN</span><span class="p">)</span>  <span class="c1">#: version 3</span>
+    <span class="n">V4</span> <span class="o">=</span> <span class="p">(</span><span class="sa">b</span><span class="s1">&#39;</span><span class="se">\x8d</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mi">32</span><span class="p">,</span> <span class="n">_MAC_LEN</span><span class="p">)</span>  <span class="c1">#: version 4</span>
+
+    <span class="k">def</span> <span class="nf">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">version_byte</span><span class="p">,</span> <span class="n">enc_key_len</span><span class="p">,</span> <span class="n">mac_key_len</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Create new Version.&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__new__</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_value_</span> <span class="o">=</span> <span class="n">version_byte</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_enc_key_len</span> <span class="o">=</span> <span class="n">enc_key_len</span>  <span class="c1"># bytes</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">_mac_key_len</span> <span class="o">=</span> <span class="n">mac_key_len</span>  <span class="c1"># bytes</span>
+        <span class="k">return</span> <span class="n">obj</span>
+
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s1">&#39;&lt;</span><span class="si">%s</span><span class="s1">.</span><span class="si">%s</span><span class="s1">&gt;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="DecryptError"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.DecryptError">[docs]</a><span class="k">class</span> <span class="nc">DecryptError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised if data could not be decrypted.&quot;&quot;&quot;</span></div>
 
 
-<span class="k">def</span> <span class="nf">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span><span class="n">SHA256</span><span class="p">(),</span> <span class="n">length</span><span class="o">=</span><span class="n">_KEY_SIZE</span><span class="p">,</span>
-                     <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">_ITERATIONS</span><span class="p">,</span>
-                     <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">derive</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">key</span><span class="p">[:</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
-
-
-<span class="k">def</span> <span class="nf">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">sig_key</span><span class="p">,</span> <span class="n">SHA256</span><span class="p">(),</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="n">_MAC_SIZE</span><span class="p">])</span>
+<span class="k">def</span> <span class="nf">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">):</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">mac_key</span><span class="p">,</span> <span class="n">_MAC_HASH</span><span class="p">,</span> <span class="n">_backend</span><span class="p">)</span>
+    <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="o">-</span><span class="n">_MAC_LEN</span><span class="p">])</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">h</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="n">_MAC_SIZE</span><span class="p">:])</span>
+        <span class="n">h</span><span class="o">.</span><span class="n">verify</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="o">-</span><span class="n">_MAC_LEN</span><span class="p">:])</span>
         <span class="k">return</span> <span class="kc">True</span>
     <span class="k">except</span> <span class="n">InvalidSignature</span><span class="p">:</span>
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<span class="k">def</span> <span class="nf">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="n">iv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_IV_SIZE</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_IV_LEN</span><span class="p">)</span>
     <span class="n">padder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">padder</span><span class="p">()</span>
     <span class="n">padded_data</span> <span class="o">=</span> <span class="n">padder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">+</span> <span class="n">padder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">encryptor</span><span class="p">()</span>
+    <span class="n">encryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">_backend</span><span class="p">)</span><span class="o">.</span><span class="n">encryptor</span><span class="p">()</span>
     <span class="n">ciphertext</span> <span class="o">=</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_data</span><span class="p">)</span> <span class="o">+</span> <span class="n">encryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
-    <span class="n">all_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">_VERSION_1</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">))</span>
-    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">sig_key</span><span class="p">,</span> <span class="n">SHA256</span><span class="p">(),</span> <span class="n">backend</span><span class="p">)</span>
+    <span class="n">all_data</span> <span class="o">=</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">((</span><span class="n">version</span><span class="o">.</span><span class="n">value</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">iv</span><span class="p">,</span> <span class="n">ciphertext</span><span class="p">))</span>
+    <span class="n">h</span> <span class="o">=</span> <span class="n">HMAC</span><span class="p">(</span><span class="n">mac_key</span><span class="p">,</span> <span class="n">_MAC_HASH</span><span class="p">,</span> <span class="n">_backend</span><span class="p">)</span>
     <span class="n">h</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">all_data</span><span class="p">)</span>
     <span class="n">hmac</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">all_data</span> <span class="o">+</span> <span class="n">hmac</span>
 
 
-<span class="k">def</span> <span class="nf">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">):</span>
         <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;signature could not be verified&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
-    <span class="n">pos</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">_IV_SIZE</span>
-    <span class="n">iv</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span><span class="n">pos</span><span class="p">]</span>
-    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">backend</span><span class="p">)</span><span class="o">.</span><span class="n">decryptor</span><span class="p">()</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="n">_VERSION_LEN</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">)</span> <span class="o">+</span> <span class="n">_IV_LEN</span>
+    <span class="n">iv</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="n">_VERSION_LEN</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">salt</span><span class="p">):</span><span class="n">pos</span><span class="p">]</span>
+    <span class="n">decryptor</span> <span class="o">=</span> <span class="n">Cipher</span><span class="p">(</span><span class="n">AES</span><span class="p">(</span><span class="n">enc_key</span><span class="p">),</span> <span class="n">CBC</span><span class="p">(</span><span class="n">iv</span><span class="p">),</span> <span class="n">_backend</span><span class="p">)</span><span class="o">.</span><span class="n">decryptor</span><span class="p">()</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="n">padded_plaintext</span> <span class="o">=</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="o">-</span><span class="n">_MAC_SIZE</span><span class="p">])</span> <span class="o">+</span>
+        <span class="n">padded_plaintext</span> <span class="o">=</span> <span class="p">(</span><span class="n">decryptor</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">data</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="o">-</span><span class="n">_MAC_LEN</span><span class="p">])</span> <span class="o">+</span>
                             <span class="n">decryptor</span><span class="o">.</span><span class="n">finalize</span><span class="p">())</span>
         <span class="n">unpadder</span> <span class="o">=</span> <span class="n">PKCS7</span><span class="p">(</span><span class="n">AES</span><span class="o">.</span><span class="n">block_size</span><span class="p">)</span><span class="o">.</span><span class="n">unpadder</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">padded_plaintext</span><span class="p">)</span> <span class="o">+</span> <span class="n">unpadder</span><span class="o">.</span><span class="n">finalize</span><span class="p">()</span>
@@ -156,7 +175,25 @@
         <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;data could not be decrypted&#39;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span>
 
 
-<div class="viewcode-block" id="create_secret_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.create_secret_key">[docs]</a><span class="k">def</span> <span class="nf">create_secret_key</span><span class="p">():</span>
+<span class="k">def</span> <span class="nf">_check_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">with_salt</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">data</span><span class="p">[:</span><span class="n">_VERSION_LEN</span><span class="p">])</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="n">min_len</span> <span class="o">=</span> <span class="n">_VERSION_LEN</span> <span class="o">+</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">_IV_LEN</span> <span class="o">+</span> <span class="n">_MAC_LEN</span>
+    <span class="k">if</span> <span class="n">with_salt</span><span class="p">:</span>
+        <span class="n">min_len</span> <span class="o">+=</span> <span class="n">_SALT_LEN</span>
+        <span class="n">salt_len</span> <span class="o">=</span> <span class="n">_SALT_LEN</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">salt_len</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">min_len</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">version</span><span class="p">,</span> <span class="n">data</span><span class="p">[</span><span class="n">_VERSION_LEN</span><span class="p">:</span><span class="n">_VERSION_LEN</span> <span class="o">+</span> <span class="n">salt_len</span><span class="p">]</span>
+
+
+<div class="viewcode-block" id="create_secret_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.create_secret_key">[docs]</a><span class="k">def</span> <span class="nf">create_secret_key</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">Version</span><span class="o">.</span><span class="n">V1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a secret key.</span>
 
 <span class="sd">    It can be used with the ``*_with_key()`` functions:</span>
@@ -167,11 +204,22 @@
 
 <span class="sd">    :return: secret key</span>
 <span class="sd">    :rytpe: bytes</span>
+
+<span class="sd">    .. versionchanged:: 0.8.0</span>
+<span class="sd">       Add parameter ``version``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_KEY_SIZE</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span> <span class="o">+</span> <span class="n">version</span><span class="o">.</span><span class="n">_mac_key_len</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="encrypt_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_password">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_derive_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="n">PBKDF2HMAC</span><span class="p">(</span><span class="n">_KDF_HASH</span><span class="p">,</span>
+                     <span class="n">length</span><span class="o">=</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span> <span class="o">+</span> <span class="n">version</span><span class="o">.</span><span class="n">_mac_key_len</span><span class="p">,</span>
+                     <span class="n">salt</span><span class="o">=</span><span class="n">salt</span><span class="p">,</span> <span class="n">iterations</span><span class="o">=</span><span class="n">_ITERATIONS</span><span class="p">,</span>
+                     <span class="n">backend</span><span class="o">=</span><span class="n">_backend</span><span class="p">)</span><span class="o">.</span><span class="n">derive</span><span class="p">(</span><span class="n">password</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">key</span><span class="p">[:</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">:]</span>
+
+
+<div class="viewcode-block" id="encrypt_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_password">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">Version</span><span class="o">.</span><span class="n">V1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Encrypt data using a password.</span>
 
 <span class="sd">    The data will be encrypted with a key derived from the</span>
@@ -182,13 +230,15 @@
 <span class="sd">    :return: encrypted data</span>
 <span class="sd">    :rtype: bytes</span>
 <span class="sd">    :raises TypeError: if ``password`` or ``data`` are not ``bytes``</span>
+
+<span class="sd">    .. versionchanged:: 0.8.0</span>
+<span class="sd">       Add parameter ``version``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
-    <span class="n">salt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_SALT_SIZE</span><span class="p">)</span>
-    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
+    <span class="n">salt</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="n">_SALT_LEN</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span> <span class="o">=</span> <span class="n">_derive_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="decrypt_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.decrypt_with_password">[docs]</a><span class="k">def</span> <span class="nf">decrypt_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -205,12 +255,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">data</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;unknown version&#39;</span><span class="p">)</span>
-    <span class="n">backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
-    <span class="n">salt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span><span class="p">]</span>
-    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
+    <span class="n">version</span><span class="p">,</span> <span class="n">salt</span> <span class="o">=</span> <span class="n">_check_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">version</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;unknown version or not enough data&#39;</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span> <span class="o">=</span> <span class="n">_derive_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="verify_with_password"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_password">[docs]</a><span class="k">def</span> <span class="nf">verify_with_password</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -229,18 +278,19 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">backend</span> <span class="o">=</span> <span class="n">default_backend</span><span class="p">()</span>
-    <span class="n">salt</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">):</span><span class="nb">len</span><span class="p">(</span><span class="n">_VERSION_1</span><span class="p">)</span> <span class="o">+</span> <span class="n">_SALT_SIZE</span><span class="p">]</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="n">backend</span><span class="p">)</span></div>
+    <span class="n">version</span><span class="p">,</span> <span class="n">salt</span> <span class="o">=</span> <span class="n">_check_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">version</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">_</span><span class="p">,</span> <span class="n">mac_key</span> <span class="o">=</span> <span class="n">_derive_keys</span><span class="p">(</span><span class="n">password</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">)</span></div>
 
 
-<span class="k">def</span> <span class="nf">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">):</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">_KEY_SIZE</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">version</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span> <span class="o">+</span> <span class="n">version</span><span class="o">.</span><span class="n">_mac_key_len</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;incorrect secret key size&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="encrypt_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_key">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
+<div class="viewcode-block" id="encrypt_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.encrypt_with_key">[docs]</a><span class="k">def</span> <span class="nf">encrypt_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">Version</span><span class="o">.</span><span class="n">V1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Encrypt data using a secret key.</span>
 
 <span class="sd">    :param bytes key: the secret key</span>
@@ -249,12 +299,15 @@
 <span class="sd">    :rtype: bytes</span>
 <span class="sd">    :raises TypeError: if ``key`` or ``data`` are not ``bytes``</span>
 <span class="sd">    :raises ValueError: if size of ``key`` is not correct</span>
+
+<span class="sd">    .. versionchanged:: 0.8.0</span>
+<span class="sd">       Add parameter ``version``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
-    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">default_backend</span><span class="p">())</span></div>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">_encrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="decrypt_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.decrypt_with_key">[docs]</a><span class="k">def</span> <span class="nf">decrypt_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -272,9 +325,12 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:]</span>
-    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">sig_key</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">default_backend</span><span class="p">())</span></div>
+    <span class="n">version</span><span class="p">,</span> <span class="n">salt</span> <span class="o">=</span> <span class="n">_check_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">version</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">DecryptError</span><span class="p">(</span><span class="s1">&#39;unknown version or not enough data&#39;</span><span class="p">)</span>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span> <span class="o">=</span> <span class="n">key</span><span class="p">[:</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">],</span> <span class="n">key</span><span class="p">[</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">:]</span>
+    <span class="k">return</span> <span class="n">_decrypt</span><span class="p">(</span><span class="n">enc_key</span><span class="p">,</span> <span class="n">mac_key</span><span class="p">,</span> <span class="n">salt</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="verify_with_key"><a class="viewcode-back" href="../../mod_crypto.html#salmagundi.crypto.verify_with_key">[docs]</a><span class="k">def</span> <span class="nf">verify_with_key</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">data</span><span class="p">):</span>
@@ -294,8 +350,11 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;secret key&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">,</span> <span class="s1">&#39;data&#39;</span><span class="p">)</span>
-    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="p">[</span><span class="n">_KEY_SIZE</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:],</span> <span class="n">default_backend</span><span class="p">())</span></div>
+    <span class="n">version</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_check_data</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">version</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">_check_key_size</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">version</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">_verify</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">key</span><span class="p">[</span><span class="n">version</span><span class="o">.</span><span class="n">_enc_key_len</span><span class="p">:])</span></div>
 </pre></div>
 
           </div>

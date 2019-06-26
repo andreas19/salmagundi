@@ -1,4 +1,4 @@
-salmagundi |version|
+Salmagundi |version|
 ====================
 
 Contents

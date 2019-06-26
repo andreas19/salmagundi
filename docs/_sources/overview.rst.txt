@@ -17,8 +17,7 @@ Installation
 Dependencies
 ------------
 
-- `ansictrls >= 0.1.0 <https://pypi.org/project/ansictrls/>`_
-- `cryptography >= 2.6.1 <https://pypi.org/project/cryptography/>`_
+.. include:: dependencies.txt
 
 
 Links

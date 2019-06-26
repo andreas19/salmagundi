@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Module crypto &#8212; salmagundi 0.7.3 documentation</title>
+    <title>Module crypto &#8212; Salmagundi 0.7.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -29,7 +29,7 @@
     
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
-<h1 class="logo"><a href="index.html">salmagundi</a></h1>
+<h1 class="logo"><a href="index.html">Salmagundi</a></h1>
 
 
 
@@ -91,12 +91,45 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.5.0.</span></p>
 </div>
-<p>This module uses <code class="docutils literal notranslate"><span class="pre">AES</span></code> in <code class="docutils literal notranslate"><span class="pre">CBC</span></code> mode with a 128-bit key and <code class="docutils literal notranslate"><span class="pre">PKCS7</span></code>
+<p>This module uses <code class="docutils literal notranslate"><span class="pre">AES</span></code> in <code class="docutils literal notranslate"><span class="pre">CBC</span></code> mode with a 128-bit key and <code class="docutils literal notranslate"><span class="pre">PKCS#7</span></code>
 padding for encryption. The authentication is done with <code class="docutils literal notranslate"><span class="pre">HMAC</span></code> using
 <code class="docutils literal notranslate"><span class="pre">SHA256</span></code>. To derive a key from a password <code class="docutils literal notranslate"><span class="pre">PBKDF2HMAC</span></code> is used with
-<code class="docutils literal notranslate"><span class="pre">SHA256</span></code>, a 128-bit key, a salt of equal size and 100.000 iterations.
+<code class="docutils literal notranslate"><span class="pre">SHA256</span></code>, a 128-bit key, a salt of equal size and 100,000 iterations.
 The <code class="docutils literal notranslate"><span class="pre">IV</span></code> for <code class="docutils literal notranslate"><span class="pre">CBC</span></code>, the keys, and the  the salt are created
 cryptographically secure with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
+<dl class="class">
+<dt id="salmagundi.crypto.Version">
+<em class="property">class </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
+<dd><p>Version enum.</p>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.8.0.</span></p>
+</div>
+<dl class="attribute">
+<dt id="salmagundi.crypto.Version.V1">
+<code class="descname">V1</code><em class="property"> = b'\x8a'</em><a class="headerlink" href="#salmagundi.crypto.Version.V1" title="Permalink to this definition">¶</a></dt>
+<dd><p>version 1</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="salmagundi.crypto.Version.V2">
+<code class="descname">V2</code><em class="property"> = b'\x8b'</em><a class="headerlink" href="#salmagundi.crypto.Version.V2" title="Permalink to this definition">¶</a></dt>
+<dd><p>version 2</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="salmagundi.crypto.Version.V3">
+<code class="descname">V3</code><em class="property"> = b'\x8c'</em><a class="headerlink" href="#salmagundi.crypto.Version.V3" title="Permalink to this definition">¶</a></dt>
+<dd><p>version 3</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="salmagundi.crypto.Version.V4">
+<code class="descname">V4</code><em class="property"> = b'\x8d'</em><a class="headerlink" href="#salmagundi.crypto.Version.V4" title="Permalink to this definition">¶</a></dt>
+<dd><p>version 4</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="exception">
 <dt id="salmagundi.crypto.DecryptError">
 <em class="property">exception </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">DecryptError</code><a class="reference internal" href="_modules/salmagundi/crypto.html#DecryptError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.DecryptError" title="Permalink to this definition">¶</a></dt>
@@ -105,7 +138,7 @@ cryptographically secure with <a class="reference external" href="https://docs.p
 
 <dl class="function">
 <dt id="salmagundi.crypto.create_secret_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">create_secret_key</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">salmagundi.crypto.</code><code class="descname">create_secret_key</code><span class="sig-paren">(</span><em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a secret key.</p>
 <p>It can be used with the <code class="docutils literal notranslate"><span class="pre">*_with_key()</span></code> functions:</p>
 <ul class="simple">
@@ -123,11 +156,14 @@ cryptographically secure with <a class="reference external" href="https://docs.p
 </tr>
 </tbody>
 </table>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.encrypt_with_password">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_password</code><span class="sig-paren">(</span><em>password</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_password</code><span class="sig-paren">(</span><em>password</em>, <em>data</em>, <em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a password.</p>
 <p>The data will be encrypted with a key derived from the
 password and signed.</p>
@@ -152,6 +188,9 @@ password and signed.</p>
 </tr>
 </tbody>
 </table>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -217,7 +256,7 @@ with the key derived from the password. This is also done during decryption.</p>
 
 <dl class="function">
 <dt id="salmagundi.crypto.encrypt_with_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_key</code><span class="sig-paren">(</span><em>key</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_key</code><span class="sig-paren">(</span><em>key</em>, <em>data</em>, <em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a secret key.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -243,6 +282,9 @@ with the key derived from the password. This is also done during decryption.</p>
 </tr>
 </tbody>
 </table>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="function">
