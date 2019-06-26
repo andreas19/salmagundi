@@ -1,4 +1,4 @@
-# salmagundi
+# Salmagundi
 
 Library with a collection of some more or less useful functions.
 
