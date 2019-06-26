@@ -91,12 +91,45 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.5.0.</span></p>
 </div>
-<p>This module uses <code class="docutils literal notranslate"><span class="pre">AES</span></code> in <code class="docutils literal notranslate"><span class="pre">CBC</span></code> mode with a 128-bit key and <code class="docutils literal notranslate"><span class="pre">PKCS#7</span></code>
-padding for encryption. The authentication is done with <code class="docutils literal notranslate"><span class="pre">HMAC</span></code> using
-<code class="docutils literal notranslate"><span class="pre">SHA256</span></code>. To derive a key from a password <code class="docutils literal notranslate"><span class="pre">PBKDF2HMAC</span></code> is used with
-<code class="docutils literal notranslate"><span class="pre">SHA256</span></code>, a 128-bit key, a salt of equal size and 100,000 iterations.
-The <code class="docutils literal notranslate"><span class="pre">IV</span></code> for <code class="docutils literal notranslate"><span class="pre">CBC</span></code>, the keys, and the  the salt are created
-cryptographically secure with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
+<p>This module provides data encryption and decryption in four versions.</p>
+<p>All versions use AES in CBC mode, PKCS#7 padding, and
+HMAC-SHA256 as message authentication code.</p>
+<p>Key lengths in bits:</p>
+<table border="1" class="docutils">
+<colgroup>
+<col width="50%" />
+<col width="21%" />
+<col width="29%" />
+</colgroup>
+<thead valign="bottom">
+<tr class="row-odd"><th class="head">Version</th>
+<th class="head">AES</th>
+<th class="head">HMAC</th>
+</tr>
+</thead>
+<tbody valign="top">
+<tr class="row-even"><td>1</td>
+<td>128</td>
+<td>128</td>
+</tr>
+<tr class="row-odd"><td>2</td>
+<td>128</td>
+<td>256</td>
+</tr>
+<tr class="row-even"><td>3</td>
+<td>192</td>
+<td>256</td>
+</tr>
+<tr class="row-odd"><td>4</td>
+<td>256</td>
+<td>256</td>
+</tr>
+</tbody>
+</table>
+<p>To derive a key from a password PBKDF2HMAC-SHA256 with a 128 bit salt
+and 100,000 iterations is used.</p>
+<p>The initialization vector for <code class="docutils literal notranslate"><span class="pre">CBC</span></code>, the keys, and the salt are
+created with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
 <dl class="class">
 <dt id="salmagundi.crypto.Version">
 <em class="property">class </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>

@@ -2,12 +2,27 @@
 
 .. versionadded:: 0.5.0
 
-This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS#7``
-padding for encryption. The authentication is done with ``HMAC`` using
-``SHA256``. To derive a key from a password ``PBKDF2HMAC`` is used with
-``SHA256``, a 128-bit key, a salt of equal size and 100,000 iterations.
-The ``IV`` for ``CBC``, the keys, and the  the salt are created
-cryptographically secure with :func:`os.urandom`.
+This module provides data encryption and decryption in four versions.
+
+All versions use AES in CBC mode, PKCS#7 padding, and
+HMAC-SHA256 as message authentication code.
+
+Key lengths in bits:
+
+=======  ===  ====
+Version  AES  HMAC
+=======  ===  ====
+   1     128   128
+   2     128   256
+   3     192   256
+   4     256   256
+=======  ===  ====
+
+To derive a key from a password PBKDF2HMAC-SHA256 with a 128 bit salt
+and 100,000 iterations is used.
+
+The initialization vector for ``CBC``, the keys, and the salt are
+created with :func:`os.urandom`.
 """
 
 import os

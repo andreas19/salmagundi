@@ -77,12 +77,27 @@
 
 <span class="sd">.. versionadded:: 0.5.0</span>
 
-<span class="sd">This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS#7``</span>
-<span class="sd">padding for encryption. The authentication is done with ``HMAC`` using</span>
-<span class="sd">``SHA256``. To derive a key from a password ``PBKDF2HMAC`` is used with</span>
-<span class="sd">``SHA256``, a 128-bit key, a salt of equal size and 100,000 iterations.</span>
-<span class="sd">The ``IV`` for ``CBC``, the keys, and the  the salt are created</span>
-<span class="sd">cryptographically secure with :func:`os.urandom`.</span>
+<span class="sd">This module provides data encryption and decryption in four versions.</span>
+
+<span class="sd">All versions use AES in CBC mode, PKCS#7 padding, and</span>
+<span class="sd">HMAC-SHA256 as message authentication code.</span>
+
+<span class="sd">Key lengths in bits:</span>
+
+<span class="sd">=======  ===  ====</span>
+<span class="sd">Version  AES  HMAC</span>
+<span class="sd">=======  ===  ====</span>
+<span class="sd">   1     128   128</span>
+<span class="sd">   2     128   256</span>
+<span class="sd">   3     192   256</span>
+<span class="sd">   4     256   256</span>
+<span class="sd">=======  ===  ====</span>
+
+<span class="sd">To derive a key from a password PBKDF2HMAC-SHA256 with a 128 bit salt</span>
+<span class="sd">and 100,000 iterations is used.</span>
+
+<span class="sd">The initialization vector for ``CBC``, the keys, and the salt are</span>
+<span class="sd">created with :func:`os.urandom`.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
