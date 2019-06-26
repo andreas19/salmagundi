@@ -2,15 +2,16 @@
 
 .. versionadded:: 0.5.0
 
-This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS7``
+This module uses ``AES`` in ``CBC`` mode with a 128-bit key and ``PKCS#7``
 padding for encryption. The authentication is done with ``HMAC`` using
 ``SHA256``. To derive a key from a password ``PBKDF2HMAC`` is used with
-``SHA256``, a 128-bit key, a salt of equal size and 100.000 iterations.
+``SHA256``, a 128-bit key, a salt of equal size and 100,000 iterations.
 The ``IV`` for ``CBC``, the keys, and the  the salt are created
 cryptographically secure with :func:`os.urandom`.
 """
 
 import os
+from enum import Enum
 
 from cryptography.hazmat.backends import default_backend
 from cryptography.exceptions import InvalidSignature
@@ -24,56 +25,74 @@ from cryptography.hazmat.primitives.padding import PKCS7
 
 from .utils import check_type
 
-_SALT_SIZE = 16
-_KEY_SIZE = 32
-_IV_SIZE = 16
-_MAC_SIZE = 32
+_MAC_HASH = _KDF_HASH = SHA256()
+_IV_LEN = AES.block_size // 8  # 16 bytes
+_MAC_LEN = _MAC_HASH.digest_size  # 32 bytes
+_SALT_LEN = 16  # bytes
 _ITERATIONS = 100000
-_VERSION_1 = b'\x8a'
+_VERSION_LEN = 1  # byte
+
+_backend = default_backend()
+
+
+class Version(Enum):
+    """Version enum.
+
+    .. versionadded:: 0.8.0
+    """
+
+    V1 = (b'\x8a', 16, 16)        #: version 1
+    V2 = (b'\x8b', 16, _MAC_LEN)  #: version 2
+    V3 = (b'\x8c', 24, _MAC_LEN)  #: version 3
+    V4 = (b'\x8d', 32, _MAC_LEN)  #: version 4
+
+    def __new__(cls, version_byte, enc_key_len, mac_key_len):
+        """Create new Version."""
+        obj = object.__new__(cls)
+        obj._value_ = version_byte
+        obj._enc_key_len = enc_key_len  # bytes
+        obj._mac_key_len = mac_key_len  # bytes
+        return obj
+
+    def __repr__(self):
+        return '<%s.%s>' % (self.__class__.__name__, self.name)
 
 
 class DecryptError(Exception):
     """Raised if data could not be decrypted."""
 
 
-def _keys(password, salt, backend):
-    key = PBKDF2HMAC(SHA256(), length=_KEY_SIZE,
-                     salt=salt, iterations=_ITERATIONS,
-                     backend=backend).derive(password)
-    return key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
-
-
-def _verify(data, sig_key, backend):
-    h = HMAC(sig_key, SHA256(), backend)
-    h.update(data[:-_MAC_SIZE])
+def _verify(data, mac_key):
+    h = HMAC(mac_key, _MAC_HASH, _backend)
+    h.update(data[:-_MAC_LEN])
     try:
-        h.verify(data[-_MAC_SIZE:])
+        h.verify(data[-_MAC_LEN:])
         return True
     except InvalidSignature:
         return False
 
 
-def _encrypt(enc_key, sig_key, salt, data, backend):
-    iv = os.urandom(_IV_SIZE)
+def _encrypt(enc_key, mac_key, salt, data, version):
+    iv = os.urandom(_IV_LEN)
     padder = PKCS7(AES.block_size).padder()
     padded_data = padder.update(data) + padder.finalize()
-    encryptor = Cipher(AES(enc_key), CBC(iv), backend).encryptor()
+    encryptor = Cipher(AES(enc_key), CBC(iv), _backend).encryptor()
     ciphertext = encryptor.update(padded_data) + encryptor.finalize()
-    all_data = b''.join((_VERSION_1, salt, iv, ciphertext))
-    h = HMAC(sig_key, SHA256(), backend)
+    all_data = b''.join((version.value, salt, iv, ciphertext))
+    h = HMAC(mac_key, _MAC_HASH, _backend)
     h.update(all_data)
     hmac = h.finalize()
     return all_data + hmac
 
 
-def _decrypt(enc_key, sig_key, salt, data, backend):
-    if not _verify(data, sig_key, backend):
+def _decrypt(enc_key, mac_key, salt, data):
+    if not _verify(data, mac_key):
         raise DecryptError('signature could not be verified') from None
-    pos = len(_VERSION_1) + len(salt) + _IV_SIZE
-    iv = data[len(_VERSION_1) + len(salt):pos]
-    decryptor = Cipher(AES(enc_key), CBC(iv), backend).decryptor()
+    pos = _VERSION_LEN + len(salt) + _IV_LEN
+    iv = data[_VERSION_LEN + len(salt):pos]
+    decryptor = Cipher(AES(enc_key), CBC(iv), _backend).decryptor()
     try:
-        padded_plaintext = (decryptor.update(data[pos:-_MAC_SIZE]) +
+        padded_plaintext = (decryptor.update(data[pos:-_MAC_LEN]) +
                             decryptor.finalize())
         unpadder = PKCS7(AES.block_size).unpadder()
         return unpadder.update(padded_plaintext) + unpadder.finalize()
@@ -81,7 +100,25 @@ def _decrypt(enc_key, sig_key, salt, data, backend):
         raise DecryptError('data could not be decrypted') from None
 
 
-def create_secret_key():
+def _check_data(data, with_salt):
+    if not len(data):
+        return None, None
+    try:
+        version = Version(data[:_VERSION_LEN])
+    except ValueError:
+        return None, None
+    min_len = _VERSION_LEN + 2 * _IV_LEN + _MAC_LEN
+    if with_salt:
+        min_len += _SALT_LEN
+        salt_len = _SALT_LEN
+    else:
+        salt_len = 0
+    if len(data) < min_len:
+        return None, None
+    return version, data[_VERSION_LEN:_VERSION_LEN + salt_len]
+
+
+def create_secret_key(*, version=Version.V1):
     """Create a secret key.
 
     It can be used with the ``*_with_key()`` functions:
@@ -92,11 +129,22 @@ def create_secret_key():
 
     :return: secret key
     :rytpe: bytes
+
+    .. versionchanged:: 0.8.0
+       Add parameter ``version``
     """
-    return os.urandom(_KEY_SIZE)
+    return os.urandom(version._enc_key_len + version._mac_key_len)
 
 
-def encrypt_with_password(password, data):
+def _derive_keys(password, salt, version):
+    key = PBKDF2HMAC(_KDF_HASH,
+                     length=version._enc_key_len + version._mac_key_len,
+                     salt=salt, iterations=_ITERATIONS,
+                     backend=_backend).derive(password)
+    return key[:version._enc_key_len], key[version._enc_key_len:]
+
+
+def encrypt_with_password(password, data, *, version=Version.V1):
     """Encrypt data using a password.
 
     The data will be encrypted with a key derived from the
@@ -107,13 +155,15 @@ def encrypt_with_password(password, data):
     :return: encrypted data
     :rtype: bytes
     :raises TypeError: if ``password`` or ``data`` are not ``bytes``
+
+    .. versionchanged:: 0.8.0
+       Add parameter ``version``
     """
     check_type(password, bytes, 'password')
     check_type(data, bytes, 'data')
-    backend = default_backend()
-    salt = os.urandom(_SALT_SIZE)
-    enc_key, sig_key = _keys(password, salt, backend)
-    return _encrypt(enc_key, sig_key, salt, data, backend)
+    salt = os.urandom(_SALT_LEN)
+    enc_key, mac_key = _derive_keys(password, salt, version)
+    return _encrypt(enc_key, mac_key, salt, data, version)
 
 
 def decrypt_with_password(password, data):
@@ -130,12 +180,11 @@ def decrypt_with_password(password, data):
     """
     check_type(password, bytes, 'password')
     check_type(data, bytes, 'data')
-    if not data.startswith(_VERSION_1):
-        raise DecryptError('unknown version')
-    backend = default_backend()
-    salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
-    enc_key, sig_key = _keys(password, salt, backend)
-    return _decrypt(enc_key, sig_key, salt, data, backend)
+    version, salt = _check_data(data, True)
+    if not version:
+        raise DecryptError('unknown version or not enough data')
+    enc_key, mac_key = _derive_keys(password, salt, version)
+    return _decrypt(enc_key, mac_key, salt, data)
 
 
 def verify_with_password(password, data):
@@ -154,18 +203,19 @@ def verify_with_password(password, data):
     """
     check_type(password, bytes, 'password')
     check_type(data, bytes, 'data')
-    backend = default_backend()
-    salt = data[len(_VERSION_1):len(_VERSION_1) + _SALT_SIZE]
-    _, sig_key = _keys(password, salt, backend)
-    return _verify(data, sig_key, backend)
+    version, salt = _check_data(data, True)
+    if not version:
+        return False
+    _, mac_key = _derive_keys(password, salt, version)
+    return _verify(data, mac_key)
 
 
-def _check_key_size(key):
-    if len(key) != _KEY_SIZE:
+def _check_key_size(key, version):
+    if len(key) != version._enc_key_len + version._mac_key_len:
         raise ValueError('incorrect secret key size')
 
 
-def encrypt_with_key(key, data):
+def encrypt_with_key(key, data, *, version=Version.V1):
     """Encrypt data using a secret key.
 
     :param bytes key: the secret key
@@ -174,12 +224,15 @@ def encrypt_with_key(key, data):
     :rtype: bytes
     :raises TypeError: if ``key`` or ``data`` are not ``bytes``
     :raises ValueError: if size of ``key`` is not correct
+
+    .. versionchanged:: 0.8.0
+       Add parameter ``version``
     """
     check_type(key, bytes, 'secret key')
     check_type(data, bytes, 'data')
-    _check_key_size(key)
-    enc_key, sig_key = key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
-    return _encrypt(enc_key, sig_key, b'', data, default_backend())
+    _check_key_size(key, version)
+    enc_key, mac_key = key[:version._enc_key_len], key[version._enc_key_len:]
+    return _encrypt(enc_key, mac_key, b'', data, version)
 
 
 def decrypt_with_key(key, data):
@@ -197,9 +250,12 @@ def decrypt_with_key(key, data):
     """
     check_type(key, bytes, 'secret key')
     check_type(data, bytes, 'data')
-    _check_key_size(key)
-    enc_key, sig_key = key[:_KEY_SIZE // 2], key[_KEY_SIZE // 2:]
-    return _decrypt(enc_key, sig_key, b'', data, default_backend())
+    version, salt = _check_data(data, False)
+    if not version:
+        raise DecryptError('unknown version or not enough data')
+    _check_key_size(key, version)
+    enc_key, mac_key = key[:version._enc_key_len], key[version._enc_key_len:]
+    return _decrypt(enc_key, mac_key, salt, data)
 
 
 def verify_with_key(key, data):
@@ -219,5 +275,8 @@ def verify_with_key(key, data):
     """
     check_type(key, bytes, 'secret key')
     check_type(data, bytes, 'data')
-    _check_key_size(key)
-    return _verify(data, key[_KEY_SIZE // 2:], default_backend())
+    version, _ = _check_data(data, False)
+    if not version:
+        return False
+    _check_key_size(key, version)
+    return _verify(data, key[version._enc_key_len:])
