@@ -2,27 +2,19 @@
 
 .. versionadded:: 0.5.0
 
-This module provides data encryption and decryption in four versions.
+This module provides the reference implementation of the
+`Gemina specification <https://github.com/andreas19/gemina-spec>`_
+for data encryption.
 
-All versions use AES in CBC mode, PKCS#7 padding, and
-HMAC-SHA256 as message authentication code.
+For more details see the section
+`Description <https://github.com/andreas19/gemina-spec#description>`_.
 
-Key lengths in bits:
+The initialization vector for CBC, the keys, and the salt for HMAC
+are created with :func:`os.urandom`.
 
-=======  ===  ====
-Version  AES  HMAC
-=======  ===  ====
-   1     128   128
-   2     128   256
-   3     192   256
-   4     256   256
-=======  ===  ====
-
-To derive a key from a password PBKDF2HMAC-SHA256 with a 128 bit salt
-and 100,000 iterations is used.
-
-The initialization vector for ``CBC``, the keys, and the salt are
-created with :func:`os.urandom`.
+The ``key`` arguement for the functions :func:`encrypt_with_key`,
+:func:`decrypt_with_key`, and :func:`verify_with_key` should be created
+with :func:`create_secret_key()`.
 """
 
 import os
@@ -136,14 +128,11 @@ def _check_data(data, with_salt):
 def create_secret_key(*, version=Version.V1):
     """Create a secret key.
 
-    It can be used with the ``*_with_key()`` functions:
-
-    - :func:`encrypt_with_key`
-    - :func:`decrypt_with_key`
-    - :func:`verify_with_key`
+    It can be used with the functions :func:`encrypt_with_key`,
+    :func:`decrypt_with_key`, and :func:`verify_with_key`.
 
     :return: secret key
-    :rytpe: bytes
+    :rtype: bytes
 
     .. versionchanged:: 0.8.0
        Add parameter ``version``
@@ -265,12 +254,12 @@ def decrypt_with_key(key, data):
     """
     check_type(key, bytes, 'secret key')
     check_type(data, bytes, 'data')
-    version, salt = _check_data(data, False)
+    version, _ = _check_data(data, False)
     if not version:
         raise DecryptError('unknown version or not enough data')
     _check_key_size(key, version)
     enc_key, mac_key = key[:version._enc_key_len], key[version._enc_key_len:]
-    return _decrypt(enc_key, mac_key, salt, data)
+    return _decrypt(enc_key, mac_key, b'', data)
 
 
 def verify_with_key(key, data):

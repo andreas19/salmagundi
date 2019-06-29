@@ -91,45 +91,16 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.5.0.</span></p>
 </div>
-<p>This module provides data encryption and decryption in four versions.</p>
-<p>All versions use AES in CBC mode, PKCS#7 padding, and
-HMAC-SHA256 as message authentication code.</p>
-<p>Key lengths in bits:</p>
-<table border="1" class="docutils">
-<colgroup>
-<col width="50%" />
-<col width="21%" />
-<col width="29%" />
-</colgroup>
-<thead valign="bottom">
-<tr class="row-odd"><th class="head">Version</th>
-<th class="head">AES</th>
-<th class="head">HMAC</th>
-</tr>
-</thead>
-<tbody valign="top">
-<tr class="row-even"><td>1</td>
-<td>128</td>
-<td>128</td>
-</tr>
-<tr class="row-odd"><td>2</td>
-<td>128</td>
-<td>256</td>
-</tr>
-<tr class="row-even"><td>3</td>
-<td>192</td>
-<td>256</td>
-</tr>
-<tr class="row-odd"><td>4</td>
-<td>256</td>
-<td>256</td>
-</tr>
-</tbody>
-</table>
-<p>To derive a key from a password PBKDF2HMAC-SHA256 with a 128 bit salt
-and 100,000 iterations is used.</p>
-<p>The initialization vector for <code class="docutils literal notranslate"><span class="pre">CBC</span></code>, the keys, and the salt are
-created with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
+<p>This module provides the reference implementation of the
+<a class="reference external" href="https://github.com/andreas19/gemina-spec">Gemina specification</a>
+for data encryption.</p>
+<p>For more details see the section
+<a class="reference external" href="https://github.com/andreas19/gemina-spec#description">Description</a>.</p>
+<p>The initialization vector for CBC, the keys, and the salt for HMAC
+are created with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">key</span></code> arguement for the functions <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>,
+<a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a>, and <a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a> should be created
+with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_secret_key()</span></code></a>.</p>
 <dl class="class">
 <dt id="salmagundi.crypto.Version">
 <em class="property">class </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
@@ -173,19 +144,15 @@ created with <a class="reference external" href="https://docs.python.org/3/libra
 <dt id="salmagundi.crypto.create_secret_key">
 <code class="descclassname">salmagundi.crypto.</code><code class="descname">create_secret_key</code><span class="sig-paren">(</span><em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a secret key.</p>
-<p>It can be used with the <code class="docutils literal notranslate"><span class="pre">*_with_key()</span></code> functions:</p>
-<ul class="simple">
-<li><a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a></li>
-<li><a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a></li>
-<li><a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a></li>
-</ul>
+<p>It can be used with the functions <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>,
+<a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a>, and <a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a>.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">secret key</td>
 </tr>
-<tr class="field-even field"><th class="field-name">Rytpe:</th><td class="field-body">bytes</td>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></td>
 </tr>
 </tbody>
 </table>
