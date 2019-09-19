@@ -7,6 +7,7 @@ import configparser
 import math
 import re
 import string
+import unicodedata
 from collections import namedtuple
 from datetime import timedelta
 from functools import lru_cache
@@ -157,7 +158,7 @@ def purge(s, chars=None, negate=False):
     Each character in ``chars`` will be eliminated from the string.
 
     If ``chars=None`` or ``chars=''`` all consecutive whitespace
-    are replaced by a singe space.
+    are replaced by a single space.
 
     if ``negate=True`` all characters **not** in chars will be
     purged (only applies when ``chars`` is at least one character)
@@ -591,6 +592,8 @@ def int2str(n, base):
     :rtype: str
     :raises TypeError: if ``n`` or ``base`` are not integers
     :raises ValueError: if ``base`` is outside the allowed range
+
+    .. versionadded:: 0.7.0
     """
     check_type(n, int, 'n')
     check_type(base, int, 'base')
@@ -602,4 +605,25 @@ def int2str(n, base):
     while n > 0:
         n, r = divmod(n, base)
         s = _DIGITS[r] + s
+    return s
+
+
+_SLUGIFY_CHAR_MAP = str.maketrans({' ': '-', '\t': '-', '\n': '-', "'": '-',
+                                   'ß': 'ss', 'æ': 'ae', 'œ': 'oe', 'ø': 'o',
+                                   'þ': 'th', 'ð': 'd'})
+
+
+def slugify(s):
+    """Slugify a string.
+
+    :param str s: the string
+    :return: slugified string
+    :rtype: str
+
+    .. versionadded:: 0.9.0
+    """
+    s = s.lower().translate(_SLUGIFY_CHAR_MAP)
+    s = unicodedata.normalize('NFD', s)
+    s = re.sub(b'[^a-zA-Z0-9-]', b'', s.encode()).decode()
+    s = re.sub('-+', '-', s).strip('-')
     return s

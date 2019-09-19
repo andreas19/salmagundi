@@ -1,6 +1,8 @@
 History
 -------
 
+ - Add functions to modules strings and utils
+
 **2019-06-26 (0.8.0)**
  - Longer secret keys in module crypto
 
