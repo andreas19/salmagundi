@@ -14,6 +14,13 @@ from functools import lru_cache
 
 from .utils import check_type
 
+__all__ = ['BINARY_PREFIXES', 'BOOLEAN_STATES', 'DECIMAL_PREFIXES', 'NO_PREFIX',
+           'Prefix', 'TranslationTable', 'bin_prefix', 'dec_prefix',
+           'find_bin_prefix', 'find_dec_prefix', 'format_bin_prefix',
+           'format_dec_prefix', 'format_timedelta', 'insert_separator',
+           'int2str', 'is_hexdigit', 'parse_timedelta', 'purge', 'shorten',
+           'slugify', 'split_host_port', 'str2bool', 'str2port', 'str2tuple']
+
 BOOLEAN_STATES = configparser.ConfigParser.BOOLEAN_STATES.copy()
 """Dictionary with mappings from strings to boolean values.
 
@@ -126,10 +133,13 @@ def insert_separator(s, sep, group_size, reverse=False):
     'aaa:bbb:ccc:d'
     >>> insert_separator('aaabbbcccd', ':', 3, True)
     'a:aab:bbc:ccd'
+    >>> insert_separator('9783161484100', '-', (3, 1, 2, 6))
+    '978-3-16-148410-0'
 
     :param str s: the string
     :param str sep: the separator character(s)
-    :param int group_size: the number of characters between separators
+    :param group_size: the size of each group
+    :type group_size: int or sequence of ints
     :param bool reverse: if ``True`` group from right to left instead from
                          left to right
     :return: string with separators
@@ -139,21 +149,38 @@ def insert_separator(s, sep, group_size, reverse=False):
     .. versionadded:: 0.5.0
     .. versionchanged:: 0.6.0
        Add parameter ``reverse``
+    .. versionchanged:: 0.9.0
+       Groups can be of different sizes
     """
-    if group_size < 1:
-        raise ValueError('group_size must be >= 1')
     if reverse:
-        start = len(s) % group_size
-        pre = s[:start] + sep
+        s = s[::-1]
+    if isinstance(group_size, int):
+        if group_size < 1:
+            raise ValueError('group_size must be >= 1')
+        r = [s[i:i + group_size] for i in range(0, len(s), group_size)]
     else:
-        start = 0
-        pre = ''
-    return pre + sep.join([s[i:i + group_size]
-                          for i in range(start, len(s), group_size)])
+        if not all(map(lambda x: x > 0, group_size)):
+            raise ValueError('group_size must be >= 1')
+        r = []
+        idx = 0
+        for size in group_size:
+            x = s[idx:idx + size]
+            if x:
+                r.append(x)
+            else:
+                break
+            idx += size
+        else:
+            if idx < len(s):
+                r.append(s[idx:])
+    if reverse:
+        return sep.join(r)[::-1]
+    else:
+        return sep.join(r)
 
 
 def purge(s, chars=None, negate=False):
-    r"""Purge characters from a string.
+    """Purge characters from a string.
 
     Each character in ``chars`` will be eliminated from the string.
 
@@ -616,6 +643,11 @@ _SLUGIFY_CHAR_MAP = str.maketrans({' ': '-', '\t': '-', '\n': '-', "'": '-',
 def slugify(s):
     """Slugify a string.
 
+    In the created `slug
+    <https://en.wikipedia.org/wiki/Clean_URL#Slug>`_ white space
+    characters are replaced by dashes (``-``) and all consecutive
+    dashes but one are eliminated.
+
     :param str s: the string
     :return: slugified string
     :rtype: str
@@ -627,3 +659,37 @@ def slugify(s):
     s = re.sub(b'[^a-zA-Z0-9-]', b'', s.encode()).decode()
     s = re.sub('-+', '-', s).strip('-')
     return s
+
+
+class TranslationTable:
+    """TranslationTable class.
+
+    This class is for use with :meth:`str.translate`. If a character is not
+    in ``mapped_chars``, ``unmapped_chars``, or ``delete_chars``
+    a :class:`ValueError` will be raised. See also: :meth:`str.maketrans`.
+
+    :param mapped_chars: mapping from character to replacement string
+    :type mapped_chars: dict(str, str)
+    :param str unmapped_chars: string with characters that will not be replaced
+    :param str delete_chars: string with characters that will be deleted
+    :return: the resulting string
+    :rtype: str
+    :raises ValueError: if a character is not allowed
+
+    .. versionadded:: 0.9.0
+    """
+
+    def __init__(self, mapped_chars, unmapped_chars='', delete_chars=''):
+        """Init method."""
+        self._mapped_chars = {ord(k): v for k, v in mapped_chars.items()}
+        self._unmapped_chars = [ord(ch) for ch in unmapped_chars]
+        self._delete_chars = [ord(ch) for ch in delete_chars]
+
+    def __getitem__(self, n):
+        if n in self._mapped_chars:
+            return self._mapped_chars[n]
+        if n in self._unmapped_chars:
+            raise LookupError
+        if n in self._delete_chars:
+            return None
+        raise ValueError('character "%s" (%d) is not allowed' % (chr(n), n))

@@ -16,6 +16,9 @@ import datetime
 import os
 import time
 
+__all__ = ['append_all', 'append_lines', 'copyfile', 'on_same_dev', 'read_all',
+           'read_lines', 'touch', 'write_all', 'write_lines']
+
 
 def read_all(file, binary=False, encoding=None, errors=None):
     """Read and return the content of the file.

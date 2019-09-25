@@ -4,7 +4,8 @@
 """
 
 import os
-import string
+
+__all__ = ['check_bytes_like', 'check_path_like', 'check_type']
 
 
 def check_type(obj, classinfo, name='object', msg=None):
@@ -70,29 +71,3 @@ def check_bytes_like(obj, name='object', msg=None):
         memoryview(obj)
     except TypeError:
         raise TypeError(msg) from None
-
-
-def validate_iban(iban):
-    """Validate an IBAN.
-
-    IBAN = International Bank Account Number
-
-    The IBAN must not contain any separators;
-    only the characters ``A-Z`` and ``0-9`` are allowed.
-
-    :param str iban: the IBAN
-    :return: ``True`` if the IBAN is valid
-    :rtype: bool
-
-    .. versionadded:: 0.9.0
-    """
-    allowed = string.digits + string.ascii_uppercase
-    s = []
-    for c in iban[4:] + iban[:4]:
-        if c not in allowed:
-            return False
-        if c in string.digits:
-            s.append(c)
-        else:
-            s.append(str(ord(c) - 55))
-    return int(''.join(s)) % 97 == 1

@@ -32,6 +32,10 @@ from cryptography.hazmat.primitives.padding import PKCS7
 
 from .utils import check_type
 
+__all__ = ['DecryptError', 'Version', 'create_secret_key', 'decrypt_with_key',
+           'decrypt_with_password', 'encrypt_with_key', 'encrypt_with_password',
+           'verify_with_key', 'verify_with_password']
+
 _MAC_HASH = _KDF_HASH = SHA256()
 _IV_LEN = AES.block_size // 8  # 16 bytes
 _MAC_LEN = _MAC_HASH.digest_size  # 32 bytes

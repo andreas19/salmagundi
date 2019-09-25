@@ -194,6 +194,10 @@ from configparser import ConfigParser
 from .strings import str2bool, str2tuple
 from .utils import check_path_like
 
+__all__ = ['ConfigError', 'Error', 'NOTFOUND', 'NOVALUE', 'ReadonlyError',
+           'SpecError', 'configure', 'convert_choice', 'convert_loglevel',
+           'convert_predicate']
+
 _NAME = '_configspec_'
 _CONVERTERS = {'str': str, 'int': int, 'float': float, 'bool': str2bool}
 

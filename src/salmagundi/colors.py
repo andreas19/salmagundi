@@ -3,13 +3,18 @@
 .. seealso::
    - W3C-Wiki:
       - `CSS3/Color <https://www.w3.org/wiki/CSS3/Color>`_
-      - `Extended color keywords <https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords>`_
+      - `Extended color keywords
+        <https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords>`_
    - Wikipedia:
       - `RGB color model <https://en.wikipedia.org/wiki/RGB_color_model>`_
-      - `Web Colors/X11 color names <https://en.wikipedia.org/wiki/Web_colors#X11_color_names>`_
-"""  # noqa: E501
+      - `Web Colors/X11 color names
+        <https://en.wikipedia.org/wiki/Web_colors#X11_color_names>`_
+"""
 
 import string
+
+__all__ = ['color_names', 'floats2rgb', 'hex2rgb', 'is_valid_name', 'name2hex',
+           'name2rgb', 'rgb2floats', 'rgb2hex']
 
 _COLOR_NAMES = {
     'aliceblue': ('#F0F8FF', 240, 248, 255),
