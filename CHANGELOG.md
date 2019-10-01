@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-10-01 (0.9.0)**
  - Add function slugify to module strings
  - Add class TranslationTable to module strings
  - Change function strings.insert_separator
