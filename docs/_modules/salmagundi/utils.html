@@ -79,7 +79,8 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">string</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_type&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="check_type"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.check_type">[docs]</a><span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">classinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -145,32 +146,6 @@
         <span class="nb">memoryview</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">None</span></div>
-
-
-<div class="viewcode-block" id="validate_iban"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.validate_iban">[docs]</a><span class="k">def</span> <span class="nf">validate_iban</span><span class="p">(</span><span class="n">iban</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Validate an IBAN.</span>
-
-<span class="sd">    IBAN = International Bank Account Number</span>
-
-<span class="sd">    The IBAN must not contain any separators;</span>
-<span class="sd">    only the characters ``A-Z`` and ``0-9`` are allowed.</span>
-
-<span class="sd">    :param str iban: the IBAN</span>
-<span class="sd">    :return: ``True`` if the IBAN is valid</span>
-<span class="sd">    :rtype: bool</span>
-
-<span class="sd">    .. versionadded:: 0.9.0</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">allowed</span> <span class="o">=</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span> <span class="o">+</span> <span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span>
-    <span class="n">s</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">iban</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">+</span> <span class="n">iban</span><span class="p">[:</span><span class="mi">4</span><span class="p">]:</span>
-        <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">allowed</span><span class="p">:</span>
-            <span class="k">return</span> <span class="kc">False</span>
-        <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">s</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="mi">55</span><span class="p">))</span>
-    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">s</span><span class="p">))</span> <span class="o">%</span> <span class="mi">97</span> <span class="o">==</span> <span class="mi">1</span></div>
 </pre></div>
 
           </div>

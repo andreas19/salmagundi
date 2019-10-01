@@ -107,6 +107,10 @@
 
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_type</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;DecryptError&#39;</span><span class="p">,</span> <span class="s1">&#39;Version&#39;</span><span class="p">,</span> <span class="s1">&#39;create_secret_key&#39;</span><span class="p">,</span> <span class="s1">&#39;decrypt_with_key&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;decrypt_with_password&#39;</span><span class="p">,</span> <span class="s1">&#39;encrypt_with_key&#39;</span><span class="p">,</span> <span class="s1">&#39;encrypt_with_password&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;verify_with_key&#39;</span><span class="p">,</span> <span class="s1">&#39;verify_with_password&#39;</span><span class="p">]</span>
+
 <span class="n">_MAC_HASH</span> <span class="o">=</span> <span class="n">_KDF_HASH</span> <span class="o">=</span> <span class="n">SHA256</span><span class="p">()</span>
 <span class="n">_IV_LEN</span> <span class="o">=</span> <span class="n">AES</span><span class="o">.</span><span class="n">block_size</span> <span class="o">//</span> <span class="mi">8</span>  <span class="c1"># 16 bytes</span>
 <span class="n">_MAC_LEN</span> <span class="o">=</span> <span class="n">_MAC_HASH</span><span class="o">.</span><span class="n">digest_size</span>  <span class="c1"># 32 bytes</span>

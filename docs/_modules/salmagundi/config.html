@@ -269,6 +269,10 @@
 <span class="kn">from</span> <span class="nn">.strings</span> <span class="k">import</span> <span class="n">str2bool</span><span class="p">,</span> <span class="n">str2tuple</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_path_like</span>
 
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;ConfigError&#39;</span><span class="p">,</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span> <span class="s1">&#39;NOTFOUND&#39;</span><span class="p">,</span> <span class="s1">&#39;NOVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;ReadonlyError&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;SpecError&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_choice&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_loglevel&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convert_predicate&#39;</span><span class="p">]</span>
+
 <span class="n">_NAME</span> <span class="o">=</span> <span class="s1">&#39;_configspec_&#39;</span>
 <span class="n">_CONVERTERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;str&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span> <span class="n">str2bool</span><span class="p">}</span>
 

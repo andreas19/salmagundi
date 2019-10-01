@@ -1,7 +1,11 @@
 History
 -------
 
- - Add functions to modules strings and utils
+ - Add function slugify to module strings
+ - Add class TranslationTable to module strings
+ - Change function strings.insert_separator
+ - Add module validation
+ - Add __all__ to all modules
 
 **2019-06-26 (0.8.0)**
  - Longer secret keys in module crypto

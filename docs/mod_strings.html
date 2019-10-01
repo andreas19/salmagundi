@@ -49,6 +49,7 @@
 <li class="toctree-l2"><a class="reference internal" href="mod_inputs.html">Module <em>inputs</em></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>strings</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_utils.html">Module <em>utils</em></a></li>
+<li class="toctree-l2"><a class="reference internal" href="mod_validation.html">Module <em>validation</em></a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
@@ -264,6 +265,8 @@ are not in [0..65535] or neither of them is given</p>
 <span class="go">&#39;aaa:bbb:ccc:d&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;aaabbbcccd&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 <span class="go">&#39;a:aab:bbc:ccd&#39;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;9783161484100&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="go">&#39;978-3-16-148410-0&#39;</span>
 </pre></div>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
@@ -273,7 +276,7 @@ are not in [0..65535] or neither of them is given</p>
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the string</li>
 <li><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – the separator character(s)</li>
-<li><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a>) – the number of characters between separators</li>
+<li><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.7)"><em>int</em></a><em> or </em><em>sequence of ints</em>) – the size of each group</li>
 <li><strong>reverse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> group from right to left instead from
 left to right</li>
 </ul>
@@ -296,6 +299,9 @@ left to right</li>
 <div class="versionchanged">
 <p><span class="versionmodified">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">reverse</span></code></p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified">Changed in version 0.9.0: </span>Groups can be of different sizes</p>
+</div>
 </dd></dl>
 
 <dl class="function">
@@ -304,7 +310,7 @@ left to right</li>
 <dd><p>Purge characters from a string.</p>
 <p>Each character in <code class="docutils literal notranslate"><span class="pre">chars</span></code> will be eliminated from the string.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">chars=None</span></code> or <code class="docutils literal notranslate"><span class="pre">chars=''</span></code> all consecutive whitespace
-are replaced by a singe space.</p>
+are replaced by a single space.</p>
 <p>if <code class="docutils literal notranslate"><span class="pre">negate=True</span></code> all characters <strong>not</strong> in chars will be
 purged (only applies when <code class="docutils literal notranslate"><span class="pre">chars</span></code> is at least one character)</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">purge</span><span class="p">(</span><span class="s1">&#39;00:80:41:ae:fd:7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
@@ -738,6 +744,9 @@ and there is at least one character</td>
 <dt id="salmagundi.strings.slugify">
 <code class="descclassname">salmagundi.strings.</code><code class="descname">slugify</code><span class="sig-paren">(</span><em>s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#slugify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.slugify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Slugify a string.</p>
+<p>In the created <a class="reference external" href="https://en.wikipedia.org/wiki/Clean_URL#Slug">slug</a> white space
+characters are replaced by dashes (<code class="docutils literal notranslate"><span class="pre">-</span></code>) and all consecutive
+dashes but one are eliminated.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -747,6 +756,40 @@ and there is at least one character</td>
 <tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">slugified string</td>
 </tr>
 <tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></td>
+</tr>
+</tbody>
+</table>
+<div class="versionadded">
+<p><span class="versionmodified">New in version 0.9.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="salmagundi.strings.TranslationTable">
+<em class="property">class </em><code class="descclassname">salmagundi.strings.</code><code class="descname">TranslationTable</code><span class="sig-paren">(</span><em>mapped_chars</em>, <em>unmapped_chars=''</em>, <em>delete_chars=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#TranslationTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.TranslationTable" title="Permalink to this definition">¶</a></dt>
+<dd><p>TranslationTable class.</p>
+<p>This class is for use with <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.translate" title="(in Python v3.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.translate()</span></code></a>. If a character is not
+in <code class="docutils literal notranslate"><span class="pre">mapped_chars</span></code>, <code class="docutils literal notranslate"><span class="pre">unmapped_chars</span></code>, or <code class="docutils literal notranslate"><span class="pre">delete_chars</span></code>
+a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised. See also: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.maketrans" title="(in Python v3.7)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.maketrans()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>mapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.7)"><em>dict</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a><em>)</em>) – mapping from character to replacement string</li>
+<li><strong>unmapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – string with characters that will not be replaced</li>
+<li><strong>delete_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – string with characters that will be deleted</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">the resulting string</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)">str</a></p>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if a character is not allowed</p>
+</td>
 </tr>
 </tbody>
 </table>

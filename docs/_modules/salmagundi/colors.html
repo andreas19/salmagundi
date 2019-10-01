@@ -78,13 +78,18 @@
 <span class="sd">.. seealso::</span>
 <span class="sd">   - W3C-Wiki:</span>
 <span class="sd">      - `CSS3/Color &lt;https://www.w3.org/wiki/CSS3/Color&gt;`_</span>
-<span class="sd">      - `Extended color keywords &lt;https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords&gt;`_</span>
+<span class="sd">      - `Extended color keywords</span>
+<span class="sd">        &lt;https://www.w3.org/wiki/CSS3/Color/Extended_color_keywords&gt;`_</span>
 <span class="sd">   - Wikipedia:</span>
 <span class="sd">      - `RGB color model &lt;https://en.wikipedia.org/wiki/RGB_color_model&gt;`_</span>
-<span class="sd">      - `Web Colors/X11 color names &lt;https://en.wikipedia.org/wiki/Web_colors#X11_color_names&gt;`_</span>
-<span class="sd">&quot;&quot;&quot;</span>  <span class="c1"># noqa: E501</span>
+<span class="sd">      - `Web Colors/X11 color names</span>
+<span class="sd">        &lt;https://en.wikipedia.org/wiki/Web_colors#X11_color_names&gt;`_</span>
+<span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">string</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;color_names&#39;</span><span class="p">,</span> <span class="s1">&#39;floats2rgb&#39;</span><span class="p">,</span> <span class="s1">&#39;hex2rgb&#39;</span><span class="p">,</span> <span class="s1">&#39;is_valid_name&#39;</span><span class="p">,</span> <span class="s1">&#39;name2hex&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;name2rgb&#39;</span><span class="p">,</span> <span class="s1">&#39;rgb2floats&#39;</span><span class="p">,</span> <span class="s1">&#39;rgb2hex&#39;</span><span class="p">]</span>
 
 <span class="n">_COLOR_NAMES</span> <span class="o">=</span> <span class="p">{</span>
     <span class="s1">&#39;aliceblue&#39;</span><span class="p">:</span> <span class="p">(</span><span class="s1">&#39;#F0F8FF&#39;</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">248</span><span class="p">,</span> <span class="mi">255</span><span class="p">),</span>
