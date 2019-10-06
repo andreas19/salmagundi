@@ -67,7 +67,7 @@ def read_lines(file, predicate=None, encoding=None, errors=None):
     result = []
     with open(file, encoding=encoding, errors=errors) as fh:
         for line in fh:
-            line = line.strip()
+            line = line.rstrip('\n')
             if not predicate or predicate(line):
                 result.append(line)
     return result
