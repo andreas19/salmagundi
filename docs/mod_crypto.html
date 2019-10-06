@@ -102,6 +102,43 @@ are created with <a class="reference external" href="https://docs.python.org/3/l
 <p>The <code class="docutils literal notranslate"><span class="pre">key</span></code> arguement for the functions <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>,
 <a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a>, and <a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a> should be created
 with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_secret_key()</span></code></a>.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecryptError</span></code></a></td>
+<td>Raised if data could not be decrypted.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.Version" title="salmagundi.crypto.Version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Version</span></code></a></td>
+<td>Version enum.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_secret_key</span></code></a></td>
+<td>Create a secret key.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_key</span></code></a></td>
+<td>Decrypt data using a secret key.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.decrypt_with_password" title="salmagundi.crypto.decrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_password</span></code></a></td>
+<td>Decrypt data using a password.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_key</span></code></a></td>
+<td>Encrypt data using a secret key.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_password</span></code></a></td>
+<td>Encrypt data using a password.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_key</span></code></a></td>
+<td>Verify the encrypted data.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.verify_with_password" title="salmagundi.crypto.verify_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_password</span></code></a></td>
+<td>Verify the encrypted data.</td>
+</tr>
+</tbody>
+</table>
 <dl class="class">
 <dt id="salmagundi.crypto.Version">
 <em class="property">class </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
@@ -353,6 +390,7 @@ with the given key. This is also done during decryption.</p>
 </table>
 </dd></dl>
 
+</div>
 </div>
 
 

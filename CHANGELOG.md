@@ -1,6 +1,9 @@
 History
 -------
 
+ - Bugfix: files.read_lines() stripped all whitespaces, not only line breaks
+ - Improve documentation: add overview table to each module
+
 **2019-10-01 (0.9.0)**
  - Add function slugify to module strings
  - Add class TranslationTable to module strings

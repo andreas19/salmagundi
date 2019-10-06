@@ -92,6 +92,88 @@
 <div class="versionadded">
 <p><span class="versionmodified">New in version 0.2.0.</span></p>
 </div>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.BINARY_PREFIXES" title="salmagundi.strings.BINARY_PREFIXES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BINARY_PREFIXES</span></code></a></td>
+<td>Binary prefixes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a></td>
+<td>Dictionary with mappings from strings to boolean values.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.DECIMAL_PREFIXES" title="salmagundi.strings.DECIMAL_PREFIXES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DECIMAL_PREFIXES</span></code></a></td>
+<td>Decimal prefixes.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.NO_PREFIX" title="salmagundi.strings.NO_PREFIX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO_PREFIX</span></code></a></td>
+<td>No prefix</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Prefix</span></code></a></td>
+<td>Class for prefixes with fields <code class="docutils literal notranslate"><span class="pre">name,</span> <span class="pre">symbol,</span> <span class="pre">factor</span></code>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.TranslationTable" title="salmagundi.strings.TranslationTable"><code class="xref py py-obj docutils literal notranslate"><span class="pre">TranslationTable</span></code></a></td>
+<td>TranslationTable class.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.bin_prefix" title="salmagundi.strings.bin_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">bin_prefix</span></code></a></td>
+<td>Get an appropriate binary prefix for an integer number.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.dec_prefix" title="salmagundi.strings.dec_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dec_prefix</span></code></a></td>
+<td>Get an appropriate decimal prefix for a number.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.find_bin_prefix" title="salmagundi.strings.find_bin_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_bin_prefix</span></code></a></td>
+<td>Find binary prefix for name or symbol.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.find_dec_prefix" title="salmagundi.strings.find_dec_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">find_dec_prefix</span></code></a></td>
+<td>Find decimal prefix for name or symbol.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.format_bin_prefix" title="salmagundi.strings.format_bin_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_bin_prefix</span></code></a></td>
+<td>Format a number with a binary prefix.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.format_dec_prefix" title="salmagundi.strings.format_dec_prefix"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_dec_prefix</span></code></a></td>
+<td>Format a number with a decimal prefix.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.format_timedelta" title="salmagundi.strings.format_timedelta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">format_timedelta</span></code></a></td>
+<td>Format a time delta.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.insert_separator" title="salmagundi.strings.insert_separator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">insert_separator</span></code></a></td>
+<td>Insert separators in a string.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.int2str" title="salmagundi.strings.int2str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int2str</span></code></a></td>
+<td>Convert an integer to a string.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.is_hexdigit" title="salmagundi.strings.is_hexdigit"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_hexdigit</span></code></a></td>
+<td>Check if all characters are hexadecimal digits.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.parse_timedelta" title="salmagundi.strings.parse_timedelta"><code class="xref py py-obj docutils literal notranslate"><span class="pre">parse_timedelta</span></code></a></td>
+<td>Parse a string as a time delta according to a format.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.purge" title="salmagundi.strings.purge"><code class="xref py py-obj docutils literal notranslate"><span class="pre">purge</span></code></a></td>
+<td>Purge characters from a string.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.shorten" title="salmagundi.strings.shorten"><code class="xref py py-obj docutils literal notranslate"><span class="pre">shorten</span></code></a></td>
+<td>Shorten the text to fit in the given width.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.slugify" title="salmagundi.strings.slugify"><code class="xref py py-obj docutils literal notranslate"><span class="pre">slugify</span></code></a></td>
+<td>Slugify a string.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.split_host_port" title="salmagundi.strings.split_host_port"><code class="xref py py-obj docutils literal notranslate"><span class="pre">split_host_port</span></code></a></td>
+<td>Split a string into host and port.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.str2bool" title="salmagundi.strings.str2bool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str2bool</span></code></a></td>
+<td>Convert a string to a boolean value.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.strings.str2port" title="salmagundi.strings.str2port"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str2port</span></code></a></td>
+<td>Convert a string to a network port number.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.strings.str2tuple" title="salmagundi.strings.str2tuple"><code class="xref py py-obj docutils literal notranslate"><span class="pre">str2tuple</span></code></a></td>
+<td>Convert a string to a tuple.</td>
+</tr>
+</tbody>
+</table>
 <dl class="data">
 <dt id="salmagundi.strings.BOOLEAN_STATES">
 <code class="descclassname">salmagundi.strings.</code><code class="descname">BOOLEAN_STATES</code><a class="headerlink" href="#salmagundi.strings.BOOLEAN_STATES" title="Permalink to this definition">¶</a></dt>
@@ -798,6 +880,7 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
 </div>
 </dd></dl>
 
+</div>
 </div>
 
 

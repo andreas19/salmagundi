@@ -315,6 +315,46 @@ and values are surrounded by spaces</li>
 
 </dd></dl>
 
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.config.ConfigError" title="salmagundi.config.ConfigError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConfigError</span></code></a></td>
+<td>Raised if there is a problem with the configuration.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.config.Error" title="salmagundi.config.Error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Error</span></code></a></td>
+<td>Base Exception.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.config.NOTFOUND" title="salmagundi.config.NOTFOUND"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOTFOUND</span></code></a></td>
+<td>Special value for options that are not found and have no default.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.config.NOVALUE" title="salmagundi.config.NOVALUE"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NOVALUE</span></code></a></td>
+<td>Special value for options without a value (see above).</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.config.ReadonlyError" title="salmagundi.config.ReadonlyError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadonlyError</span></code></a></td>
+<td>Raised on an attempt to set a readonly option.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.config.SpecError" title="salmagundi.config.SpecError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpecError</span></code></a></td>
+<td>Raised if there is a problem with the specification.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">configure</span></code></a></td>
+<td>For an explanation see <a class="reference internal" href="#ref-spec"><span class="std std-ref">above</span></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.config.convert_choice" title="salmagundi.config.convert_choice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_choice</span></code></a></td>
+<td>Return a function that can be used as a converter.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.config.convert_loglevel" title="salmagundi.config.convert_loglevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_loglevel</span></code></a></td>
+<td>Return a converter function for logging levels.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.config.convert_predicate" title="salmagundi.config.convert_predicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_predicate</span></code></a></td>
+<td>Return a converter function with a predicate.</td>
+</tr>
+</tbody>
+</table>
 <dl class="data">
 <dt id="salmagundi.config.NOVALUE">
 <code class="descclassname">salmagundi.config.</code><code class="descname">NOVALUE</code><em class="property"> = &lt;NOVALUE&gt;</em><a class="headerlink" href="#salmagundi.config.NOVALUE" title="Permalink to this definition">¶</a></dt>
@@ -466,6 +506,7 @@ of <a class="reference external" href="https://docs.python.org/3/library/excepti
 </table>
 </dd></dl>
 
+</div>
 </div>
 
 

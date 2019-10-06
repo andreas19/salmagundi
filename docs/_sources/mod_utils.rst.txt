@@ -2,3 +2,14 @@ Module *utils*
 ==============
 
 .. automodule:: salmagundi.utils
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      check_bytes_like
+      check_path_like
+      check_type
+

@@ -96,6 +96,67 @@
 a value as its only argument and returns normally if the value
 is considered valid or raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a> otherwise. It
 may raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><code class="xref py py-class docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the value is not of the right type.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.chain_validator" title="salmagundi.validation.chain_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">chain_validator</span></code></a></td>
+<td>Chain some validators.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.float_validator" title="salmagundi.validation.float_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">float_validator</span></code></a></td>
+<td>Create a function that checks whether a value is a valid float.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.func2validator" title="salmagundi.validation.func2validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">func2validator</span></code></a></td>
+<td>Convert a function to a <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a>.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.in_validator" title="salmagundi.validation.in_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">in_validator</span></code></a></td>
+<td>Create a function that checks for membership.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.int_validator" title="salmagundi.validation.int_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">int_validator</span></code></a></td>
+<td>Create a function that checks whether a value is a valid integer.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.interval_validator" title="salmagundi.validation.interval_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">interval_validator</span></code></a></td>
+<td>Create a function that checks whether a value is in an interval.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.is_valid_ean13" title="salmagundi.validation.is_valid_ean13"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_valid_ean13</span></code></a></td>
+<td>Check whether a string is a valid EAN-13.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.is_valid_iban" title="salmagundi.validation.is_valid_iban"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_valid_iban</span></code></a></td>
+<td>Check whether a string is a valid IBAN.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.is_valid_isbn" title="salmagundi.validation.is_valid_isbn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_valid_isbn</span></code></a></td>
+<td>Check whether a string is a valid ISBN.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.is_valid_luhn" title="salmagundi.validation.is_valid_luhn"><code class="xref py py-obj docutils literal notranslate"><span class="pre">is_valid_luhn</span></code></a></td>
+<td>Check whether a string is valid according to the Luhn algorithm.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.length_validator" title="salmagundi.validation.length_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">length_validator</span></code></a></td>
+<td>Create a function that checks the length.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.mapping_validator" title="salmagundi.validation.mapping_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mapping_validator</span></code></a></td>
+<td>Create a function that checks a mapping.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.object_validator" title="salmagundi.validation.object_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">object_validator</span></code></a></td>
+<td>Create a function that checks whether an object is valid.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.pattern_validator" title="salmagundi.validation.pattern_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">pattern_validator</span></code></a></td>
+<td>Create a function that checks a value with a pattern.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.properties_validator" title="salmagundi.validation.properties_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">properties_validator</span></code></a></td>
+<td>Create a function that checks the properties of an object.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.validation.sequence_validator" title="salmagundi.validation.sequence_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">sequence_validator</span></code></a></td>
+<td>Create a function that checks a sequence.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.validation.set_validator" title="salmagundi.validation.set_validator"><code class="xref py py-obj docutils literal notranslate"><span class="pre">set_validator</span></code></a></td>
+<td>Create a function that checks a set.</td>
+</tr>
+</tbody>
+</table>
 <dl class="function">
 <dt id="salmagundi.validation.object_validator">
 <code class="descclassname">salmagundi.validation.</code><code class="descname">object_validator</code><span class="sig-paren">(</span><em>*</em>, <em>validator=None</em>, <em>value_type=None</em>, <em>strict_type=False</em>, <em>allow_none=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#object_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.object_validator" title="Permalink to this definition">¶</a></dt>
@@ -598,6 +659,7 @@ are allowed.</p>
 </table>
 </dd></dl>
 
+</div>
 </div>
 
 

@@ -7,5 +7,9 @@ dl.method > dt,
 dl.classmethod > dt,
 dl.staticmethod > dt {
     background-color: gainsboro;
-    padding: 1px 5px
+    padding: 1px 5px;
+}
+
+table.longtable {
+    margin-bottom: 20px;
 }

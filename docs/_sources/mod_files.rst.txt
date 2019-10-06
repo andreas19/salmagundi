@@ -2,3 +2,20 @@ Module *files*
 ==============
 
 .. automodule:: salmagundi.files
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      append_all
+      append_lines
+      copyfile
+      on_same_dev
+      read_all
+      read_lines
+      touch
+      write_all
+      write_lines
+

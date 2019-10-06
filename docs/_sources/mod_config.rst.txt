@@ -2,3 +2,21 @@ Module *config*
 ===============
 
 .. automodule:: salmagundi.config
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      ConfigError
+      Error
+      NOTFOUND
+      NOVALUE
+      ReadonlyError
+      SpecError
+      configure
+      convert_choice
+      convert_loglevel
+      convert_predicate
+

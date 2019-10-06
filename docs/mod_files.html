@@ -95,6 +95,43 @@ after reading from/writing to the file.</p>
 The default encoding is platform dependant.</p>
 <p>For a list of error handlers see <a class="reference external" href="https://docs.python.org/3/library/codecs.html#error-handlers">Error Handlers in module codec</a>.
 The default error handler is <code class="docutils literal notranslate"><span class="pre">'strict'</span></code>.</p>
+<div class="section" id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
+<table border="1" class="longtable docutils">
+<colgroup>
+<col width="10%" />
+<col width="90%" />
+</colgroup>
+<tbody valign="top">
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.files.append_all" title="salmagundi.files.append_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_all</span></code></a></td>
+<td>Append the content to a file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.files.append_lines" title="salmagundi.files.append_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">append_lines</span></code></a></td>
+<td>Append the lines to a file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.files.copyfile" title="salmagundi.files.copyfile"><code class="xref py py-obj docutils literal notranslate"><span class="pre">copyfile</span></code></a></td>
+<td>Copy a file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.files.on_same_dev" title="salmagundi.files.on_same_dev"><code class="xref py py-obj docutils literal notranslate"><span class="pre">on_same_dev</span></code></a></td>
+<td>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.files.read_all" title="salmagundi.files.read_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_all</span></code></a></td>
+<td>Read and return the content of the file.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.files.read_lines" title="salmagundi.files.read_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read_lines</span></code></a></td>
+<td>Read and return the content of the file as a list of lines.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.files.touch" title="salmagundi.files.touch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">touch</span></code></a></td>
+<td>Change file timestamps.</td>
+</tr>
+<tr class="row-even"><td><a class="reference internal" href="#salmagundi.files.write_all" title="salmagundi.files.write_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_all</span></code></a></td>
+<td>Write the content to a file.</td>
+</tr>
+<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.files.write_lines" title="salmagundi.files.write_lines"><code class="xref py py-obj docutils literal notranslate"><span class="pre">write_lines</span></code></a></td>
+<td>Write the lines to a file.</td>
+</tr>
+</tbody>
+</table>
 <dl class="function">
 <dt id="salmagundi.files.read_all">
 <code class="descclassname">salmagundi.files.</code><code class="descname">read_all</code><span class="sig-paren">(</span><em>file</em>, <em>binary=False</em>, <em>encoding=None</em>, <em>errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_all" title="Permalink to this definition">¶</a></dt>
@@ -425,6 +462,7 @@ and the process can be cancelled.</p>
 </div>
 </dd></dl>
 
+</div>
 </div>
 
 
