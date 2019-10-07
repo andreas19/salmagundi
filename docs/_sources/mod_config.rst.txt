@@ -9,10 +9,11 @@ Module *config*
    .. autosummary::
       :nosignatures:
 
-      ConfigError
-      Error
       NOTFOUND
       NOVALUE
+      Config
+      ConfigError
+      Error
       ReadonlyError
       SpecError
       configure

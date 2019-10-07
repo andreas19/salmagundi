@@ -112,79 +112,6 @@ True
 Traceback (most recent call last):
   ...
 AttributeError: can't set attribute
-
-
-.. class:: Config
-
-   Configuration class.
-
-   An instance of this class is returned by the function :func:`configure`.
-
-   If ``create_properties=True`` it will have a property for each configuration
-   option named as explained :ref:`above <ref-spec>`. For extra data this is
-   just the name given in the :meth:`add` method.
-
-   Options can also be accessed like this: ``config[sec_name, opt_name]``.
-   To check if an option exists, the ``in`` operator can be used:
-   ``(sec_name, opt_name) in config``.
-
-   For extra data either ``None`` must be used for the section name or only
-   the name of the data, i.e. ``config[None, name]`` and ``config[name]`` are
-   equivalent as are ``(None, name) in config`` and ``name in config``.
-
-   When a :class:`Config` object is used as an iterator it yields 3-tuples
-   for each option: ``(sec_name, opt_name, value)``.
-
-   .. method:: add(name, value, readonly=True)
-
-      Add extra data to configuration object.
-
-      :param str name: the name of the extra data
-      :param value: the value of the data
-      :param bool readonly: if ``True`` the data cannot be changed
-      :raises AttributeError: if an attribute with the same name already exists
-      :raises ConfigError: if ``create_properties=True`` and ``name`` is not a
-                           valid Python identifier; the data can still be
-                           accessed with ``cfg[name]``
-
-   .. method:: sections
-
-      Return section names.
-
-      :return: list with section names
-      :rtype: list
-
-   .. method:: options(section)
-
-      Return option names in the specified section.
-
-      :param str section: a section name
-      :return: list with option names
-      :rtype: list
-
-   .. method:: extras
-
-      Return names of extra data added with :meth:`add`.
-
-      :return: list with names of extra data
-      :rtype: list
-
-   .. method:: write(file, space_around_delimiters=True)
-
-      Write a representation of the configuration to the specified file.
-
-      Extra data added with :meth:`add` will be excluded.
-
-      :param file: the file
-      :type file: :term:`path-like object` or :term:`text file`
-                  opened for writing
-      :param bool space_around_delimiters: if ``True``, delimiters between keys
-                                           and values are surrounded by spaces
-
-   .. method:: debug_info
-
-      Return an iterator that yields 5-tuples
-      ``(sec, opt, name, value, readonly)`` for each option.
 """
 
 import types
@@ -194,9 +121,9 @@ from configparser import ConfigParser
 from .strings import str2bool, str2tuple
 from .utils import check_path_like
 
-__all__ = ['ConfigError', 'Error', 'NOTFOUND', 'NOVALUE', 'ReadonlyError',
-           'SpecError', 'configure', 'convert_choice', 'convert_loglevel',
-           'convert_predicate']
+__all__ = ['NOTFOUND', 'NOVALUE', 'Config', 'ConfigError', 'Error',
+           'ReadonlyError', 'SpecError', 'configure', 'convert_choice',
+           'convert_loglevel', 'convert_predicate']
 
 _NAME = '_configspec_'
 _CONVERTERS = {'str': str, 'int': int, 'float': float, 'bool': str2bool}
@@ -326,7 +253,27 @@ def _key(key):
     return key
 
 
-class _BaseConfig:
+class Config:
+    """Configuration class.
+
+    An instance of this class is returned by the function :func:`configure`.
+
+    If ``create_properties=True`` it will have a property for each configuration
+    option named as explained :ref:`above <ref-spec>`. For extra data this is
+    just the name given in the :meth:`add` method.
+
+    Options can also be accessed like this: ``config[sec_name, opt_name]``.
+    To check if an option exists, the ``in`` operator can be used:
+    ``(sec_name, opt_name) in config``.
+
+    For extra data either ``None`` must be used for the section name or only
+    the name of the data, i.e. ``config[None, name]`` and ``config[name]`` are
+    equivalent as are ``(None, name) in config`` and ``name in config``.
+
+    When a :class:`Config` object is used as an iterator it yields 3-tuples
+    for each option: ``(sec_name, opt_name, value)``.
+    """
+
     def __init__(self, options, create_props, kwargs):
         self._options = {k: (v.name, v.ro) for k, v in options.items()}
         self._values = {k: v.value for k, v in options.items()}
@@ -359,6 +306,17 @@ class _BaseConfig:
             delattr(self.__class__, name)
 
     def add(self, name, value, readonly=True):
+        """Add extra data to configuration object.
+
+        :param str name: the name of the extra data
+        :param value: the value of the data
+        :param bool readonly: if ``True`` the data cannot be changed
+        :raises AttributeError: if an attribute with the same name already
+                                exists
+        :raises ConfigError: if ``create_properties=True`` and ``name`` is not
+                             a valid Python identifier; the data can still be
+                             accessed with ``cfg[name]``
+        """
         key = (None, name)
         self._options[key] = (name if self._create_props else None, readonly)
         self._values[key] = value
@@ -371,6 +329,11 @@ class _BaseConfig:
                     None if readonly else _setter(key), _deleter(key)))
 
     def sections(self):
+        """Return section names.
+
+        :return: list with section names
+        :rtype: list
+        """
         lst = []
         seen = set()
         for sec, _ in self._options:
@@ -382,13 +345,35 @@ class _BaseConfig:
         return lst
 
     def options(self, sec):
+        """Return option names in the specified section.
+
+        :param str section: a section name
+        :return: list with option names
+        :rtype: list
+        """
         return list(opt for (s, opt) in self._options
                     if s == sec and sec is not None)
 
     def extras(self):
+        """Return names of extra data added with :meth:`add`.
+
+        :return: list with names of extra data
+        :rtype: list
+        """
         return list(opt for (sec, opt) in self._options if sec is None)
 
     def write(self, file, space_around_delimiters=True):
+        """Write a representation of the configuration to the specified file.
+
+        Extra data added with :meth:`add` will be excluded.
+
+        :param file: the file
+        :type file: :term:`path-like object` or :term:`text file`
+                    opened for writing
+        :param bool space_around_delimiters: if ``True``, delimiters between
+                                             keys and values are surrounded by
+                                             spaces
+        """
         d = {}
         for (sec, opt) in self._options:
             if sec is None:
@@ -411,6 +396,11 @@ class _BaseConfig:
             cp.write(file, space_around_delimiters=space_around_delimiters)
 
     def debug_info(self):
+        """Return an iterator for debugging.
+
+        It yields 5-tuples ``(sec, opt, name, value, readonly)``
+        for each option.
+        """
         for key, (name, readonly) in self._options.items():
             yield (*key, name, self._values[key], readonly)
 
@@ -521,8 +511,8 @@ def configure(conf, spec, *, create_properties=True, converters=None, **kwargs):
                                          None if data.ro else _setter(key),
                                          _deleter(key))
 
-    Config = types.new_class('Config', (_BaseConfig,), {}, cls_cb)
-    return Config(options, create_properties, kwargs)
+    C = types.new_class('Config', (Config,), {}, cls_cb)
+    return C(options, create_properties, kwargs)
 
 
 def convert_choice(choices, *, converter=None, default=None):

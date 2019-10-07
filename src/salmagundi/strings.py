@@ -680,7 +680,6 @@ class TranslationTable:
     """
 
     def __init__(self, mapped_chars, unmapped_chars='', delete_chars=''):
-        """Init method."""
         self._mapped_chars = {ord(k): v for k, v in mapped_chars.items()}
         self._unmapped_chars = [ord(ch) for ch in unmapped_chars]
         self._delete_chars = [ord(ch) for ch in delete_chars]
