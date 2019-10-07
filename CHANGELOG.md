@@ -1,6 +1,7 @@
 History
 -------
 
+**2019-10-07 (0.9.2)**
  - Fix documentation for module config
  - Link to overview table for selected module now in sidebar
 
