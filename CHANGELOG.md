@@ -1,6 +1,9 @@
 History
 -------
 
+ - Fix documentation for module config
+ - Link to overview table for selected module now in sidebar
+
 **2019-10-06 (0.9.1)**
  - Bugfix: files.read_lines() stripped all whitespaces, not only line breaks
  - Improve documentation: add overview table to each module
