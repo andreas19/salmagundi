@@ -10,11 +10,11 @@ History
  - Improve documentation: add overview table to each module
 
 **2019-10-01 (0.9.0)**
- - Add function slugify to module strings
+ - Add function slugify() to module strings
  - Add class TranslationTable to module strings
- - Change function strings.insert_separator
+ - Change function strings.insert_separator()
  - Add module validation
- - Add __all__ to all modules
+ - Add \_\_all\_\_ to all modules
 
 **2019-06-26 (0.8.0)**
  - Longer secret keys in module crypto
@@ -32,7 +32,7 @@ History
 
 **2019-01-31 (0.7.0)**
  - Add module config
- - Add function int2str to module strings
+ - Add function int2str() to module strings
  - Bugfix: strings.str2tuple() can now use whitespace as separator
 
 **2019-01-15 (0.6.1)**
@@ -40,7 +40,7 @@ History
    numbers correctly
 
 **2019-01-14 (0.6.0)**
- - Add check_*() functions to module inputs
+ - Add check_\*() functions to module inputs
  - Add parameter caption to function menu() in module inputs
  - Add parameter errors to \*_all() and \*_lines() functions in module files
  - Add parameter reverse to function insert_separator() in module strings
