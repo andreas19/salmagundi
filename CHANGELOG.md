@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-01-02 (0.9.4)**
  - Bugfix: microseconds format in strings.format_timedelta()
 
 **2019-10-07 (0.9.2)**
