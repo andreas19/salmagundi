@@ -20,4 +20,3 @@ Module *config*
       convert_choice
       convert_loglevel
       convert_predicate
-

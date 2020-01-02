@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Module utils &#8212; Salmagundi 0.9.2 documentation</title>
+    <meta charset="utf-8" />
+    <title>Module utils &#8212; Salmagundi 0.9.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -70,17 +69,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="documentwrapper">
@@ -93,30 +98,30 @@
 <span id="module-utils"></span><h1>Module <em>utils</em><a class="headerlink" href="#module-salmagundi.utils" title="Permalink to this headline">¶</a></h1>
 <p>Utilities.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.5.0.</span></p>
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
 </div>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.utils.check_bytes_like" title="salmagundi.utils.check_bytes_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_bytes_like</span></code></a></td>
-<td>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.7)"><span class="xref std std-term">bytes-like object</span></a>.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.check_bytes_like" title="salmagundi.utils.check_bytes_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_bytes_like</span></code></a></p></td>
+<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#salmagundi.utils.check_path_like" title="salmagundi.utils.check_path_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_path_like</span></code></a></td>
-<td>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.7)"><span class="xref std std-term">path-like object</span></a>.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.check_path_like" title="salmagundi.utils.check_path_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_path_like</span></code></a></p></td>
+<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.utils.check_type" title="salmagundi.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a></td>
-<td>Check the type of an object.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.check_type" title="salmagundi.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a></p></td>
+<td><p>Check the type of an object.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="function">
 <dt id="salmagundi.utils.check_type">
-<code class="descclassname">salmagundi.utils.</code><code class="descname">check_type</code><span class="sig-paren">(</span><em>obj</em>, <em>classinfo</em>, <em>name='object'</em>, <em>msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_type" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_type</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">classinfo</em>, <em class="sig-param">name='object'</em>, <em class="sig-param">msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check the type of an object.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="n">check_type</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;num&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
@@ -132,67 +137,55 @@
 <span class="gr">TypeError</span>: <span class="n">wrong type for num</span>
 </pre></div>
 </div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – the object</li>
-<li><strong>classinfo</strong> – see <a class="reference external" href="https://docs.python.org/3/library/functions.html#isinstance" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a></li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name shown in the exception message</li>
-<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – message for the exception</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>classinfo</strong> – see <a class="reference external" href="https://docs.python.org/3/library/functions.html#isinstance" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a></p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message for the exception</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if the check fails</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.utils.check_path_like">
-<code class="descclassname">salmagundi.utils.</code><code class="descname">check_path_like</code><span class="sig-paren">(</span><em>obj</em>, <em>name='object'</em>, <em>msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_path_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_path_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.7)"><span class="xref std std-term">path-like object</span></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – the object</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name shown in the exception message</li>
-<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – alternative message</li>
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_path_like</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">name='object'</em>, <em class="sig-param">msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_path_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_path_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if the check fails</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.utils.check_bytes_like">
-<code class="descclassname">salmagundi.utils.</code><code class="descname">check_bytes_like</code><span class="sig-paren">(</span><em>obj</em>, <em>name='object'</em>, <em>msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_bytes_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_bytes_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.7)"><span class="xref std std-term">bytes-like object</span></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.7)"><em>object</em></a>) – the object</li>
-<li><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – name shown in the exception message</li>
-<li><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.7)"><em>str</em></a>) – alternative message</li>
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_bytes_like</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">name='object'</em>, <em class="sig-param">msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_bytes_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_bytes_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if the check fails</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -206,11 +199,11 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2019, Andreas Suhre.
+      &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

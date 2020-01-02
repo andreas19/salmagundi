@@ -26,4 +26,3 @@ Module *validation*
       properties_validator
       sequence_validator
       set_validator
-

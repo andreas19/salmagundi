@@ -425,7 +425,7 @@ def format_dec_prefix(num_frmt, value, prefix=None, restricted=True):
 
 
 _TIMEDELTA_FRMT_RE = re.compile(
-    r'%(?P<flag>0?)(?P<width>\d*)(?P<code>[DHMSs])')
+    r'%(?P<flag>[0 ]?)(?P<width>\d*)(?P<code>[DHMSs])')
 
 _TdFmtTuple = namedtuple('TdFmtTuple', 'text, flag, width, code')
 
@@ -473,6 +473,7 @@ def format_timedelta(fmt_str, delta):
     Flag     Meaning
     =======  =======
     ``'0'``  zero-padded
+    ``' '``  space-padded (default except for ``'s'``)
     =======  =======
 
     Supported format codes:
@@ -490,12 +491,21 @@ def format_timedelta(fmt_str, delta):
     ``'Z'``  equal to ``%02M:%02S``
     =======  =======
 
+    The codes ``'X', 'Y', 'Z'`` cannot be used with flags and field widths.
+
+    If the field width for microseconds (code ``'s'``) is less than 6 it will
+    be counted from the left. So ``'%3s'`` will get milliseconds.
+
     >>> format_timedelta('%03H:%M:%S.%06s', 90078.012345678)
     '025:1:18.012346'
-    >>> format_timedelta('%Z', 3678.123)
-    '61:18'
-    >>> format_timedelta('%M min %S sec', 3678.123)
-    '61 min 18 sec'
+    >>> format_timedelta('%03H:%M:%S.%05s', 90078.012345678)
+    '025:1:18.01235'
+    >>> format_timedelta('%03H:%M:%S.%04s', 90078.012345678)
+    '025:1:18.0123'
+    >>> format_timedelta('%Z.%03s', 3678.0123)
+    '61:18.012'
+    >>> format_timedelta('%M min %S sec %3s ms', 3678.0123)
+    '61 min 18 sec 12 ms'
 
     :param str fmt_str: the format string
     :param delta: the time delta
@@ -534,8 +544,21 @@ def format_timedelta(fmt_str, delta):
                     args['H'] = delta_rest
                     if max_unit == 'D':
                         args['D'] = delta.days
-    return ''.join('{0.text}%({0.code}){0.flag}{0.width}d'.format(x)
-                   if isinstance(x, tuple) else x for x in fmt) % args
+    fmt_lst = []
+    for x in fmt:
+        if isinstance(x, tuple):
+            if x.code == 's' and max_unit != 's':
+                e = (6 - int(x.width)) if x.width else 0
+                v = round(float(args['s']) / 10 ** e)
+                if x.flag:
+                    v = f'%{x.flag}{x.width}d' % v
+                s = f'{x.text}{v}'
+            else:
+                s = f'{x.text}%({x.code}){x.flag}{x.width}d' % args
+        else:
+            s = x
+        fmt_lst.append(s)
+    return ''.join(fmt_lst)
 
 
 def parse_timedelta(string, fmt_str):

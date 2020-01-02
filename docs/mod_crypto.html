@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Module crypto &#8212; Salmagundi 0.9.2 documentation</title>
+    <meta charset="utf-8" />
+    <title>Module crypto &#8212; Salmagundi 0.9.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -70,17 +69,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="documentwrapper">
@@ -93,7 +98,7 @@
 <span id="module-crypto"></span><h1>Module <em>crypto</em><a class="headerlink" href="#module-salmagundi.crypto" title="Permalink to this headline">¶</a></h1>
 <p>Cryptography module.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.5.0.</span></p>
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
 </div>
 <p>This module provides the reference implementation of the
 <a class="reference external" href="https://github.com/andreas19/gemina-spec">Gemina specification</a>
@@ -101,75 +106,75 @@ for data encryption.</p>
 <p>For more details see the section
 <a class="reference external" href="https://github.com/andreas19/gemina-spec#description">Description</a>.</p>
 <p>The initialization vector for CBC, the keys, and the salt for HMAC
-are created with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.7)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
+are created with <a class="reference external" href="https://docs.python.org/3/library/os.html#os.urandom" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">os.urandom()</span></code></a>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">key</span></code> arguement for the functions <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>,
 <a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a>, and <a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a> should be created
 with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">create_secret_key()</span></code></a>.</p>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
-<table border="1" class="longtable docutils">
+<table class="longtable docutils align-default">
 <colgroup>
-<col width="10%" />
-<col width="90%" />
+<col style="width: 10%" />
+<col style="width: 90%" />
 </colgroup>
-<tbody valign="top">
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecryptError</span></code></a></td>
-<td>Raised if data could not be decrypted.</td>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DecryptError</span></code></a></p></td>
+<td><p>Raised if data could not be decrypted.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.Version" title="salmagundi.crypto.Version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Version</span></code></a></td>
-<td>Version enum.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.crypto.Version" title="salmagundi.crypto.Version"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Version</span></code></a></p></td>
+<td><p>Version enum.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_secret_key</span></code></a></td>
-<td>Create a secret key.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.crypto.create_secret_key" title="salmagundi.crypto.create_secret_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">create_secret_key</span></code></a></p></td>
+<td><p>Create a secret key.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_key</span></code></a></td>
-<td>Decrypt data using a secret key.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_key</span></code></a></p></td>
+<td><p>Decrypt data using a secret key.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.decrypt_with_password" title="salmagundi.crypto.decrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_password</span></code></a></td>
-<td>Decrypt data using a password.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.crypto.decrypt_with_password" title="salmagundi.crypto.decrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">decrypt_with_password</span></code></a></p></td>
+<td><p>Decrypt data using a password.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_key</span></code></a></td>
-<td>Encrypt data using a secret key.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_key</span></code></a></p></td>
+<td><p>Encrypt data using a secret key.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_password</span></code></a></td>
-<td>Encrypt data using a password.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">encrypt_with_password</span></code></a></p></td>
+<td><p>Encrypt data using a password.</p></td>
 </tr>
-<tr class="row-even"><td><a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_key</span></code></a></td>
-<td>Verify the encrypted data.</td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_key</span></code></a></p></td>
+<td><p>Verify the encrypted data.</p></td>
 </tr>
-<tr class="row-odd"><td><a class="reference internal" href="#salmagundi.crypto.verify_with_password" title="salmagundi.crypto.verify_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_password</span></code></a></td>
-<td>Verify the encrypted data.</td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.crypto.verify_with_password" title="salmagundi.crypto.verify_with_password"><code class="xref py py-obj docutils literal notranslate"><span class="pre">verify_with_password</span></code></a></p></td>
+<td><p>Verify the encrypted data.</p></td>
 </tr>
 </tbody>
 </table>
 <dl class="class">
 <dt id="salmagundi.crypto.Version">
-<em class="property">class </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Version enum.</p>
 <div class="versionadded">
-<p><span class="versionmodified">New in version 0.8.0.</span></p>
+<p><span class="versionmodified added">New in version 0.8.0.</span></p>
 </div>
 <dl class="attribute">
 <dt id="salmagundi.crypto.Version.V1">
-<code class="descname">V1</code><em class="property"> = b'\x8a'</em><a class="headerlink" href="#salmagundi.crypto.Version.V1" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">V1</code><em class="property"> = b'\x8a'</em><a class="headerlink" href="#salmagundi.crypto.Version.V1" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 1</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="salmagundi.crypto.Version.V2">
-<code class="descname">V2</code><em class="property"> = b'\x8b'</em><a class="headerlink" href="#salmagundi.crypto.Version.V2" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">V2</code><em class="property"> = b'\x8b'</em><a class="headerlink" href="#salmagundi.crypto.Version.V2" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 2</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="salmagundi.crypto.Version.V3">
-<code class="descname">V3</code><em class="property"> = b'\x8c'</em><a class="headerlink" href="#salmagundi.crypto.Version.V3" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">V3</code><em class="property"> = b'\x8c'</em><a class="headerlink" href="#salmagundi.crypto.Version.V3" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 3</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="salmagundi.crypto.Version.V4">
-<code class="descname">V4</code><em class="property"> = b'\x8d'</em><a class="headerlink" href="#salmagundi.crypto.Version.V4" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">V4</code><em class="property"> = b'\x8d'</em><a class="headerlink" href="#salmagundi.crypto.Version.V4" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 4</p>
 </dd></dl>
 
@@ -177,220 +182,194 @@ with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" t
 
 <dl class="exception">
 <dt id="salmagundi.crypto.DecryptError">
-<em class="property">exception </em><code class="descclassname">salmagundi.crypto.</code><code class="descname">DecryptError</code><a class="reference internal" href="_modules/salmagundi/crypto.html#DecryptError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.DecryptError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">DecryptError</code><a class="reference internal" href="_modules/salmagundi/crypto.html#DecryptError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.DecryptError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if data could not be decrypted.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.create_secret_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">create_secret_key</code><span class="sig-paren">(</span><em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">create_secret_key</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a secret key.</p>
 <p>It can be used with the functions <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>,
 <a class="reference internal" href="#salmagundi.crypto.decrypt_with_key" title="salmagundi.crypto.decrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">decrypt_with_key()</span></code></a>, and <a class="reference internal" href="#salmagundi.crypto.verify_with_key" title="salmagundi.crypto.verify_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">verify_with_key()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">secret key</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>secret key</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+</dl>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+<p><span class="versionmodified changed">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.encrypt_with_password">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_password</code><span class="sig-paren">(</span><em>password</em>, <em>data</em>, <em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">encrypt_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em>, <em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a password.</p>
 <p>The data will be encrypted with a key derived from the
 password and signed.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the password</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the data to encrypt</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the password</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the data to encrypt</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">encrypted data</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>encrypted data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+</dd>
+</dl>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+<p><span class="versionmodified changed">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.decrypt_with_password">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">decrypt_with_password</code><span class="sig-paren">(</span><em>password</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrypt data using a password.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_password()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the password</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the encrypted data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the password</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the encrypted data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">decrypted data</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></li>
-<li><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><strong>DecryptError</strong></a> – if data could not be decrypted</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>decrypted data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></li>
+<li><p><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><strong>DecryptError</strong></a> – if data could not be decrypted</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.verify_with_password">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">verify_with_password</code><span class="sig-paren">(</span><em>password</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify the encrypted data.</p>
 <p>This function verifies the authenticity and the integrity of the data
 with the key derived from the password. This is also done during decryption.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_password()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the password</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the encrypted data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>password</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the password</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the encrypted data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if password, authenticity and integrity are okay</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><p class="first last"><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if password, authenticity and integrity are okay</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">password</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.encrypt_with_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">encrypt_with_key</code><span class="sig-paren">(</span><em>key</em>, <em>data</em>, <em>*</em>, <em>version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">encrypt_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em>, <em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a secret key.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the secret key</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the data to encrypt</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the secret key</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the data to encrypt</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">encrypted data</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>encrypted data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 <div class="versionchanged">
-<p><span class="versionmodified">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
+<p><span class="versionmodified changed">Changed in version 0.8.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">version</span></code></p>
 </div>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.decrypt_with_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">decrypt_with_key</code><span class="sig-paren">(</span><em>key</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrypt data using a secret key.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the secret key</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the encrypted data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the secret key</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the encrypted data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">decrypted data</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)">bytes</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</li>
-<li><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><strong>DecryptError</strong></a> – if data could not be decrypted</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>decrypted data</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)">bytes</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</p></li>
+<li><p><a class="reference internal" href="#salmagundi.crypto.DecryptError" title="salmagundi.crypto.DecryptError"><strong>DecryptError</strong></a> – if data could not be decrypted</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="salmagundi.crypto.verify_with_key">
-<code class="descclassname">salmagundi.crypto.</code><code class="descname">verify_with_key</code><span class="sig-paren">(</span><em>key</em>, <em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify the encrypted data.</p>
 <p>This function verifies the authenticity and the integrity of the data
 with the given key. This is also done during decryption.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the secret key</li>
-<li><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.7)"><em>bytes</em></a>) – the encrypted data</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>key</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the secret key</p></li>
+<li><p><strong>data</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a>) – the encrypted data</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><code class="docutils literal notranslate"><span class="pre">True</span></code> if secret key, authenticity and integrity are okay</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.7)">bool</a></p>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Raises:</th><td class="field-body"><ul class="first last simple">
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.7)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></li>
-<li><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.7)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</li>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if secret key, authenticity and integrity are okay</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">key</span></code> or <code class="docutils literal notranslate"><span class="pre">data</span></code> are not <code class="docutils literal notranslate"><span class="pre">bytes</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if size of <code class="docutils literal notranslate"><span class="pre">key</span></code> is not correct</p></li>
 </ul>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -404,11 +383,11 @@ with the given key. This is also done during decryption.</p>
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2019, Andreas Suhre.
+      &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

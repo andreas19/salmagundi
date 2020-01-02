@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>salmagundi.strings &#8212; Salmagundi 0.9.2 documentation</title>
+    <meta charset="utf-8" />
+    <title>salmagundi.strings &#8212; Salmagundi 0.9.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -53,17 +52,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="documentwrapper">
@@ -83,11 +88,11 @@
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">string</span>
 <span class="kn">import</span> <span class="nn">unicodedata</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">namedtuple</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="k">import</span> <span class="n">timedelta</span>
-<span class="kn">from</span> <span class="nn">functools</span> <span class="k">import</span> <span class="n">lru_cache</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_type</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BINARY_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;BOOLEAN_STATES&#39;</span><span class="p">,</span> <span class="s1">&#39;DECIMAL_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;NO_PREFIX&#39;</span><span class="p">,</span>
            <span class="s1">&#39;Prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;TranslationTable&#39;</span><span class="p">,</span> <span class="s1">&#39;bin_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;dec_prefix&#39;</span><span class="p">,</span>
@@ -500,7 +505,7 @@
 
 
 <span class="n">_TIMEDELTA_FRMT_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
-    <span class="sa">r</span><span class="s1">&#39;%(?P&lt;flag&gt;0?)(?P&lt;width&gt;\d*)(?P&lt;code&gt;[DHMSs])&#39;</span><span class="p">)</span>
+    <span class="sa">r</span><span class="s1">&#39;%(?P&lt;flag&gt;[0 ]?)(?P&lt;width&gt;\d*)(?P&lt;code&gt;[DHMSs])&#39;</span><span class="p">)</span>
 
 <span class="n">_TdFmtTuple</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;TdFmtTuple&#39;</span><span class="p">,</span> <span class="s1">&#39;text, flag, width, code&#39;</span><span class="p">)</span>
 
@@ -548,6 +553,7 @@
 <span class="sd">    Flag     Meaning</span>
 <span class="sd">    =======  =======</span>
 <span class="sd">    ``&#39;0&#39;``  zero-padded</span>
+<span class="sd">    ``&#39; &#39;``  space-padded (default except for ``&#39;s&#39;``)</span>
 <span class="sd">    =======  =======</span>
 
 <span class="sd">    Supported format codes:</span>
@@ -565,12 +571,21 @@
 <span class="sd">    ``&#39;Z&#39;``  equal to ``%02M:%02S``</span>
 <span class="sd">    =======  =======</span>
 
+<span class="sd">    The codes ``&#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;`` cannot be used with flags and field widths.</span>
+
+<span class="sd">    If the field width for microseconds (code ``&#39;s&#39;``) is less than 6 it will</span>
+<span class="sd">    be counted from the left. So ``&#39;%3s&#39;`` will get milliseconds.</span>
+
 <span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%06s&#39;, 90078.012345678)</span>
 <span class="sd">    &#39;025:1:18.012346&#39;</span>
-<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%Z&#39;, 3678.123)</span>
-<span class="sd">    &#39;61:18&#39;</span>
-<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%M min %S sec&#39;, 3678.123)</span>
-<span class="sd">    &#39;61 min 18 sec&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%05s&#39;, 90078.012345678)</span>
+<span class="sd">    &#39;025:1:18.01235&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%04s&#39;, 90078.012345678)</span>
+<span class="sd">    &#39;025:1:18.0123&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%Z.%03s&#39;, 3678.0123)</span>
+<span class="sd">    &#39;61:18.012&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%M min %S sec %3s ms&#39;, 3678.0123)</span>
+<span class="sd">    &#39;61 min 18 sec 12 ms&#39;</span>
 
 <span class="sd">    :param str fmt_str: the format string</span>
 <span class="sd">    :param delta: the time delta</span>
@@ -609,8 +624,21 @@
                     <span class="n">args</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta_rest</span>
                     <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
                         <span class="n">args</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span>
-    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">{0.text}</span><span class="s1">%(</span><span class="si">{0.code}</span><span class="s1">)</span><span class="si">{0.flag}{0.width}</span><span class="s1">d&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-                   <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)</span> <span class="k">else</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt</span><span class="p">)</span> <span class="o">%</span> <span class="n">args</span></div>
+    <span class="n">fmt_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span> <span class="ow">and</span> <span class="n">max_unit</span> <span class="o">!=</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">width</span><span class="p">))</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">width</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{x.flag}{x.width}</span><span class="s1">d&#39;</span> <span class="o">%</span> <span class="n">v</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{x.text}{v}</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{x.text}</span><span class="s1">%(</span><span class="si">{x.code}</span><span class="s1">)</span><span class="si">{x.flag}{x.width}</span><span class="s1">d&#39;</span> <span class="o">%</span> <span class="n">args</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">fmt_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt_lst</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="parse_timedelta"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.parse_timedelta">[docs]</a><span class="k">def</span> <span class="nf">parse_timedelta</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">fmt_str</span><span class="p">):</span>
@@ -754,12 +782,12 @@
 <span class="sd">    .. versionadded:: 0.9.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapped_chars</span><span class="p">,</span> <span class="n">unmapped_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">delete_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapped_chars</span><span class="p">,</span> <span class="n">unmapped_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">delete_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span> <span class="o">=</span> <span class="p">{</span><span class="nb">ord</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapped_chars</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_unmapped_chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">unmapped_chars</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_delete_chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">delete_chars</span><span class="p">]</span>
 
-    <span class="k">def</span> <span class="nf">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
         <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unmapped_chars</span><span class="p">:</span>
@@ -776,11 +804,11 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2019, Andreas Suhre.
+      &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

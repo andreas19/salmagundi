@@ -1,18 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>salmagundi.validation &#8212; Salmagundi 0.9.2 documentation</title>
+    <meta charset="utf-8" />
+    <title>salmagundi.validation &#8212; Salmagundi 0.9.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -53,17 +52,23 @@
 </ul>
 </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
         </div>
       </div>
       <div class="documentwrapper">
@@ -92,11 +97,11 @@
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">string</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="k">import</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Set</span>
-<span class="kn">from</span> <span class="nn">contextlib</span> <span class="k">import</span> <span class="n">suppress</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Set</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
 
-<span class="kn">from</span> <span class="nn">.strings</span> <span class="k">import</span> <span class="n">TranslationTable</span>
-<span class="kn">from</span> <span class="nn">.utils</span> <span class="k">import</span> <span class="n">check_type</span>
+<span class="kn">from</span> <span class="nn">.strings</span> <span class="kn">import</span> <span class="n">TranslationTable</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chain_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;float_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;func2validator&#39;</span><span class="p">,</span>
            <span class="s1">&#39;in_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;int_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;interval_validator&#39;</span><span class="p">,</span>
@@ -111,13 +116,13 @@
 
 <span class="k">def</span> <span class="nf">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;</span><span class="si">{validator!r}</span><span class="s1"> is not callable&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{validator!r}</span><span class="s1"> is not callable&#39;</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
         <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
         <span class="n">parameters</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span>
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;validator must take 1 argument,&#39;</span>
-                            <span class="n">f</span><span class="s1">&#39; not {len(parameters)}&#39;</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s1">&#39; not {len(parameters)}&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="object_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.object_validator">[docs]</a><span class="k">def</span> <span class="nf">object_validator</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_type</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -160,13 +165,13 @@
             <span class="k">return</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">value_type</span> <span class="ow">and</span> <span class="p">(</span><span class="n">strict_type</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">value_type</span> <span class="ow">or</span>
                             <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))):</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;value must be of type </span><span class="si">{value_type.__name__!r}</span><span class="s1">,&#39;</span>
-                            <span class="n">f</span><span class="s1">&#39; got </span><span class="si">{value.__class__.__name__!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value must be of type </span><span class="si">{value_type.__name__!r}</span><span class="s1">,&#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39; got </span><span class="si">{value.__class__.__name__!r}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">validator</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;invalid object: </span><span class="si">{value!r}</span><span class="s1"> (</span><span class="si">{ex}</span><span class="s1">)&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid object: </span><span class="si">{value!r}</span><span class="s1"> (</span><span class="si">{ex}</span><span class="s1">)&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -188,7 +193,7 @@
     <span class="k">if</span> <span class="p">(</span><span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
             <span class="ow">not</span> <span class="p">(</span><span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;min_value is greater than max_value&#39;</span>
-                         <span class="n">f</span><span class="s1">&#39; (</span><span class="si">{min_value}</span><span class="s1"> &gt; </span><span class="si">{max_value}</span><span class="s1">)&#39;</span><span class="p">)</span>
+                         <span class="sa">f</span><span class="s1">&#39; (</span><span class="si">{min_value}</span><span class="s1"> &gt; </span><span class="si">{max_value}</span><span class="s1">)&#39;</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="n">in_range</span> <span class="o">=</span> <span class="kc">True</span>
@@ -205,10 +210,10 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="n">in_range</span><span class="p">:</span>
             <span class="n">interval</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
                 <span class="s1">&#39;[&#39;</span> <span class="k">if</span> <span class="n">min_incl</span> <span class="k">else</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span>
-                <span class="n">f</span><span class="s1">&#39;</span><span class="si">{min_value}</span><span class="s1">, </span><span class="si">{max_value}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{min_value}</span><span class="s1">, </span><span class="si">{max_value}</span><span class="s1">&#39;</span><span class="p">,</span>
                 <span class="s1">&#39;]&#39;</span> <span class="k">if</span> <span class="n">max_incl</span> <span class="k">else</span> <span class="s1">&#39;[&#39;</span>
             <span class="p">])</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in </span><span class="si">{interval}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in </span><span class="si">{interval}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -243,7 +248,7 @@
             <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
                 <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in interval&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in interval&#39;</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
         <span class="n">vf</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
@@ -289,7 +294,7 @@
             <span class="k">if</span> <span class="n">allow_inf</span><span class="p">:</span>
                 <span class="k">return</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;value {&quot;+&quot; if value &gt; 0 else &quot;-&quot;}Inf is not allowed&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">&#39;value {&quot;+&quot; if value &gt; 0 else &quot;-&quot;}Inf is not allowed&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">allow_ints</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
             <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -332,7 +337,7 @@
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -362,7 +367,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">validator</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;error at sequence index </span><span class="si">{i}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error at sequence index </span><span class="si">{i}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -385,7 +390,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">validator</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;error in set: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in set: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -414,18 +419,18 @@
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">validator</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;error in mapping key: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in mapping key: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">validator</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;error in mapping: value for key&#39;</span>
-                                     <span class="n">f</span><span class="s1">&#39; </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                     <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">try</span><span class="p">:</span>
                     <span class="n">validator</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
                 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;error in mapping item: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in mapping item: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -478,9 +483,9 @@
                     <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
                         <span class="n">validator</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;invalid property </span><span class="si">{name!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid property </span><span class="si">{name!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;missing property </span><span class="si">{name!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;missing property </span><span class="si">{name!r}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -514,7 +519,7 @@
             <span class="n">vf</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;length must be in [</span><span class="si">{min_len}</span><span class="s1">, </span><span class="si">{max_len}</span><span class="s1">], got {len(value)}&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">&#39;length must be in [</span><span class="si">{min_len}</span><span class="s1">, </span><span class="si">{max_len}</span><span class="s1">], got {len(value)}&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -534,7 +539,7 @@
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">negate</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">container</span> <span class="ow">or</span>
                 <span class="ow">not</span> <span class="n">negate</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">container</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -558,7 +563,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">err_result</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -631,7 +636,7 @@
 <span class="sd">    :raise ValueError: if a character is not allowed or the length is wrong</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">13</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;length of string must be 13 not {len(s)}&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of string must be 13 not {len(s)}&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only characters 0-9 are allowed&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))))</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span></div>
@@ -655,10 +660,10 @@
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_BOOKLAND</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="n">f</span><span class="s1">&#39;ISBN-13 must start with {&quot; or &quot;.join(_BOOKLAND)}&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">&#39;ISBN-13 must start with {&quot; or &quot;.join(_BOOKLAND)}&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">is_valid_ean13</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s1">&#39;length of string must be 10 or 13 not {len(s)}&#39;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of string must be 10 or 13 not {len(s)}&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">)):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only characters 0-9 and X are allowed&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">((</span><span class="nb">sum</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="o">+</span>
@@ -693,11 +698,11 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2019, Andreas Suhre.
+      &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.8.2</a>
-      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.11</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
 

@@ -17,4 +17,3 @@ Module *colors*
       name2rgb
       rgb2floats
       rgb2hex
-

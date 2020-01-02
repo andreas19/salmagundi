@@ -1,6 +1,8 @@
 History
 -------
 
+ - Bugfix: microseconds format in strings.format_timedelta()
+
 **2019-10-07 (0.9.2)**
  - Fix documentation for module config
  - Link to overview table for selected module now in sidebar
@@ -40,7 +42,7 @@ History
    numbers correctly
 
 **2019-01-14 (0.6.0)**
- - Add check_\*() functions to module inputs
+ - Add check\_\*() functions to module inputs
  - Add parameter caption to function menu() in module inputs
  - Add parameter errors to \*_all() and \*_lines() functions in module files
  - Add parameter reverse to function insert_separator() in module strings

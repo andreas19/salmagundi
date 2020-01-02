@@ -16,4 +16,3 @@ Module *inputs*
       read
       select
       yesno
-
