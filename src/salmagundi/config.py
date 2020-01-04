@@ -3,7 +3,10 @@
 .. versionadded:: 0.7.0
 
 .. versionchanged:: 0.7.1
-   Add tags ``:empty:`` and ``:none:`` to specification
+   Add :ref:`tags <ref-tags>` ``:empty:`` and ``:none:`` to specification
+
+.. versionchanged:: 0.10.0
+   :ref:`Wildcards <ref-wildcards>` for sections and options
 
 .. _ref-spec:
 
@@ -19,6 +22,8 @@ If ``create_properties=True`` in :func:`configure` the name of each property
 will be a concatenation of the section name and the option name with an
 underscore (``_``) in between. The resulting string must be a valid Python
 identifier. If ``create_properties=False`` this restriction does not apply.
+
+.. _ref-tags:
 
 The specification itself uses an INI-style configuration in which the
 sections and options are described. The separator character, the default
@@ -112,11 +117,46 @@ True
 Traceback (most recent call last):
   ...
 AttributeError: can't set attribute
+
+.. _ref-wildcards:
+
+Wildcards can be used in section and option names. Wildcard character(s)
+must be defined explicitly in the ``[_configspec_]`` section, e. g.:
+
+.. code-block:: ini
+
+   # spec.ini
+   [_configspec_]
+   wildcard: *
+
+   [menu]
+   title: str; :req:
+
+   [item_*]
+   title: str; :req:
+   command: str; :req:
+
+   # conf.ini
+   [menu]
+   title: Testmenu
+
+   [item_1]
+   title: Test config
+   command: pytest config.py
+
+   [item_2]
+   title: Test crypto
+   command: pytest crypto.py
+
+When wildcards are used in option names these options cannot have
+default values.
 """
 
+import re
 import types
 from collections import namedtuple
 from configparser import ConfigParser
+from functools import lru_cache
 
 from .strings import str2bool, str2tuple
 from .utils import check_path_like
@@ -141,8 +181,9 @@ NOTFOUND = type('NotFound', (), {'__repr__': lambda x: '<NOTFOUND>',
 The truth value is ``False``.
 """
 
-_OptSpec = namedtuple('OptSpec', 'name, converter, conv_name,'
-                      'required, readonly, raw, default')
+_OptSpec = namedtuple('OptSpec', 'converter, conv_name,'
+                      'required, readonly, raw, default,'
+                      'sec_wildcard, opt_wildcard')
 _OptData = namedtuple('OptData', 'name, ro, value')
 
 
@@ -164,15 +205,15 @@ class ReadonlyError(Error):
 
 def _get_name(sec, opt, create_properties):
     if create_properties:
-        name = '%s_%s' % (sec, opt)
+        name = f'{sec}_{opt}'
         if not name.isidentifier():
-            raise SpecError('not a valid name: %s' % name)
+            raise SpecError(f'not a valid name: {name}')
     else:
         name = None
     return name
 
 
-def _spec(spec, create_properties, convs):
+def _spec(spec, convs):
     converters = _CONVERTERS.copy()
     converters.update(convs)
     cp = ConfigParser(interpolation=None)
@@ -184,6 +225,7 @@ def _spec(spec, create_properties, convs):
         cp.read_file(spec)
     readonly = cp.getboolean(_NAME, 'readonly', fallback=True)
     separator = cp.get(_NAME, 'separator', fallback=';')
+    wildcard = cp.get(_NAME, 'wildcard', fallback=None)
     noval_tag = cp.get(_NAME, 'novalue', fallback=':novalue:')
     empty_tag = cp.get(_NAME, 'empty', fallback=':empty:')
     none_tag = cp.get(_NAME, 'none', fallback=':none:')
@@ -198,53 +240,59 @@ def _spec(spec, create_properties, convs):
         spec[sec] = {}
         for opt in cp.options(sec):
             t = str2tuple(cp.get(sec, opt), sep=separator)
-            if not t[0]:
-                raise SpecError('missing spec for option %r in section %r' %
-                                (opt, sec))
-            name = _get_name(sec, opt, create_properties)
+            conv = t[0]
+            if not conv:
+                raise SpecError(
+                    f'missing spec for option {opt!r} in section {sec!r}')
             try:
-                converter = converters[t[0]]
+                converter = converters[conv]
             except KeyError:
-                raise SpecError('unknown converter for option %r in '
-                                'section %r: %s' % (opt, sec, t[0]))
+                raise SpecError(
+                    f'unknown converter for option {opt!r} in '
+                    f'section {sec!r}: {conv}')
             req = req_tag in t
             ro = ro_tag in t
             rw = rw_tag in t
             if ro and rw:
-                raise SpecError('option %r in section %r has '
-                                'a %r tag and a %r tag (only one allowed)' %
-                                (opt, sec, ro_tag, rw_tag))
+                raise SpecError(
+                    f'option {opt!r} in section {sec!r} has a {ro_tag!r} tag '
+                    f'and a {rw_tag!r} tag (only one allowed)')
             raw = raw_tag in t
             for s in t[1:]:
                 if s not in (req_tag, ro_tag, rw_tag, raw_tag):
                     if req:
-                        raise SpecError('option %r in section %r has '
-                                        'a default value and a %r tag '
-                                        '(only one allowed)' %
-                                        (opt, sec, req_tag))
+                        raise SpecError(
+                            f'option {opt!r} in section {sec!r} has a default '
+                            f'value and a {req_tag!r} tag (only one allowed)')
                     if s == empty_tag:
                         s = ''
                     try:
                         if converter is None:
-                            raise SpecError('no default value allowed for '
-                                            '%r for option %r in section %r' %
-                                            (t[0], opt, sec))
+                            raise SpecError(
+                                f'no default value allowed for {conv!r} for '
+                                f'option {opt!r} in section {sec!r}')
                         if s == none_tag:
                             default = None
                         else:
                             default = converter(s)
                     except Exception as ex:
-                        raise SpecError('error converting default value %r '
-                                        'for option %r in section %r with '
-                                        'converter %r: %s' %
-                                        (s, opt, sec, t[0], ex))
+                        raise SpecError(
+                            f'error converting default value {s!r} for option '
+                            f'{opt!r} in section {sec!r}'
+                            f' with converter {conv!r}: {ex}')
                     break
             else:
                 default = NOTFOUND
-            spec[sec][opt] = _OptSpec(name, converter, t[0], req,
+            if default != NOTFOUND and wildcard and wildcard in opt:
+                raise SpecError(
+                    f'option {opt!r} in section {sec!r} has wildcard '
+                    'and default value')
+            spec[sec][opt] = _OptSpec(converter, conv, req,
                                       ro or (readonly and not rw),
-                                      raw, default)
-    return spec
+                                      raw, default,
+                                      wildcard and wildcard in sec,
+                                      wildcard and wildcard in opt)
+    return spec, wildcard
 
 
 def _key(key):
@@ -293,8 +341,8 @@ class Config:
     def __setitem__(self, key, value):
         key = _key(key)
         if self._options[key][1]:
-            raise ReadonlyError('cannot set option %r in section %r' %
-                                (key[1], key[0]))
+            raise ReadonlyError(
+                f'cannot set option {key[1]!r} in section {key[0]!r}')
         self._values[key] = value
 
     def __delitem__(self, key):
@@ -322,9 +370,9 @@ class Config:
         self._values[key] = value
         if self._create_props:
             if not name.isidentifier():
-                raise ConfigError('not a valid name: %s' % name)
+                raise ConfigError(f'not a valid name: {name}')
             if hasattr(self.__class__, name):
-                raise AttributeError('attribute %r already exists' % name)
+                raise AttributeError(f'attribute {name!r} already exists')
             setattr(self.__class__, name, property(_getter(key),
                     None if readonly else _setter(key), _deleter(key)))
 
@@ -423,29 +471,82 @@ def _deleter(key):
     return f
 
 
-def _with_spec(cp, opt_specs, kwargs):
-    options = {}
-    for sec, opt in [(sec, opt) for sec in opt_specs for opt in opt_specs[sec]]:
-        opt_spec = opt_specs[sec][opt]
-        has_option = cp.has_option(sec, opt)
-        if opt_spec.required and not has_option:
-            raise ConfigError('missing required option %r in section %r' %
-                              (opt, sec))
-        if has_option:
-            value = cp.get(sec, opt, raw=opt_spec.raw)
-            if value is None and kwargs.get('allow_no_value', False):
-                value = NOVALUE
-            else:
-                try:
-                    value = opt_spec.converter(value)
-                except Exception as ex:
-                    raise ConfigError('error converting value %r '
-                                      'for option %r in section %r with '
-                                      'converter %r: %s' %
-                                      (value, opt, sec, opt_spec.conv_name, ex))
+def get_options(cp, sec, spec_opt, wildcard, has_wildcard):
+    if has_wildcard:
+        opts = []
+        for opt in cp.options(sec):
+            if re.fullmatch(spec_opt.replace(wildcard, '.*?'), opt):
+                opts.append(opt)
+        return opts
+    else:
+        return [spec_opt] if cp.has_option(sec, spec_opt) else []
+
+
+def _with_spec(cp, create_properties, opt_specs, wildcard, kwargs):
+    @lru_cache
+    def get_sections(spec_sec, wildcard, has_wildcard):
+        if has_wildcard:
+            secs = []
+            for sec in cp.sections():
+                if re.fullmatch(spec_sec.replace(wildcard, '.*?'), sec):
+                    secs.append(sec)
+            return secs
         else:
-            value = opt_spec.default
-        options[(sec, opt)] = _OptData(opt_spec.name, opt_spec.readonly, value)
+            return [spec_sec] if spec_sec in cp else []
+
+    options = {}
+    for spec_sec, spec_opt in [(spec_sec, spec_opt) for spec_sec in opt_specs
+                               for spec_opt in opt_specs[spec_sec]]:
+        opt_spec = opt_specs[spec_sec][spec_opt]
+        secs = get_sections(spec_sec, wildcard, opt_spec.sec_wildcard)
+        if not secs:
+            if not opt_spec.sec_wildcard:
+                if opt_spec.required:
+                    raise ConfigError(
+                        f'missing required option {spec_opt!r} '
+                        f'in section {spec_sec!r}')
+                if not opt_spec.opt_wildcard:
+                    value = opt_spec.default
+                    name = _get_name(spec_sec, spec_opt, create_properties)
+                    options[(spec_sec, spec_opt)] = _OptData(
+                        name, opt_spec.readonly, value)
+        else:
+            for sec in secs:
+                opts = get_options(cp, sec, spec_opt, wildcard,
+                                   opt_spec.opt_wildcard)
+                if not opts:
+                    if opt_spec.required:
+                        raise ConfigError(
+                            f'missing required option {spec_opt!r} '
+                            f'in section {sec!r}')
+                    if not opt_spec.opt_wildcard:
+                        value = opt_spec.default
+                        name = _get_name(sec, spec_opt, create_properties)
+                        options[(sec, spec_opt)] = _OptData(
+                            name, opt_spec.readonly, value)
+                else:
+                    for opt in opts:
+                        value = cp.get(sec, opt, raw=opt_spec.raw)
+                        if (value is None and
+                                kwargs.get('allow_no_value', False)):
+                            if opt_spec.converter is None:
+                                value = NOVALUE
+                            else:
+                                raise ConfigError(
+                                    f'option {opt!r} in section {sec!r} '
+                                    'has no value')
+                        else:
+                            try:
+                                value = opt_spec.converter(value)
+                            except Exception as ex:
+                                raise ConfigError(
+                                    f'error converting value {value!r} for '
+                                    f'option {opt!r} in section {sec!r} with '
+                                    f'converter {opt_spec.conv_name!r}: {ex}')
+                        name = _get_name(sec, opt, create_properties)
+                        options[(sec, opt)] = _OptData(
+                            name, opt_spec.readonly, value)
+    get_sections.cache_clear()
     return options
 
 
@@ -486,8 +587,7 @@ def configure(conf, spec, *, create_properties=True, converters=None, **kwargs):
     :raises configparser.Error: from :class:`~configparser.ConfigParser`
     """
     if spec is not None:
-        opt_specs = _spec(spec, create_properties,
-                          converters if converters else {})
+        opt_specs, wildcard = _spec(spec, converters if converters else {})
     if isinstance(conf, ConfigParser):
         cp = conf
     else:
@@ -501,7 +601,7 @@ def configure(conf, spec, *, create_properties=True, converters=None, **kwargs):
     if spec is None:
         options = _without_spec(cp, create_properties, kwargs)
     else:
-        options = _with_spec(cp, opt_specs, kwargs)
+        options = _with_spec(cp, create_properties, opt_specs, wildcard, kwargs)
 
     def cls_cb(ns):
         ns['__module__'] = __name__
@@ -533,7 +633,7 @@ def convert_choice(choices, *, converter=None, default=None):
         if x in choices:
             return x
         if isinstance(default, type) and issubclass(default, Exception):
-            raise default('invalid choice: %s' % s)
+            raise default(f'invalid choice: {s}')
         return default
     return f
 
