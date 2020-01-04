@@ -14,10 +14,10 @@ Installation
 # pip install salmagundi
 
 
-Dependencies
+Requirements
 ------------
 
-.. include:: dependencies.txt
+.. include:: requirements.incl
 
 
 Links

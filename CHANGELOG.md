@@ -1,6 +1,9 @@
 History
 -------
 
+ - Add wildcards in spec for sections and options in module config
+ - Add function docopt_helper() in module utils
+
 **2020-01-02 (0.9.4)**
  - Bugfix: microseconds format in strings.format_timedelta()
 

@@ -12,3 +12,4 @@ Module *utils*
       check_bytes_like
       check_path_like
       check_type
+      docopt_helper

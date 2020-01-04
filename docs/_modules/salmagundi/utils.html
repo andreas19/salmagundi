@@ -84,8 +84,11 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">textwrap</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_type&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_type&#39;</span><span class="p">,</span> <span class="s1">&#39;docopt_helper&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="check_type"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.check_type">[docs]</a><span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">classinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -151,6 +154,86 @@
         <span class="nb">memoryview</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="n">msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span></div>
+
+
+<div class="viewcode-block" id="docopt_helper"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.docopt_helper">[docs]</a><span class="k">def</span> <span class="nf">docopt_helper</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version_str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                  <span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options_first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">converters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper function for `docopt &lt;https://pypi.org/project/docopt/&gt;`_.</span>
+
+<span class="sd">    The ``name`` defaults to ``os.path.basename(sys.argv[0])``.</span>
+
+<span class="sd">    If ``version`` is a :class:`tuple` it will be converted to a string</span>
+<span class="sd">    with ``&#39;.&#39;.join(map(str, version))``.</span>
+
+<span class="sd">    If ``version_str`` is set it will be printed if called with ``--version``.</span>
+<span class="sd">    Else if ``version`` is set the resulting string will be</span>
+<span class="sd">    ``name + &#39; &#39; + version``.</span>
+
+<span class="sd">    Within the help message string substitution is supported with</span>
+<span class="sd">    :ref:`template strings &lt;python:template-strings&gt;`. The placeholder</span>
+<span class="sd">    identifiers ``name``, ``version`` and ``version_str`` are always available;</span>
+<span class="sd">    more can be added with ``kwargs``.</span>
+
+<span class="sd">    If the help message is indented it will be dedented so that the least</span>
+<span class="sd">    indented lines line up with the left edge of the display.</span>
+
+<span class="sd">    .. |docopt_api| replace:: docopt.docopt()</span>
+<span class="sd">    .. _docopt_api: https://pypi.org/project/docopt/#api</span>
+
+<span class="sd">    .. _ref-convs:</span>
+
+<span class="sd">    The optional argument ``converters`` is a mapping with the same keys as in</span>
+<span class="sd">    the dictionary returned by |docopt_api|_. The values are callables which</span>
+<span class="sd">    take one argument of (an) appropriate type(s) and return a value of the</span>
+<span class="sd">    desired type. It is not required to provide a converter for every option,</span>
+<span class="sd">    argument and command. If a value cannot be converted the converter should</span>
+<span class="sd">    raise a :class:`ValueError`.</span>
+
+<span class="sd">    Example (naval_fate.py):</span>
+
+<span class="sd">    .. literalinclude:: /_files/docopt_helper_example.py</span>
+<span class="sd">       :language: python3</span>
+
+<span class="sd">    .. literalinclude:: /_files/docopt_helper_example.txt</span>
+<span class="sd">       :language: none</span>
+<span class="sd">       :emphasize-lines: 26,29,30</span>
+
+<span class="sd">    :param str text: help message</span>
+<span class="sd">    :param str name: name of program/script</span>
+<span class="sd">    :param version: version</span>
+<span class="sd">    :type version: str or tuple</span>
+<span class="sd">    :param str version_str: version string</span>
+<span class="sd">    :param argv: see: |docopt_api|_</span>
+<span class="sd">    :type argv: list(str)</span>
+<span class="sd">    :param bool option_first: see: |docopt_api|_</span>
+<span class="sd">    :param bool help: see: |docopt_api|_</span>
+<span class="sd">    :param dict converters: see :ref:`above &lt;ref-convs&gt;`</span>
+<span class="sd">    :param kwargs: additional values for substitution in the help message</span>
+<span class="sd">    :return: result of |docopt_api|_</span>
+<span class="sd">    :rtype: dict</span>
+
+<span class="sd">    .. versionadded:: 0.10.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">docopt</span>
+
+    <span class="k">if</span> <span class="n">name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">version_str</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">version</span><span class="p">:</span>
+        <span class="n">version_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> </span><span class="si">{version}</span><span class="s1">&#39;</span>
+    <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">version_str</span><span class="o">=</span><span class="n">version_str</span><span class="p">)</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="o">.</span><span class="n">docopt</span><span class="p">(</span>
+        <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="n">version_str</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="n">argv</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">help</span><span class="p">,</span>
+        <span class="n">options_first</span><span class="o">=</span><span class="n">options_first</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">converters</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">conv</span> <span class="ow">in</span> <span class="n">converters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">arguments</span></div>
 </pre></div>
 
           </div>

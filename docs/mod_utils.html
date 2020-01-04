@@ -117,6 +117,9 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.check_type" title="salmagundi.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a></p></td>
 <td><p>Check the type of an object.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.docopt_helper" title="salmagundi.utils.docopt_helper"><code class="xref py py-obj docutils literal notranslate"><span class="pre">docopt_helper</span></code></a></p></td>
+<td><p>Helper function for <a class="reference external" href="https://pypi.org/project/docopt/">docopt</a>.</p></td>
+</tr>
 </tbody>
 </table>
 <dl class="function">
@@ -186,6 +189,146 @@
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="salmagundi.utils.docopt_helper">
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">docopt_helper</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">*</em>, <em class="sig-param">name=None</em>, <em class="sig-param">version=None</em>, <em class="sig-param">version_str=None</em>, <em class="sig-param">argv=None</em>, <em class="sig-param">help=True</em>, <em class="sig-param">options_first=False</em>, <em class="sig-param">converters=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#docopt_helper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.docopt_helper" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function for <a class="reference external" href="https://pypi.org/project/docopt/">docopt</a>.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">os.path.basename(sys.argv[0])</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">version</span></code> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> it will be converted to a string
+with <code class="docutils literal notranslate"><span class="pre">'.'.join(map(str,</span> <span class="pre">version))</span></code>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">version_str</span></code> is set it will be printed if called with <code class="docutils literal notranslate"><span class="pre">--version</span></code>.
+Else if <code class="docutils literal notranslate"><span class="pre">version</span></code> is set the resulting string will be
+<code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">+</span> <span class="pre">'</span> <span class="pre">'</span> <span class="pre">+</span> <span class="pre">version</span></code>.</p>
+<p>Within the help message string substitution is supported with
+<a class="reference external" href="https://docs.python.org/3/library/string.html#template-strings" title="(in Python v3.8)"><span class="xref std std-ref">template strings</span></a>. The placeholder
+identifiers <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code> and <code class="docutils literal notranslate"><span class="pre">version_str</span></code> are always available;
+more can be added with <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
+<p>If the help message is indented it will be dedented so that the least
+indented lines line up with the left edge of the display.</p>
+<p id="ref-convs">The optional argument <code class="docutils literal notranslate"><span class="pre">converters</span></code> is a mapping with the same keys as in
+the dictionary returned by <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a>. The values are callables which
+take one argument of (an) appropriate type(s) and return a value of the
+desired type. It is not required to provide a converter for every option,
+argument and command. If a value cannot be converted the converter should
+raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+<p>Example (naval_fate.py):</p>
+<div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
+<span class="sd">&quot;&quot;&quot;$title Version $version.</span>
+
+<span class="sd">Usage:</span>
+<span class="sd">  $name ship new &lt;name&gt;...</span>
+<span class="sd">  $name ship &lt;name&gt; move &lt;x&gt; &lt;y&gt; [--speed=&lt;kn&gt;]</span>
+<span class="sd">  $name ship shoot &lt;x&gt; &lt;y&gt;</span>
+<span class="sd">  $name mine (set|remove) &lt;x&gt; &lt;y&gt; [--moored | --drifting]</span>
+<span class="sd">  $name (-h | --help)</span>
+<span class="sd">  $name --version</span>
+
+<span class="sd">Options:</span>
+<span class="sd">  -h --help     Show this screen.</span>
+<span class="sd">  --version     Show version.</span>
+<span class="sd">  --speed=&lt;kn&gt;  Speed in knots [default: $speed].</span>
+<span class="sd">  --moored      Moored (anchored) mine.</span>
+<span class="sd">  --drifting    Drifting mine.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">os</span>
+
+<span class="kn">from</span> <span class="nn">salmagundi.utils</span> <span class="kn">import</span> <span class="n">docopt_helper</span>
+
+<span class="n">__version__</span> <span class="o">=</span> <span class="s1">&#39;2.0&#39;</span>
+
+
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">int_conv</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">x</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;value &lt; 0&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x</span>
+
+    <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt_helper</span><span class="p">(</span>
+        <span class="vm">__doc__</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">__version__</span><span class="p">,</span>
+        <span class="n">converters</span><span class="o">=</span><span class="p">{</span>
+            <span class="s1">&#39;&lt;x&gt;&#39;</span><span class="p">:</span> <span class="n">int_conv</span><span class="p">,</span>
+            <span class="s1">&#39;&lt;y&gt;&#39;</span><span class="p">:</span> <span class="n">int_conv</span><span class="p">,</span>
+            <span class="s1">&#39;--speed&#39;</span><span class="p">:</span> <span class="n">int_conv</span><span class="p">,</span>
+        <span class="p">},</span>
+        <span class="n">title</span><span class="o">=</span><span class="s1">&#39;Naval Fate&#39;</span><span class="p">,</span>
+        <span class="n">speed</span><span class="o">=</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;NAVAL_FATE_SPEED&#39;</span><span class="p">,</span> <span class="s1">&#39;10&#39;</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>$ ./naval_fate.py -h
+Naval Fate Version 2.0.
+
+Usage:
+  naval_fate.py ship new &lt;name&gt;...
+  naval_fate.py ship &lt;name&gt; move &lt;x&gt; &lt;y&gt; [--speed=&lt;kn&gt;]
+  naval_fate.py ship shoot &lt;x&gt; &lt;y&gt;
+  naval_fate.py mine (set|remove) &lt;x&gt; &lt;y&gt; [--moored | --drifting]
+  naval_fate.py (-h | --help)
+  naval_fate.py --version
+
+Options:
+  -h --help     Show this screen.
+  --version     Show version.
+  --speed=&lt;kn&gt;  Speed in knots [default: 10].
+  --moored      Moored (anchored) mine.
+  --drifting    Drifting mine.
+
+$ ./naval_fate.py --version
+naval_fate.py 2.0
+
+$ ./naval_fate.py ship Titanic move 42 84
+{&#39;--drifting&#39;: False,
+ &#39;--help&#39;: False,
+ &#39;--moored&#39;: False,
+<span class="hll"> &#39;--speed&#39;: 10,
+</span> &#39;--version&#39;: False,
+ &#39;&lt;name&gt;&#39;: [&#39;Titanic&#39;],
+<span class="hll"> &#39;&lt;x&gt;&#39;: 42,
+</span><span class="hll"> &#39;&lt;y&gt;&#39;: 84,
+</span> &#39;mine&#39;: False,
+ &#39;move&#39;: True,
+ &#39;new&#39;: False,
+ &#39;remove&#39;: False,
+ &#39;set&#39;: False,
+ &#39;ship&#39;: True,
+ &#39;shoot&#39;: False}
+
+$ ./naval_fate.py ship Titanic move 42 84 --speed=-10
+error in &#39;--speed&#39;: value &lt; 0
+
+$ ./naval_fate.py ship Titanic move 42 84 --speed=abc
+error in &#39;--speed&#39;: invalid literal for int() with base 10: &#39;abc&#39;
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – help message</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of program/script</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a>) – version</p></li>
+<li><p><strong>version_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – version string</p></li>
+<li><p><strong>argv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>option_first</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>converters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – see <a class="reference internal" href="#ref-convs"><span class="std std-ref">above</span></a></p></li>
+<li><p><strong>kwargs</strong> – additional values for substitution in the help message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>result of <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.10.0.</span></p>
+</div>
 </dd></dl>
 
 </div>

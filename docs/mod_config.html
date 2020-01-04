@@ -101,7 +101,10 @@
 <p><span class="versionmodified added">New in version 0.7.0.</span></p>
 </div>
 <div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.7.1: </span>Add tags <code class="docutils literal notranslate"><span class="pre">:empty:</span></code> and <code class="docutils literal notranslate"><span class="pre">:none:</span></code> to specification</p>
+<p><span class="versionmodified changed">Changed in version 0.7.1: </span>Add <a class="reference internal" href="#ref-tags"><span class="std std-ref">tags</span></a> <code class="docutils literal notranslate"><span class="pre">:empty:</span></code> and <code class="docutils literal notranslate"><span class="pre">:none:</span></code> to specification</p>
+</div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.10.0: </span><a class="reference internal" href="#ref-wildcards"><span class="std std-ref">Wildcards</span></a> for sections and options</p>
 </div>
 <p id="ref-spec">This module uses a specification when reading a configuration file with a
 <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code> (see module <a class="reference external" href="https://docs.python.org/3/library/configparser.html#module-configparser" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code></a> for more information).
@@ -114,7 +117,7 @@ which returns a <a class="reference internal" href="#salmagundi.config.Config" t
 will be a concatenation of the section name and the option name with an
 underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>) in between. The resulting string must be a valid Python
 identifier. If <code class="docutils literal notranslate"><span class="pre">create_properties=False</span></code> this restriction does not apply.</p>
-<p>The specification itself uses an INI-style configuration in which the
+<p id="ref-tags">The specification itself uses an INI-style configuration in which the
 sections and options are described. The separator character, the default
 access mode (readonly or not), and the tags which are used in the
 specification for each option can be modified in a special section
@@ -200,6 +203,34 @@ it will be set to the value <a class="reference internal" href="#salmagundi.conf
 <span class="gr">AttributeError</span>: <span class="n">can&#39;t set attribute</span>
 </pre></div>
 </div>
+<p id="ref-wildcards">Wildcards can be used in section and option names. Wildcard character(s)
+must be defined explicitly in the <code class="docutils literal notranslate"><span class="pre">[_configspec_]</span></code> section, e. g.:</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># spec.ini</span>
+<span class="k">[_configspec_]</span>
+<span class="na">wildcard: *</span>
+
+<span class="k">[menu]</span>
+<span class="na">title: str; :req:</span>
+
+<span class="k">[item_*]</span>
+<span class="na">title: str; :req:</span>
+<span class="na">command: str; :req:</span>
+
+<span class="c1"># conf.ini</span>
+<span class="k">[menu]</span>
+<span class="na">title: Testmenu</span>
+
+<span class="k">[item_1]</span>
+<span class="na">title: Test config</span>
+<span class="na">command: pytest config.py</span>
+
+<span class="k">[item_2]</span>
+<span class="na">title: Test crypto</span>
+<span class="na">command: pytest crypto.py</span>
+</pre></div>
+</div>
+<p>When wildcards are used in option names these options cannot have
+default values.</p>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
