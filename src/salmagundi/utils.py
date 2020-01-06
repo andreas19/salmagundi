@@ -131,6 +131,7 @@ def docopt_helper(text, *, name=None, version=None, version_str=None, argv=None,
     :param kwargs: additional values for substitution in the help message
     :return: result of |docopt_api|_
     :rtype: dict
+    :raises SystemExit: if a converter function raises a :class:`ValueError`
 
     .. versionadded:: 0.10.0
     """
