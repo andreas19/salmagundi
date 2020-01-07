@@ -3,12 +3,12 @@
 If a file descriptor is given for the parameter ``file`` it will be closed
 after reading from/writing to the file.
 
-For a list of supported encodings see `Standard Encodings in module codec
-<https://docs.python.org/3/library/codecs.html#standard-encodings>`_.
+For a list of supported encodings see
+:ref:`Standard Encodings in module codecs <python:standard-encodings>`.
 The default encoding is platform dependant.
 
-For a list of error handlers see `Error Handlers in module codec
-<https://docs.python.org/3/library/codecs.html#error-handlers>`_.
+For a list of error handlers see
+:ref:`Error Handlers in module codecs <python:error-handlers>`.
 The default error handler is ``'strict'``.
 """
 
