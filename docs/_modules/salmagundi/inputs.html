@@ -1,0 +1,431 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>salmagundi.inputs &#8212; Salmagundi 0.11.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for salmagundi.inputs</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Functions for terminal input.</span>
+
+<span class="sd">.. versionadded:: 0.3.0</span>
+
+<span class="sd">The terminal must support `ANSI escape sequences</span>
+<span class="sd">&lt;https://en.wikipedia.org/wiki/ANSI_escape_code&gt;`_.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+
+<span class="kn">from</span> <span class="nn">ansictrls</span> <span class="kn">import</span> <span class="n">CS</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;check_float&#39;</span><span class="p">,</span> <span class="s1">&#39;check_int&#39;</span><span class="p">,</span> <span class="s1">&#39;check_str&#39;</span><span class="p">,</span> <span class="s1">&#39;menu&#39;</span><span class="p">,</span> <span class="s1">&#39;read&#39;</span><span class="p">,</span> <span class="s1">&#39;select&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;yesno&#39;</span><span class="p">]</span>
+
+<span class="n">_cs_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Read a line of input and check if it is allowed.</span>
+
+<span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
+<span class="sd">    input can be cancelled with EOF (``^D``).</span>
+
+<span class="sd">    If the ``check`` parameter is set to ``None`` any input is allowed,</span>
+<span class="sd">    else it must be a ``callable`` that takes a string as a parameter</span>
+<span class="sd">    and returns the (converted) input value or raises</span>
+<span class="sd">    :exc:`ValueError` if the input is not allowed.</span>
+
+<span class="sd">    There are 3 predefined check functions in this module:</span>
+<span class="sd">    :func:`check_str`, :func:`check_int` and :func:`check_float`.</span>
+
+<span class="sd">    &gt;&gt;&gt; read(&#39;Number: &#39;, default=&#39;42&#39;)</span>
+<span class="sd">    Number: 21</span>
+<span class="sd">    &#39;21&#39;</span>
+<span class="sd">    &gt;&gt;&gt; read(&#39;Number: &#39;, default=&#39;42&#39;, check=int)</span>
+<span class="sd">    Number:</span>
+<span class="sd">    42</span>
+
+<span class="sd">    :param str prompt: the prompt</span>
+<span class="sd">    :param default: default value that will be used if no input is provided</span>
+<span class="sd">    :type default: str or None</span>
+<span class="sd">    :param check: the check parameter (see above)</span>
+<span class="sd">    :type check: callable(str) or None</span>
+<span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
+<span class="sd">    :return: (converted) input value or ``None`` if input was cancelled and</span>
+<span class="sd">              ``exc_on_cancel=False``</span>
+<span class="sd">    :rtype: str or return-type of the ``check`` callable or None</span>
+<span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
+<span class="sd">    :raises TypeError: if ``default`` is not of type ``str``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">check_type</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="n">prompt</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">line</span> <span class="o">=</span> <span class="n">lines</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
+    <span class="n">_cs_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">CUU</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">SCP</span><span class="p">)</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default</span>
+        <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">exc_on_cancel</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="n">a</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">check</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">check</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="k">pass</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="n">a</span>
+                <span class="k">break</span>
+        <span class="n">_cs_print</span><span class="p">(</span><span class="n">CS</span><span class="o">.</span><span class="n">RCP</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">ED</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">value</span></div>
+
+
+<div class="viewcode-block" id="yesno"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.yesno">[docs]</a><span class="k">def</span> <span class="nf">yesno</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">yesno</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Show yes/no input prompt.</span>
+
+<span class="sd">    If the typed character (case-insensitive) is not allowed</span>
+<span class="sd">    (i.e. not in ``yesno``) the prompt will be shown again.</span>
+<span class="sd">    The input can be cancelled with EOF (``^D``).</span>
+
+<span class="sd">    &gt;&gt;&gt; yesno(&#39;Exit program?&#39;, &#39;yN&#39;)</span>
+<span class="sd">    Exit program? [yN] Y</span>
+<span class="sd">    True</span>
+
+<span class="sd">    :param str prompt: the prompt</span>
+<span class="sd">    :param str yesno: the characters for ``yes`` (index 0) and ``no`` (index 1);</span>
+<span class="sd">                      if one is upper and the other lower case, the upper case</span>
+<span class="sd">                      character is the default</span>
+<span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
+<span class="sd">    :return: ``True`` for ``yes``, ``False`` for ``no``, ``None`` if cancelled</span>
+<span class="sd">             and ``exc_on_cancel=False``</span>
+<span class="sd">    :rtype: bool or None</span>
+<span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
+<span class="sd">    :raises TypeError: if ``yesno`` is not of type ``str``</span>
+<span class="sd">    :raises ValueError: if ``yesno`` is not of length 2</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">yesno</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;yesno argument&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">yesno</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;argument yesno must be a string of to 2 characters&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">()</span> <span class="ow">and</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">islower</span><span class="p">():</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">elif</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">islower</span><span class="p">()</span> <span class="ow">and</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isupper</span><span class="p">():</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="n">yesno</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">s1</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="n">s2</span> <span class="o">=</span> <span class="n">yesno</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s1</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">s2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="k">return</span> <span class="n">s1</span> <span class="o">==</span> <span class="n">s2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="s1">&#39;</span><span class="si">%s</span><span class="s1"> [</span><span class="si">%s%s</span><span class="s1">] &#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="o">*</span><span class="n">yesno</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span>
+                <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="select"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.select">[docs]</a><span class="k">def</span> <span class="nf">select</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+           <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Show an input with selectable options.</span>
+
+<span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
+<span class="sd">    input can be cancelled with EOF (``^D``).</span>
+
+<span class="sd">    &gt;&gt;&gt; select(&#39;Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; &#39;, &#39;TBLR&#39;)</span>
+<span class="sd">    Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; b</span>
+<span class="sd">    1</span>
+
+<span class="sd">    :param str prompt: the prompt</span>
+<span class="sd">    :param options: the options; if all options are only 1 character a string</span>
+<span class="sd">                    can be used, else a tuple of strings</span>
+<span class="sd">    :type options: str or tuple</span>
+<span class="sd">    :param default: default value that will be used if no input is provided</span>
+<span class="sd">    :type default: str or None</span>
+<span class="sd">    :param bool case_sensitive: if ``False`` case of typed characters will</span>
+<span class="sd">                                be ignored</span>
+<span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
+<span class="sd">    :return: index of the selected option in ``options`` or None if cancelled</span>
+<span class="sd">             and ``exc_on_cancel=False``</span>
+<span class="sd">    :rtype: int or None</span>
+<span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
+<span class="sd">    :raises TypeError: if ``options`` is not str or tuple of strings</span>
+
+<span class="sd">    .. versionadded:: 0.4.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">options</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">),</span> <span class="s1">&#39;options&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span><span class="p">:</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">lower</span><span class="p">,</span> <span class="n">options</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">case_sensitive</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">options</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span>
+        <span class="k">return</span> <span class="n">options</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="menu"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.menu">[docs]</a><span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col_by_col</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+         <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Show a simple menu.</span>
+
+<span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
+<span class="sd">    input can be cancelled with EOF (``^D``).</span>
+
+<span class="sd">    The caller has to take care that the menu will fit in the terminal.</span>
+
+<span class="sd">    ::</span>
+
+<span class="sd">        def update():</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        def sort(desc=True, duration=True):</span>
+<span class="sd">            ...</span>
+
+<span class="sd">        items = (</span>
+<span class="sd">            (&#39;Update&#39;, update),</span>
+<span class="sd">            (&#39;Sort duration desc&#39;, sort),</span>
+<span class="sd">            (&#39;Sort duration asc&#39;, sort, False),</span>
+<span class="sd">            (&#39;Sort size desc&#39;, sort, True, False),</span>
+<span class="sd">            (&#39;Sort size asc&#39;, sort, False, False),</span>
+<span class="sd">        )</span>
+<span class="sd">        i = menu(&#39;&gt; &#39;, tuple(x[0] for x in items))</span>
+<span class="sd">        print()</span>
+<span class="sd">        if i is not None:</span>
+<span class="sd">            items[i][1](*items[i][2:])</span>
+
+<span class="sd">    .. raw:: html</span>
+
+<span class="sd">       &lt;pre style=&quot;color:#FFFFFF;background-color:#000000&quot;&gt;[1] Update</span>
+<span class="sd">       [2] Sort duration desc</span>
+<span class="sd">       [3] Sort duration asc</span>
+<span class="sd">       [4] Sort size desc</span>
+<span class="sd">       [5] Sort size asc</span>
+<span class="sd">       &amp;gt; &lt;/pre&gt;</span>
+
+<span class="sd">    :param str prompt: the prompt</span>
+<span class="sd">    :param tuple titles: the titles of the menu options</span>
+<span class="sd">    :param int cols: number of columns</span>
+<span class="sd">    :param bool col_by_col: if ``True`` the menu will be filled</span>
+<span class="sd">                            column-by-column, otherwise row-by-row</span>
+<span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
+<span class="sd">    :param str caption: caption for the menu</span>
+<span class="sd">    :return: index of the selected option in ``titles`` or None if cancelled</span>
+<span class="sd">             and ``exc_on_cancel=False``</span>
+<span class="sd">    :rtype: int or None</span>
+<span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
+<span class="sd">    :raises TypeError: if ``titles`` is not a tuple</span>
+
+<span class="sd">    .. versionadded:: 0.4.0</span>
+<span class="sd">    .. versionchanged:: 0.6.0</span>
+<span class="sd">       Add parameter ``caption``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="s1">&#39;titles&#39;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span> <span class="o">/</span> <span class="n">cols</span><span class="p">)</span>
+    <span class="n">num_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)))</span>
+    <span class="n">title_width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">titles</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">col_by_col</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">rows</span> <span class="o">*</span> <span class="n">y</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span> <span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">cols</span><span class="p">))</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">))</span>
+    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">row</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">cnt</span><span class="p">,</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;[{idx + 1:</span><span class="si">{num_width}</span><span class="s1">}] {titles[idx]:</span><span class="si">{title_width}</span><span class="s1">}&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">cnt</span> <span class="o">%</span> <span class="n">cols</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="n">row</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">row</span><span class="p">:</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;   &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">row</span><span class="p">))</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">caption</span><span class="p">:</span>
+        <span class="n">width</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">caption</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">len</span><span class="p">,</span> <span class="n">lines</span><span class="p">)))</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="n">caption</span><span class="o">.</span><span class="n">center</span><span class="p">(</span><span class="n">width</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="s1">&#39;-&#39;</span> <span class="o">*</span> <span class="n">width</span> <span class="o">+</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="n">text</span> <span class="o">+=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="o">+</span> <span class="n">prompt</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;</span> <span class="n">i</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="check_str"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.check_str">[docs]</a><span class="k">def</span> <span class="nf">check_str</span><span class="p">(</span><span class="n">min_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">negate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a check function for strings.</span>
+
+<span class="sd">    The returned function can be used as the ``check`` argument in the</span>
+<span class="sd">    :func:`read` function.</span>
+
+<span class="sd">    :param int min_len: minimal length of the string</span>
+<span class="sd">    :param int max_len: maximal length of the string (``None`` means no limit)</span>
+<span class="sd">    :param str chars: allowed characters</span>
+<span class="sd">    :param bool negate: if ``True`` only characters not in ``chars``</span>
+<span class="sd">                        are allowed</span>
+
+<span class="sd">    .. versionadded:: 0.6.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="k">nonlocal</span> <span class="n">min_len</span>
+        <span class="k">if</span> <span class="n">min_len</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">min_len</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">if</span> <span class="n">max_len</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">len_ok</span> <span class="o">=</span> <span class="n">min_len</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">len_ok</span> <span class="o">=</span> <span class="n">min_len</span> <span class="o">&lt;=</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">max_len</span>
+        <span class="k">if</span> <span class="n">len_ok</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">chars</span><span class="p">:</span>
+                <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">negate</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">any</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+                    <span class="k">return</span> <span class="n">s</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">s</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="check_int"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.check_int">[docs]</a><span class="k">def</span> <span class="nf">check_int</span><span class="p">(</span><span class="n">predicate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a check function for integers.</span>
+
+<span class="sd">    The returned function can be used as the ``check`` argument in the</span>
+<span class="sd">    :func:`read` function.</span>
+
+<span class="sd">    :param predicate: predicate function</span>
+<span class="sd">    :type predicate: callable(int)</span>
+
+<span class="sd">    .. versionadded:: 0.6.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="check_float"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.check_float">[docs]</a><span class="k">def</span> <span class="nf">check_float</span><span class="p">(</span><span class="n">predicate</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a check function for floats.</span>
+
+<span class="sd">    The returned function can be used as the ``check`` argument in the</span>
+<span class="sd">    :func:`read` function.</span>
+
+<span class="sd">    :param predicate: predicate function</span>
+<span class="sd">    :type predicate: callable(float)</span>
+
+<span class="sd">    .. versionadded:: 0.6.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">i</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span>
+    <span class="k">return</span> <span class="n">f</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018-2020, Andreas Suhre.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

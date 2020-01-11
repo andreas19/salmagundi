@@ -1,0 +1,20 @@
+Module *crypto*
+===============
+
+.. automodule:: salmagundi.crypto
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      DecryptError
+      Version
+      create_secret_key
+      decrypt_with_key
+      decrypt_with_password
+      encrypt_with_key
+      encrypt_with_password
+      verify_with_key
+      verify_with_password

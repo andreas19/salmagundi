@@ -1,0 +1,18 @@
+Module *inputs*
+===============
+
+.. automodule:: salmagundi.inputs
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      check_float
+      check_int
+      check_str
+      menu
+      read
+      select
+      yesno

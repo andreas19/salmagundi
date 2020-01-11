@@ -1,0 +1,713 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>salmagundi.validation &#8212; Salmagundi 0.11.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for salmagundi.validation</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Data validation.</span>
+
+<span class="sd">.. versionadded:: 0.9.0</span>
+
+<span class="sd">.. _def-validator-function:</span>
+
+<span class="sd">In this module a ``validator function`` is a callable that takes</span>
+<span class="sd">a value as its only argument and returns normally if the value</span>
+<span class="sd">is considered valid or raises a :exc:`ValueError` otherwise. It</span>
+<span class="sd">may raise a :exc:`TypeError` if the value is not of the right type.</span>
+
+<span class="sd">.. |VF| replace:: :ref:`validator function &lt;def-validator-function&gt;`</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Container</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="n">Set</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">suppress</span>
+
+<span class="kn">from</span> <span class="nn">.strings</span> <span class="kn">import</span> <span class="n">TranslationTable</span>
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;chain_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;float_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;func2validator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;in_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;int_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;interval_validator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;is_valid_ean13&#39;</span><span class="p">,</span> <span class="s1">&#39;is_valid_iban&#39;</span><span class="p">,</span> <span class="s1">&#39;is_valid_isbn&#39;</span><span class="p">,</span> <span class="s1">&#39;is_valid_luhn&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;length_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;mapping_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;object_validator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;pattern_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;properties_validator&#39;</span><span class="p">,</span> <span class="s1">&#39;sequence_validator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;set_validator&#39;</span><span class="p">]</span>
+
+<span class="c1"># https://en.wikipedia.org/wiki/Bookland</span>
+<span class="n">_BOOKLAND</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;978&#39;</span><span class="p">,</span> <span class="s1">&#39;979&#39;</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">callable</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{validator!r}</span><span class="s1"> is not callable&#39;</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">ValueError</span><span class="p">):</span>
+        <span class="n">sig</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">signature</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="n">sig</span><span class="o">.</span><span class="n">parameters</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">parameters</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="s1">&#39;validator must take 1 argument,&#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39; not {len(parameters)}&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="object_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.object_validator">[docs]</a><span class="k">def</span> <span class="nf">object_validator</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">validator</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">value_type</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">strict_type</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                     <span class="n">allow_none</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks whether an object is valid.</span>
+
+<span class="sd">    &gt;&gt;&gt; # validator for values of type str and length 5-10</span>
+<span class="sd">    &gt;&gt;&gt; len_vf = length_validator(min_len=5, max_len=10)</span>
+<span class="sd">    &gt;&gt;&gt; vf = object_validator(validator=len_vf, value_type=str)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abcde&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abc&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: invalid object: &#39;abc&#39; (length must be in [5, 10], got 3)</span>
+<span class="sd">    &gt;&gt;&gt; vf(b&#39;abcde&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    TypeError: value must be of type &#39;str&#39;, got &#39;bytes&#39;</span>
+
+<span class="sd">    :param validator: |VF|</span>
+<span class="sd">    :type validator: callable or None</span>
+<span class="sd">    :param value_type: the type of the value (not checked if ``None``)</span>
+<span class="sd">    :type value_type: type or None</span>
+<span class="sd">    :param bool strict_type: if ``True`` instances of subclasses of</span>
+<span class="sd">                             ``value_type`` are not allowed</span>
+<span class="sd">    :param bool allow_none: if ``True`` ``None`` values are valid even</span>
+<span class="sd">                            when ``value_type`` is set</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if ``validator`` is not callable or</span>
+<span class="sd">                       ``value_type`` is not a type-object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
+        <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value_type</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value_type</span><span class="p">,</span> <span class="nb">type</span><span class="p">,</span>
+                   <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;the value_type argument must be a type-object&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">allow_none</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">value_type</span> <span class="ow">and</span> <span class="p">(</span><span class="n">strict_type</span> <span class="ow">and</span> <span class="nb">type</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">value_type</span> <span class="ow">or</span>
+                            <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">))):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value must be of type </span><span class="si">{value_type.__name__!r}</span><span class="s1">,&#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39; got </span><span class="si">{value.__class__.__name__!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validator</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid object: </span><span class="si">{value!r}</span><span class="s1"> (</span><span class="si">{ex}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="interval_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.interval_validator">[docs]</a><span class="k">def</span> <span class="nf">interval_validator</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                       <span class="n">min_incl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_incl</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks whether a value is in an interval.</span>
+
+<span class="sd">    The type of the checked values must at least support the operators</span>
+<span class="sd">    ``&lt;`` (for ``*_incl=False``) or ``&lt;=`` (for ``*_incl=True``).</span>
+
+<span class="sd">    :param min_value: minimum value (``None`` means no limit)</span>
+<span class="sd">    :param max_value: maximum value (``None`` means no limit)</span>
+<span class="sd">    :param bool min_incl: if ``True`` ``min_value`` is included</span>
+<span class="sd">    :param bool max_incl: if ``True`` ``max_value`` is included</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises ValueError: if ``min_value &gt; max_value``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+            <span class="ow">not</span> <span class="p">(</span><span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">max_value</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;min_value is greater than max_value&#39;</span>
+                         <span class="sa">f</span><span class="s1">&#39; (</span><span class="si">{min_value}</span><span class="s1"> &gt; </span><span class="si">{max_value}</span><span class="s1">)&#39;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">in_range</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">min_incl</span><span class="p">:</span>
+                <span class="n">in_range</span> <span class="o">=</span> <span class="n">min_value</span> <span class="o">&lt;=</span> <span class="n">value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">in_range</span> <span class="o">=</span> <span class="n">min_value</span> <span class="o">&lt;</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">in_range</span> <span class="ow">and</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">max_incl</span><span class="p">:</span>
+                <span class="n">in_range</span> <span class="o">=</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="n">max_value</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">in_range</span> <span class="o">=</span> <span class="n">value</span> <span class="o">&lt;</span> <span class="n">max_value</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">in_range</span><span class="p">:</span>
+            <span class="n">interval</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span>
+                <span class="s1">&#39;[&#39;</span> <span class="k">if</span> <span class="n">min_incl</span> <span class="k">else</span> <span class="s1">&#39;]&#39;</span><span class="p">,</span>
+                <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{min_value}</span><span class="s1">, </span><span class="si">{max_value}</span><span class="s1">&#39;</span><span class="p">,</span>
+                <span class="s1">&#39;]&#39;</span> <span class="k">if</span> <span class="n">max_incl</span> <span class="k">else</span> <span class="s1">&#39;[&#39;</span>
+            <span class="p">])</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in </span><span class="si">{interval}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="int_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.int_validator">[docs]</a><span class="k">def</span> <span class="nf">int_validator</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">allow_floats</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks whether a value is a valid integer.</span>
+
+<span class="sd">    If ``allow_floats`` is ``True``, a float value as the argument of the</span>
+<span class="sd">    returned |VF| will not raise a :exc:`TypeError`. Instead a value that</span>
+<span class="sd">    represents an integer (such as ``1.0``) and is in the interval</span>
+<span class="sd">    ``[min_value, max_value]`` will be considered valid. All other cases will</span>
+<span class="sd">    raise a :exc:`ValueError`.</span>
+
+<span class="sd">    :param min_value: minimum value (inclusive, ``None`` means no limit)</span>
+<span class="sd">    :type min_value: int or None</span>
+<span class="sd">    :param max_value: maximum value (inclusive, ``None`` means no limit)</span>
+<span class="sd">    :type max_value: int or None</span>
+<span class="sd">    :param bool allow_floats: see function description</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises ValueError: if ``min_value &gt; max_value``</span>
+<span class="sd">    :raises TypeError: if ``min_value`` or ``max_value`` are not</span>
+<span class="sd">                       of type :class:`int`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;min_value&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;max_value&#39;</span><span class="p">)</span>
+    <span class="n">vf</span> <span class="o">=</span> <span class="n">interval_validator</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">allow_floats</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">is_integer</span><span class="p">():</span>
+                <span class="n">value</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;value </span><span class="si">{value!r}</span><span class="s1"> is not in interval&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="n">vf</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="float_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.float_validator">[docs]</a><span class="k">def</span> <span class="nf">float_validator</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">min_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                    <span class="n">min_incl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">max_incl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">allow_nan</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_inf</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_ints</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks whether a value is a valid float.</span>
+
+<span class="sd">    :param min_value: minimum value (``None`` means no limit)</span>
+<span class="sd">    :type min_value: float or None</span>
+<span class="sd">    :param max_value: maximum value (``None`` means no limit)</span>
+<span class="sd">    :type max_value: float or None</span>
+<span class="sd">    :param bool min_incl: if ``True`` ``min_value`` is included</span>
+<span class="sd">    :param bool max_incl: if ``True`` ``max_value`` is included</span>
+<span class="sd">    :param bool allow_nan: if ``True`` :data:`math.nan` is allowed as the</span>
+<span class="sd">                           argument of the returned |VF|</span>
+<span class="sd">    :param bool allow_inf: if ``True`` :data:`math.inf` is allowed as the</span>
+<span class="sd">                           argument of the returned |VF|</span>
+<span class="sd">    :param bool allow_ints: if ``True`` an integer value as the argument of the</span>
+<span class="sd">                            returned |VF| will not raise a :exc:`TypeError`.</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises ValueError: if ``min_value &gt; max_value``</span>
+<span class="sd">    :raises TypeError: if ``min_value`` or ``max_value`` are not</span>
+<span class="sd">                       of type :class:`float`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">min_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">min_value</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;min_value&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">max_value</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;max_value&#39;</span><span class="p">)</span>
+    <span class="n">vf</span> <span class="o">=</span> <span class="n">interval_validator</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="n">min_value</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">max_value</span><span class="p">,</span>
+                            <span class="n">min_incl</span><span class="o">=</span><span class="n">min_incl</span><span class="p">,</span> <span class="n">max_incl</span><span class="o">=</span><span class="n">max_incl</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="n">math</span><span class="o">.</span><span class="n">nan</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">allow_nan</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;value NaN is not allowed&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">math</span><span class="o">.</span><span class="n">inf</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">allow_inf</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;value {&quot;+&quot; if value &gt; 0 else &quot;-&quot;}Inf is not allowed&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">allow_ints</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="n">vf</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="pattern_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.pattern_validator">[docs]</a><span class="k">def</span> <span class="nf">pattern_validator</span><span class="p">(</span><span class="n">pattern</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks a value with a pattern.</span>
+
+<span class="sd">    The type of the argument for the returned |VF| can be either</span>
+<span class="sd">    :class:`str` or :class:`bytes`. It must be the same type that</span>
+<span class="sd">    is used for the pattern.</span>
+
+<span class="sd">    The check is done by using :meth:`re.Pattern.search`.</span>
+
+<span class="sd">    &gt;&gt;&gt; # validator for values of type str and length 5-10</span>
+<span class="sd">    &gt;&gt;&gt; vf = pattern_validator(r&#39;^.{5,10}$&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abcde&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abc&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: invalid value: &#39;abc&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vf(b&#39;abcde&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    TypeError: the type of &#39;value&#39; must be &#39;str&#39;, got &#39;bytes&#39;</span>
+
+<span class="sd">    :param pattern: regular expression pattern (see: module :mod:`re`)</span>
+<span class="sd">    :type pattern: bytes or str or compiled pattern</span>
+<span class="sd">    :raises TypeError: if ``pattern`` has the wrong type</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="p">(</span><span class="nb">bytes</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">),</span> <span class="s1">&#39;pattern&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">pattern</span><span class="p">,</span> <span class="n">re</span><span class="o">.</span><span class="n">Pattern</span><span class="p">):</span>
+        <span class="n">pattern</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">pattern</span><span class="p">)</span>
+    <span class="n">value_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">pattern</span><span class="o">.</span><span class="n">pattern</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">value_type</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">pattern</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="sequence_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.sequence_validator">[docs]</a><span class="k">def</span> <span class="nf">sequence_validator</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks a sequence.</span>
+
+<span class="sd">    The check is done by applying the ``validator`` to</span>
+<span class="sd">    each item in the sequence.</span>
+
+<span class="sd">    &gt;&gt;&gt; vf = sequence_validator(func2validator(str.isupper))</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;ABC&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;AbC&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: error at sequence index 1: invalid value: &#39;b&#39;</span>
+
+<span class="sd">    :param validator: |VF|</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if ``validator`` is not callable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validator</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error at sequence index </span><span class="si">{i}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="set_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.set_validator">[docs]</a><span class="k">def</span> <span class="nf">set_validator</span><span class="p">(</span><span class="n">validator</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks a set.</span>
+
+<span class="sd">    The check is done by applying the ``validator`` to</span>
+<span class="sd">    each element in the set.</span>
+
+<span class="sd">    :param validator: |VF|</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if ``validator`` is not callable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Set</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">value</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">validator</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in set: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="mapping_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.mapping_validator">[docs]</a><span class="k">def</span> <span class="nf">mapping_validator</span><span class="p">(</span><span class="n">validator</span><span class="p">,</span> <span class="n">what</span><span class="o">=</span><span class="s1">&#39;values&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks a mapping.</span>
+
+<span class="sd">    The check is done by applying the ``validator`` to each key</span>
+<span class="sd">    (if ``what=&#39;keys&#39;``), value (if ``what=&#39;values&#39;``) or</span>
+<span class="sd">    (key, value)-tuple (if ``what=&#39;items&#39;``).</span>
+
+<span class="sd">    :param validator: |VF|</span>
+<span class="sd">    :param str what: see function description</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if ``validator`` is not callable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;what&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">what</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;keys&#39;</span><span class="p">,</span> <span class="s1">&#39;values&#39;</span><span class="p">,</span> <span class="s1">&#39;items&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;what must be one of &#39;keys&#39;, &#39;values&#39;, &#39;items&#39;&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">value</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s1">&#39;keys&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">validator</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in mapping key: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s1">&#39;values&#39;</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">validator</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;error in mapping: value for key&#39;</span>
+                                     <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">validator</span><span class="p">((</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in mapping item: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<span class="n">_str_object</span> <span class="o">=</span> <span class="n">object_validator</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="properties_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.properties_validator">[docs]</a><span class="k">def</span> <span class="nf">properties_validator</span><span class="p">(</span><span class="n">validators</span><span class="p">,</span> <span class="n">mapping</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks the properties of an object.</span>
+
+<span class="sd">    The ``validators`` argument must be a mapping from a property name</span>
+<span class="sd">    to a |VF| or ``None`` if only the existence of a property should be</span>
+<span class="sd">    checked. If the argument value for the returned</span>
+<span class="sd">    |VF| is missing a property, the value is considered invalid (no</span>
+<span class="sd">    :exc:`AttributeError` will be raised).</span>
+
+<span class="sd">    If ``mapping`` is ``True`` the value must be a mapping with string keys</span>
+<span class="sd">    that are used as properties.</span>
+
+<span class="sd">    &gt;&gt;&gt; validators = dict(a=func2validator(str.isupper), b=None)</span>
+<span class="sd">    &gt;&gt;&gt; vf = properties_validator(validators, True)</span>
+<span class="sd">    &gt;&gt;&gt; vf({&#39;a&#39;: &#39;ABC&#39;, &#39;b&#39;: 1})</span>
+<span class="sd">    &gt;&gt;&gt; vf({&#39;a&#39;: &#39;ABC&#39;})</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: missing property &#39;b&#39;</span>
+<span class="sd">    &gt;&gt;&gt; vf({&#39;a&#39;: &#39;abc&#39;, &#39;b&#39;: 1})</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: invalid property &#39;a&#39;: invalid value: &#39;abc&#39;</span>
+
+<span class="sd">    :param dict validators: |VF| for each property</span>
+<span class="sd">    :param bool mapping: if ``True`` the value must be a mapping</span>
+<span class="sd">    :raises TypeError: if ``validators`` is not a mapping or keys are not</span>
+<span class="sd">                       strings or values are not callable or ``None``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">validators</span><span class="p">,</span> <span class="n">Mapping</span><span class="p">,</span> <span class="s1">&#39;validators&#39;</span><span class="p">)</span>
+    <span class="n">mapping_validator</span><span class="p">(</span><span class="n">_str_object</span><span class="p">,</span> <span class="s1">&#39;keys&#39;</span><span class="p">)(</span><span class="n">validators</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">validator</span> <span class="ow">in</span> <span class="n">validators</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+        <span class="n">validator</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">validator</span> <span class="ow">in</span> <span class="n">validators</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">mapping</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="n">value</span><span class="p">[</span><span class="n">name</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">p</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">validator</span><span class="p">:</span>
+                        <span class="n">validator</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid property </span><span class="si">{name!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="p">(</span><span class="ne">AttributeError</span><span class="p">,</span> <span class="ne">KeyError</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;missing property </span><span class="si">{name!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<span class="n">_positive_int</span> <span class="o">=</span> <span class="n">int_validator</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="length_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.length_validator">[docs]</a><span class="k">def</span> <span class="nf">length_validator</span><span class="p">(</span><span class="n">min_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks the length.</span>
+
+<span class="sd">    The type of the checked values must support the</span>
+<span class="sd">    :func:`len` function.</span>
+
+<span class="sd">    :param int min_len: the minimum length</span>
+<span class="sd">    :param max_len: the maximum length (``None`` means no limit)</span>
+<span class="sd">    :type max_len: int or None</span>
+<span class="sd">    :raises ValueError: if ``min_len`` or ``max_len`` are negative integers</span>
+<span class="sd">                        or ``min_len`` &gt; ``max_len``</span>
+<span class="sd">    :raises TypeError: if ``min_len`` or ``max_len`` are not</span>
+<span class="sd">                       of type :class:`int`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">min_len</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;min_len&#39;</span><span class="p">)</span>
+    <span class="n">_positive_int</span><span class="p">(</span><span class="n">min_len</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">max_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">max_len</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;max_len&#39;</span><span class="p">)</span>
+        <span class="n">_positive_int</span><span class="p">(</span><span class="n">max_len</span><span class="p">)</span>
+    <span class="n">vf</span> <span class="o">=</span> <span class="n">int_validator</span><span class="p">(</span><span class="n">min_value</span><span class="o">=</span><span class="n">min_len</span><span class="p">,</span> <span class="n">max_value</span><span class="o">=</span><span class="n">max_len</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">vf</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;length must be in [</span><span class="si">{min_len}</span><span class="s1">, </span><span class="si">{max_len}</span><span class="s1">], got {len(value)}&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="in_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.in_validator">[docs]</a><span class="k">def</span> <span class="nf">in_validator</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">negate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a function that checks for membership.</span>
+
+<span class="sd">    :param container: container object (must support the ``in`` operator)</span>
+<span class="sd">    :param bool negate: if ``True`` the value is valid if it is  ``not in``</span>
+<span class="sd">                        the container.</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if ``container`` does not support the ``in`` operator</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">container</span><span class="p">,</span> <span class="n">Container</span><span class="p">):</span>
+        <span class="nb">iter</span><span class="p">(</span><span class="n">container</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">negate</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">container</span> <span class="ow">or</span>
+                <span class="ow">not</span> <span class="n">negate</span> <span class="ow">and</span> <span class="n">value</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">container</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="func2validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.func2validator">[docs]</a><span class="k">def</span> <span class="nf">func2validator</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">err_result</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a function to a |VF|.</span>
+
+<span class="sd">    The returned |VF| raises a :exc:`ValueError` if ``func()`` returns</span>
+<span class="sd">    ``err_result``.</span>
+
+<span class="sd">    &gt;&gt;&gt; vf = func2validator(str.isupper)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;A&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;a&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: invalid value: &#39;a&#39;</span>
+
+<span class="sd">    :param func: callable that takes a value as its only argument</span>
+<span class="sd">    :param bool err_result: the result, that will raise the ValueError</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">func</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">==</span> <span class="n">err_result</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{value!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="chain_validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.chain_validator">[docs]</a><span class="k">def</span> <span class="nf">chain_validator</span><span class="p">(</span><span class="o">*</span><span class="n">validators</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Chain some validators.</span>
+
+<span class="sd">    &gt;&gt;&gt; str_vf = object_validator(value_type=str)</span>
+<span class="sd">    &gt;&gt;&gt; len_vf = length_validator(min_len=5, max_len=10)</span>
+<span class="sd">    &gt;&gt;&gt; # validator for values of type str and length 5-10</span>
+<span class="sd">    &gt;&gt;&gt; vf = chain_validator(str_vf, len_vf)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abcde&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; vf(&#39;abc&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    ValueError: length must in [5, 10], got 3</span>
+<span class="sd">    &gt;&gt;&gt; vf(b&#39;abcde&#39;)</span>
+<span class="sd">    Traceback (most recent call last):</span>
+<span class="sd">      ...</span>
+<span class="sd">    TypeError: value must be of type &#39;str&#39;, got &#39;bytes&#39;</span>
+
+<span class="sd">    :param validators: validator functions</span>
+<span class="sd">    :return: |VF|</span>
+<span class="sd">    :raises TypeError: if one of the ``validators`` is not callable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">validator</span> <span class="ow">in</span> <span class="n">validators</span><span class="p">:</span>
+        <span class="n">_check_validator_callable</span><span class="p">(</span><span class="n">validator</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">validator</span> <span class="ow">in</span> <span class="n">validators</span><span class="p">:</span>
+            <span class="n">validator</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<span class="n">_iban_trans_table</span> <span class="o">=</span> <span class="n">TranslationTable</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_uppercase</span><span class="p">,</span>
+                                              <span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">36</span><span class="p">)))),</span>
+                                     <span class="n">string</span><span class="o">.</span><span class="n">digits</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="is_valid_iban"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.is_valid_iban">[docs]</a><span class="k">def</span> <span class="nf">is_valid_iban</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check whether a string is a valid IBAN.</span>
+
+<span class="sd">    IBAN = `International Bank Account Number</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/International_Bank_Account_Number&gt;`_</span>
+
+<span class="sd">    The string must not contain any separators;</span>
+<span class="sd">    only the characters ``A-Z`` and ``0-9`` are allowed.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if the string is a valid IBAN</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raise ValueError: if a character is not allowed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">((</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="p">:]</span> <span class="o">+</span> <span class="n">s</span><span class="p">[:</span><span class="mi">4</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">_iban_trans_table</span><span class="p">))</span> <span class="o">%</span> <span class="mi">97</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="is_valid_ean13"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.is_valid_ean13">[docs]</a><span class="k">def</span> <span class="nf">is_valid_ean13</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check whether a string is a valid EAN-13.</span>
+
+<span class="sd">    EAN = `European Article Number</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/European_Article_Number&gt;`_</span>
+
+<span class="sd">    The string must not contain any separators; only the characters ``0-9``</span>
+<span class="sd">    are allowed and the length of the string must be 13.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if the string is a valid EAN-13</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raise ValueError: if a character is not allowed or the length is wrong</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of string must be 13 not {len(s)}&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only characters 0-9 are allowed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))))</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+<div class="viewcode-block" id="is_valid_isbn"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.is_valid_isbn">[docs]</a><span class="k">def</span> <span class="nf">is_valid_isbn</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check whether a string is a valid ISBN.</span>
+
+<span class="sd">    ISBN = `International Standard Book Number</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/International_Standard_Book_Number&gt;`_</span>
+
+<span class="sd">    The string must not contain any separators; only the characters ``0-9``</span>
+<span class="sd">    plus ``X`` for ISBN-10 are allowed and the length of the string must be</span>
+<span class="sd">    either 10 or 13.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if the string is a valid ISBN</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raise ValueError: if a character is not allowed or the length is wrong</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">==</span> <span class="mi">13</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_BOOKLAND</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s1">&#39;ISBN-13 must start with {&quot; or &quot;.join(_BOOKLAND)}&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">is_valid_ean13</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">13</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;length of string must be 10 or 13 not {len(s)}&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">and</span> <span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">()</span> <span class="ow">or</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span><span class="p">)):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only characters 0-9 and X are allowed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">((</span><span class="nb">sum</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)))</span> <span class="o">+</span>
+            <span class="p">(</span><span class="mi">10</span> <span class="k">if</span> <span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;X&#39;</span> <span class="k">else</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])))</span> <span class="o">%</span> <span class="mi">11</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="is_valid_luhn"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.is_valid_luhn">[docs]</a><span class="k">def</span> <span class="nf">is_valid_luhn</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check whether a string is valid according to the Luhn algorithm.</span>
+
+<span class="sd">    The `Luhn algorithm</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Luhn_algorithm&gt;`_ is used to validate</span>
+<span class="sd">    a variety of identification numbers, e.g. credit card numbers.</span>
+
+<span class="sd">    The string must not contain any separators; only the characters ``0-9``</span>
+<span class="sd">    are allowed.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if the string is valid</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raise ValueError: if a character is not allowed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="o">.</span><span class="n">isdecimal</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;only characters 0-9 are allowed&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="nb">divmod</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+               <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">itertools</span><span class="o">.</span><span class="n">cycle</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">))))</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018-2020, Andreas Suhre.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

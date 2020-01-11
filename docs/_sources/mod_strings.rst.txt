@@ -1,0 +1,52 @@
+Module *strings*
+================
+
+.. automodule:: salmagundi.strings
+   :exclude-members: BOOLEAN_STATES, NO_PREFIX, BINARY_PREFIXES, DECIMAL_PREFIXES, Prefix
+
+   Overview
+   --------
+
+   .. autosummary::
+      :nosignatures:
+
+      BINARY_PREFIXES
+      BOOLEAN_STATES
+      DECIMAL_PREFIXES
+      NO_PREFIX
+      Prefix
+      TranslationTable
+      bin_prefix
+      dec_prefix
+      find_bin_prefix
+      find_dec_prefix
+      format_bin_prefix
+      format_dec_prefix
+      format_timedelta
+      insert_separator
+      int2str
+      is_hexdigit
+      parse_timedelta
+      purge
+      shorten
+      slugify
+      split_host_port
+      str2bool
+      str2port
+      str2tuple
+
+
+   .. autodata:: BOOLEAN_STATES
+      :annotation:
+
+   .. autodata:: NO_PREFIX
+      :annotation:
+
+   .. autodata:: BINARY_PREFIXES
+      :annotation:
+
+   .. autodata:: DECIMAL_PREFIXES
+      :annotation:
+
+   .. autoclass:: Prefix
+      :no-members:

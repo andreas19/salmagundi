@@ -1,0 +1,239 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>Overview &#8212; Salmagundi 0.11.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="shortcut icon" href="_static/favicon.ico"/>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Modules" href="modules.html" />
+    <link rel="prev" title="Salmagundi 0.11.0" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Overview</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#links">Links</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#history">History</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Salmagundi 0.11.0</a></li>
+      <li>Next: <a href="modules.html" title="next chapter">Modules</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="overview">
+<h1>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h1>
+<p>Library with a collection of some more or less useful functions.</p>
+<div class="section" id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span># pip install salmagundi
+</pre></div>
+</div>
+</div>
+<div class="section" id="requirements">
+<h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>Python &gt;= 3.6</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/ansictrls">ansictrls &gt;= 0.1.0</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/cryptography">cryptography &gt;= 2.6.1</a></p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/docopt">docopt &gt;= 0.6.2</a></p></li>
+</ul>
+</div>
+<div class="section" id="links">
+<h2>Links<a class="headerlink" href="#links" title="Permalink to this headline">¶</a></h2>
+<ul class="simple">
+<li><p>PyPI: <a class="reference external" href="https://pypi.org/project/salmagundi/">https://pypi.org/project/salmagundi/</a></p></li>
+<li><p>GitHub: <a class="reference external" href="https://github.com/andreas19/salmagundi/">https://github.com/andreas19/salmagundi/</a></p></li>
+</ul>
+</div>
+<div class="section" id="history">
+<h2>History<a class="headerlink" href="#history" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul class="simple">
+<li><p>Bugfix: utils.ensure_single_instance()</p></li>
+</ul>
+</div></blockquote>
+<dl class="simple">
+<dt><strong>2020-01-11 (0.11.0)</strong></dt><dd><ul class="simple">
+<li><p>Add functions sys_exit() and ensure_single_instance() to module utils</p></li>
+<li><p>Add parameter err_code to utils.docopt_helper()</p></li>
+</ul>
+</dd>
+<dt><strong>2020-01-04 (0.10.0)</strong></dt><dd><ul class="simple">
+<li><p>Add wildcards in spec for sections and options in module config</p></li>
+<li><p>Add function docopt_helper() in module utils</p></li>
+</ul>
+</dd>
+<dt><strong>2020-01-02 (0.9.4)</strong></dt><dd><ul class="simple">
+<li><p>Bugfix: microseconds format in strings.format_timedelta()</p></li>
+</ul>
+</dd>
+<dt><strong>2019-10-07 (0.9.2)</strong></dt><dd><ul class="simple">
+<li><p>Fix documentation for module config</p></li>
+<li><p>Link to overview table for selected module now in sidebar</p></li>
+</ul>
+</dd>
+<dt><strong>2019-10-06 (0.9.1)</strong></dt><dd><ul class="simple">
+<li><p>Bugfix: files.read_lines() stripped all whitespaces, not only line breaks</p></li>
+<li><p>Improve documentation: add overview table to each module</p></li>
+</ul>
+</dd>
+<dt><strong>2019-10-01 (0.9.0)</strong></dt><dd><ul class="simple">
+<li><p>Add function slugify() to module strings</p></li>
+<li><p>Add class TranslationTable to module strings</p></li>
+<li><p>Change function strings.insert_separator()</p></li>
+<li><p>Add module validation</p></li>
+<li><p>Add __all__ to all modules</p></li>
+</ul>
+</dd>
+<dt><strong>2019-06-26 (0.8.0)</strong></dt><dd><ul class="simple">
+<li><p>Longer secret keys in module crypto</p></li>
+</ul>
+</dd>
+<dt><strong>2019-05-12 (0.7.3)</strong></dt><dd><ul class="simple">
+<li><p>Minor improvements/corrections of the documentation</p></li>
+<li><p>Upgrade dependency: cryptography 2.4.2 -&gt; 2.6.1</p></li>
+</ul>
+</dd>
+<dt><strong>2019-04-15 (0.7.2)</strong></dt><dd><ul class="simple">
+<li><p>Bugfix: problem with inputs.menu() when cursor is in the last row
+of the terminal</p></li>
+</ul>
+</dd>
+<dt><strong>2019-02-07 (0.7.1)</strong></dt><dd><ul class="simple">
+<li><p>Add 2 tags in module config</p></li>
+</ul>
+</dd>
+<dt><strong>2019-01-31 (0.7.0)</strong></dt><dd><ul class="simple">
+<li><p>Add module config</p></li>
+<li><p>Add function int2str() to module strings</p></li>
+<li><p>Bugfix: strings.str2tuple() can now use whitespace as separator</p></li>
+</ul>
+</dd>
+<dt><strong>2019-01-15 (0.6.1)</strong></dt><dd><ul class="simple">
+<li><p>Bugfix: *_prefix() functions in module strings now handle negative
+numbers correctly</p></li>
+</ul>
+</dd>
+<dt><strong>2019-01-14 (0.6.0)</strong></dt><dd><ul class="simple">
+<li><p>Add check_*() functions to module inputs</p></li>
+<li><p>Add parameter caption to function menu() in module inputs</p></li>
+<li><p>Add parameter errors to *_all() and *_lines() functions in module files</p></li>
+<li><p>Add parameter reverse to function insert_separator() in module strings</p></li>
+</ul>
+</dd>
+<dt><strong>2019-01-07 (0.5.0)</strong></dt><dd><ul class="simple">
+<li><p>Replace create() with touch() in module files</p></li>
+<li><p>Add functions to module files</p></li>
+<li><p>Add functions to module strings</p></li>
+<li><p>Add module crypto</p></li>
+<li><p>Add module utils</p></li>
+</ul>
+</dd>
+<dt><strong>2018-12-27 (0.4.0)</strong></dt><dd><ul class="simple">
+<li><p>Add functions to module inputs</p></li>
+<li><p>Rename line() to read() in module inputs</p></li>
+</ul>
+</dd>
+<dt><strong>2018-12-24 (0.3.0)</strong></dt><dd><ul class="simple">
+<li><p>Add module inputs</p></li>
+</ul>
+</dd>
+<dt><strong>2018-12-23 (0.2.0)</strong></dt><dd><ul class="simple">
+<li><p>Add functions to module colors</p></li>
+<li><p>Add module strings</p></li>
+</ul>
+</dd>
+<dt><strong>2018-12-17 (0.1.0)</strong></dt><dd><ul class="simple">
+<li><p>First public release</p></li>
+</ul>
+</dd>
+</dl>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018-2020, Andreas Suhre.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

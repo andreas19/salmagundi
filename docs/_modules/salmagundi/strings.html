@@ -1,0 +1,819 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>salmagundi.strings &#8212; Salmagundi 0.11.0 documentation</title>
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <link rel="shortcut icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  <div class="document">
+    
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="../../index.html">Salmagundi</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Modules</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../license.html">License</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <h1>Source code for salmagundi.strings</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Utilities for working with strings.</span>
+
+<span class="sd">.. versionadded:: 0.2.0</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">configparser</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">unicodedata</span>
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">namedtuple</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
+
+<span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BINARY_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;BOOLEAN_STATES&#39;</span><span class="p">,</span> <span class="s1">&#39;DECIMAL_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;NO_PREFIX&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;TranslationTable&#39;</span><span class="p">,</span> <span class="s1">&#39;bin_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;dec_prefix&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;find_bin_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;find_dec_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;format_bin_prefix&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;format_dec_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;format_timedelta&#39;</span><span class="p">,</span> <span class="s1">&#39;insert_separator&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;int2str&#39;</span><span class="p">,</span> <span class="s1">&#39;is_hexdigit&#39;</span><span class="p">,</span> <span class="s1">&#39;parse_timedelta&#39;</span><span class="p">,</span> <span class="s1">&#39;purge&#39;</span><span class="p">,</span> <span class="s1">&#39;shorten&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;slugify&#39;</span><span class="p">,</span> <span class="s1">&#39;split_host_port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2bool&#39;</span><span class="p">,</span> <span class="s1">&#39;str2port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2tuple&#39;</span><span class="p">]</span>
+
+<span class="n">BOOLEAN_STATES</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="o">.</span><span class="n">BOOLEAN_STATES</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="sd">&quot;&quot;&quot;Dictionary with mappings from strings to boolean values.</span>
+
+<span class="sd">Used by the function :func:`str2bool`.</span>
+
+<span class="sd">This dictionary can be modified. The default values are:</span>
+<span class="sd">    * ``True``: ``&#39;1&#39;, &#39;yes&#39;, &#39;true&#39;, &#39;on&#39;``</span>
+<span class="sd">    * ``False``: ``&#39;0&#39;, &#39;no&#39;, &#39;false&#39;, &#39;off&#39;``</span>
+
+<span class="sd">These are the same as in :attr:`configparser.ConfigParser.BOOLEAN_STATES`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="str2bool"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2bool">[docs]</a><span class="k">def</span> <span class="nf">str2bool</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a string to a boolean value.</span>
+
+<span class="sd">    The string is converted to lowercase before looked up in</span>
+<span class="sd">    the :data:`BOOLEAN_STATES` dictionary.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: a boolean value</span>
+<span class="sd">    :rtype: bool</span>
+<span class="sd">    :raises ValueError: if the string is not in :data:`BOOLEAN_STATES`</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">BOOLEAN_STATES</span><span class="p">[</span><span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()]</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a boolean: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="str2tuple"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2tuple">[docs]</a><span class="k">def</span> <span class="nf">str2tuple</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a string to a tuple.</span>
+
+<span class="sd">    If ``converter`` is given and not ``None``, it must be a callable that</span>
+<span class="sd">    takes a string parameter and returns an object of the required type,</span>
+<span class="sd">    or else a tuple with string elements will be returned.</span>
+
+<span class="sd">    &gt;&gt;&gt; str2tuple(&#39;1, 2, 3,4&#39;, converter=int)</span>
+<span class="sd">    (1, 2, 3, 4)</span>
+<span class="sd">    &gt;&gt;&gt; str2tuple(&#39;on, off, no, true, YES&#39;)</span>
+<span class="sd">    (&#39;on&#39;, &#39;off&#39;, &#39;no&#39;, &#39;true&#39;, &#39;YES&#39;)</span>
+<span class="sd">    &gt;&gt;&gt; str2tuple(&#39;on, off, no, true, YES&#39;, converter=str2bool)</span>
+<span class="sd">    (True, False, False, True, True)</span>
+<span class="sd">    &gt;&gt;&gt; str2tuple(&#39;a, b, , d&#39;)</span>
+<span class="sd">    (&#39;a&#39;, &#39;b&#39;, &#39;&#39;, &#39;d&#39;)</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str sep: the separator (whitespace around ``sep`` will be ignored)</span>
+<span class="sd">    :param converter: the converter function</span>
+<span class="sd">    :type converter: callable(str)</span>
+<span class="sd">    :return: tuple with elements of the required type</span>
+<span class="sd">    :rtype: tuple</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">converter</span> <span class="ow">or</span> <span class="nb">str</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="str2port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2port">[docs]</a><span class="k">def</span> <span class="nf">str2port</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert a string to a network port number.</span>
+
+<span class="sd">    :param str s: the string to convert</span>
+<span class="sd">    :return: port number</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises ValueError: if ``s`` cannot be converted to a number in [0..65535]</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">if</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">port</span>
+    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">port</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="split_host_port"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.split_host_port">[docs]</a><span class="k">def</span> <span class="nf">split_host_port</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Split a string into host and port.</span>
+
+<span class="sd">    &gt;&gt;&gt; split_host_port(&#39;example.com:42&#39;, 21)</span>
+<span class="sd">    (&#39;example.com&#39;, 42)</span>
+<span class="sd">    &gt;&gt;&gt; split_host_port(&#39;example.com&#39;, 21)</span>
+<span class="sd">    (&#39;example.com&#39;, 21)</span>
+
+<span class="sd">    :param str s: the string to split</span>
+<span class="sd">    :param int port: port that is used if there is none in the string</span>
+<span class="sd">    :return: host and port number</span>
+<span class="sd">    :rtype: str, int</span>
+<span class="sd">    :raises ValueError: if ``port`` or the port number in ``s``</span>
+<span class="sd">                        are not in [0..65535] or neither of them is given</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">port</span> <span class="o">&lt;=</span> <span class="mi">65535</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a valid port number: </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">port</span><span class="p">)</span>
+    <span class="n">a</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">a</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;no port in parameter and default port is None&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">port</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">a</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">str2port</span><span class="p">(</span><span class="n">a</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span></div>
+
+
+<div class="viewcode-block" id="insert_separator"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.insert_separator">[docs]</a><span class="k">def</span> <span class="nf">insert_separator</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="p">,</span> <span class="n">group_size</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Insert separators in a string.</span>
+
+<span class="sd">    &gt;&gt;&gt; insert_separator(&#39;008041aefd7e&#39;, &#39;:&#39;, 2)</span>
+<span class="sd">    00:80:41:ae:fd:7e</span>
+<span class="sd">    &gt;&gt;&gt; insert_separator(&#39;aaabbbcccd&#39;, &#39;:&#39;, 3)</span>
+<span class="sd">    &#39;aaa:bbb:ccc:d&#39;</span>
+<span class="sd">    &gt;&gt;&gt; insert_separator(&#39;aaabbbcccd&#39;, &#39;:&#39;, 3, True)</span>
+<span class="sd">    &#39;a:aab:bbc:ccd&#39;</span>
+<span class="sd">    &gt;&gt;&gt; insert_separator(&#39;9783161484100&#39;, &#39;-&#39;, (3, 1, 2, 6))</span>
+<span class="sd">    &#39;978-3-16-148410-0&#39;</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str sep: the separator character(s)</span>
+<span class="sd">    :param group_size: the size of each group</span>
+<span class="sd">    :type group_size: int or sequence of ints</span>
+<span class="sd">    :param bool reverse: if ``True`` group from right to left instead from</span>
+<span class="sd">                         left to right</span>
+<span class="sd">    :return: string with separators</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: if ``group_size &lt; 1``</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    .. versionchanged:: 0.6.0</span>
+<span class="sd">       Add parameter ``reverse``</span>
+<span class="sd">    .. versionchanged:: 0.9.0</span>
+<span class="sd">       Groups can be of different sizes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">group_size</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;group_size must be &gt;= 1&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">[</span><span class="n">s</span><span class="p">[</span><span class="n">i</span><span class="p">:</span><span class="n">i</span> <span class="o">+</span> <span class="n">group_size</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">),</span> <span class="n">group_size</span><span class="p">)]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="n">group_size</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;group_size must be &gt;= 1&#39;</span><span class="p">)</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">group_size</span><span class="p">:</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">s</span><span class="p">[</span><span class="n">idx</span><span class="p">:</span><span class="n">idx</span> <span class="o">+</span> <span class="n">size</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">x</span><span class="p">:</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+            <span class="n">idx</span> <span class="o">+=</span> <span class="n">size</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">idx</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+                <span class="n">r</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">[</span><span class="n">idx</span><span class="p">:])</span>
+    <span class="k">if</span> <span class="n">reverse</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">)[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">sep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">r</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="purge"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.purge">[docs]</a><span class="k">def</span> <span class="nf">purge</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">negate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Purge characters from a string.</span>
+
+<span class="sd">    Each character in ``chars`` will be eliminated from the string.</span>
+
+<span class="sd">    If ``chars=None`` or ``chars=&#39;&#39;`` all consecutive whitespace</span>
+<span class="sd">    are replaced by a single space.</span>
+
+<span class="sd">    if ``negate=True`` all characters **not** in chars will be</span>
+<span class="sd">    purged (only applies when ``chars`` is at least one character)</span>
+
+<span class="sd">    &gt;&gt;&gt; purge(&#39;00:80:41:ae:fd:7e&#39;, &#39;:&#39;)</span>
+<span class="sd">    008041aefd7e</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str chars: the characters</span>
+<span class="sd">    :param bool negate: see above</span>
+<span class="sd">    :return: the purged string</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">negate</span><span class="p">:</span>
+            <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">c</span> <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">s</span> <span class="k">if</span> <span class="n">c</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">chars</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\s+&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="shorten"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.shorten">[docs]</a><span class="k">def</span> <span class="nf">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;…&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shorten the text to fit in the given width.</span>
+
+<span class="sd">    If ``len(text) &lt;= width`` the ``text`` is returned unchanged.</span>
+
+<span class="sd">    &gt;&gt;&gt; text = &#39;Lorem ipsum dolor sit amet&#39;</span>
+<span class="sd">    &gt;&gt;&gt; shorten(text, width=15)</span>
+<span class="sd">    &#39;Lorem ipsum do…&#39;</span>
+<span class="sd">    &gt;&gt;&gt; shorten(text, width=15, placeholder=&#39; ... &#39;, pos=&#39;middle&#39;)</span>
+<span class="sd">    &#39;Lorem ...  amet&#39;</span>
+<span class="sd">    &gt;&gt;&gt; shorten(text, width=15, pos=&#39;left&#39;)</span>
+<span class="sd">    &#39;…dolor sit amet&#39;</span>
+
+<span class="sd">    :param str text: the text</span>
+<span class="sd">    :param int width: the width</span>
+<span class="sd">    :param str placeholder: the placeholder</span>
+<span class="sd">    :param str pos: position (``&#39;left&#39;, &#39;middle&#39;, &#39;right&#39;``) of</span>
+<span class="sd">                    placeholder in text</span>
+<span class="sd">    :return: the shortened text</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: if ``width &lt; len(placeholder)`` or ``pos`` is unknown</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;width must be &gt;= len(placeholder)&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;unknown pos: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">pos</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">width</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">[:</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder</span><span class="p">)]</span> <span class="o">+</span> <span class="n">placeholder</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">placeholder</span> <span class="o">+</span> <span class="n">text</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">-</span> <span class="n">width</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder</span><span class="p">):]</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">p1</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">width</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder</span><span class="p">))</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">p2</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="n">p1</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">placeholder</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">text</span><span class="p">[:</span><span class="n">p1</span><span class="p">]</span> <span class="o">+</span> <span class="n">placeholder</span> <span class="o">+</span> <span class="p">(</span><span class="n">text</span><span class="p">[</span><span class="o">-</span><span class="n">p2</span><span class="p">:]</span> <span class="k">if</span> <span class="n">p2</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="p">)</span></div>
+
+
+<span class="n">Prefix</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;Prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;name, symbol, factor&#39;</span><span class="p">)</span>
+<span class="n">Prefix</span><span class="o">.</span><span class="vm">__doc__</span> <span class="o">=</span> <span class="s2">&quot;&quot;&quot;</span><span class="se">\</span>
+<span class="s2">Class for prefixes with fields ``name, symbol, factor``.</span>
+
+<span class="s2">Used by the ``*_prefix()`` functions.</span>
+<span class="s2">&quot;&quot;&quot;</span>
+
+<span class="n">NO_PREFIX</span> <span class="o">=</span> <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1">#: No prefix</span>
+
+<span class="n">BINARY_PREFIXES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;yobi&#39;</span><span class="p">,</span> <span class="s1">&#39;Yi&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">80</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;zebi&#39;</span><span class="p">,</span> <span class="s1">&#39;Zi&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">70</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;exbi&#39;</span><span class="p">,</span> <span class="s1">&#39;Ei&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">60</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;pebi&#39;</span><span class="p">,</span> <span class="s1">&#39;Pi&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">50</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;tebi&#39;</span><span class="p">,</span> <span class="s1">&#39;Ti&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">40</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;gibi&#39;</span><span class="p">,</span> <span class="s1">&#39;Gi&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">30</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;mebi&#39;</span><span class="p">,</span> <span class="s1">&#39;Mi&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">20</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;kibi&#39;</span><span class="p">,</span> <span class="s1">&#39;Ki&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">10</span><span class="p">),</span>
+    <span class="n">NO_PREFIX</span>
+<span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Binary prefixes.</span>
+
+<span class="sd">The entries in this list are of type :class:`Prefix`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">DECIMAL_PREFIXES</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;yotta&#39;</span><span class="p">,</span> <span class="s1">&#39;Y&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">24</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;zetta&#39;</span><span class="p">,</span> <span class="s1">&#39;Z&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">21</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;exa&#39;</span><span class="p">,</span> <span class="s1">&#39;E&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">18</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;peta&#39;</span><span class="p">,</span> <span class="s1">&#39;P&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">15</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;tera&#39;</span><span class="p">,</span> <span class="s1">&#39;T&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">12</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;giga&#39;</span><span class="p">,</span> <span class="s1">&#39;G&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">9</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;mega&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">6</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;kilo&#39;</span><span class="p">,</span> <span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;hecto&#39;</span><span class="p">,</span> <span class="s1">&#39;h&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;deca&#39;</span><span class="p">,</span> <span class="s1">&#39;da&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">NO_PREFIX</span><span class="p">,</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;deci&#39;</span><span class="p">,</span> <span class="s1">&#39;d&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">1</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;centi&#39;</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">2</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;milli&#39;</span><span class="p">,</span> <span class="s1">&#39;m&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">3</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;micro&#39;</span><span class="p">,</span> <span class="s1">&#39;µ&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">6</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;nano&#39;</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">9</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;pico&#39;</span><span class="p">,</span> <span class="s1">&#39;p&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">12</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;femto&#39;</span><span class="p">,</span> <span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">15</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;atto&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">18</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;zepto&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">21</span><span class="p">),</span>
+    <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;yocto&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">24</span><span class="p">),</span>
+<span class="p">]</span>
+<span class="sd">&quot;&quot;&quot;Decimal prefixes.</span>
+
+<span class="sd">The entries in this list are of type :class:`Prefix`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="bin_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.bin_prefix">[docs]</a><span class="k">def</span> <span class="nf">bin_prefix</span><span class="p">(</span><span class="n">value</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get an appropriate binary prefix for an integer number.</span>
+
+<span class="sd">    :param int value: the number</span>
+<span class="sd">    :return: binary prefix</span>
+<span class="sd">    :rtype: Prefix</span>
+<span class="sd">    :raises TypeError: if value is not an integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NO_PREFIX</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">BINARY_PREFIXES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">factor</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="find_bin_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.find_bin_prefix">[docs]</a><span class="k">def</span> <span class="nf">find_bin_prefix</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find binary prefix for name or symbol.</span>
+
+<span class="sd">    :param str s: name (case-insensitive) or symbol (case-sensitive)</span>
+<span class="sd">    :return: binary prefix or ``None`` if not found</span>
+<span class="sd">    :rtype: Prefix or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">BINARY_PREFIXES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">s</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">symbol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="format_bin_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.format_bin_prefix">[docs]</a><span class="k">def</span> <span class="nf">format_bin_prefix</span><span class="p">(</span><span class="n">num_frmt</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a number with a binary prefix.</span>
+
+<span class="sd">    &gt;&gt;&gt; format_bin_prefix(&#39;.3f&#39;, 1024**2+1024)</span>
+<span class="sd">    &#39;1.001 Mi&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_bin_prefix(&#39;.3f&#39;, 1024**2+1024, prefix=&#39;Gi&#39;)</span>
+<span class="sd">    &#39;0.001 Gi&#39;</span>
+
+<span class="sd">    :param str num_frmt: number format string as used with :func:`format`</span>
+<span class="sd">    :param int value: the number</span>
+<span class="sd">    :param prefix: can be a binary prefix object, name, or symbol</span>
+<span class="sd">    :type prefix: Prefix or str</span>
+<span class="sd">    :return: the result of ``value / prefix.factor`` formatted according to</span>
+<span class="sd">             ``num_frmt`` with a space character and ``prefix.symbol`` appended</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises TypeError: if value is not an integer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">Prefix</span><span class="p">):</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">find_bin_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">or</span> <span class="n">NO_PREFIX</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">bin_prefix</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">format</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">prefix</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">num_frmt</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">prefix</span><span class="o">.</span><span class="n">symbol</span></div>
+
+
+<div class="viewcode-block" id="dec_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.dec_prefix">[docs]</a><span class="k">def</span> <span class="nf">dec_prefix</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">restricted</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get an appropriate decimal prefix for a number.</span>
+
+<span class="sd">    :param value: the number</span>
+<span class="sd">    :type value: int or float</span>
+<span class="sd">    :param bool restricted: if ``True`` only integer powers of 1000 are used,</span>
+<span class="sd">                            i.e. *hecto, deca, deci, centi* are skipped</span>
+<span class="sd">    :return: decimal prefix</span>
+<span class="sd">    :rtype: Prefix</span>
+<span class="sd">    :raises TypeError: if value is not of type int or float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">NO_PREFIX</span>
+    <span class="n">value</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">DECIMAL_PREFIXES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">restricted</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;hecto&#39;</span><span class="p">,</span> <span class="s1">&#39;deca&#39;</span><span class="p">,</span> <span class="s1">&#39;deci&#39;</span><span class="p">,</span> <span class="s1">&#39;centi&#39;</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">/</span> <span class="n">p</span><span class="o">.</span><span class="n">factor</span> <span class="o">&gt;=</span> <span class="mf">1.0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span>
+    <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="find_dec_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.find_dec_prefix">[docs]</a><span class="k">def</span> <span class="nf">find_dec_prefix</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Find decimal prefix for name or symbol.</span>
+
+<span class="sd">    :param str s: name (case-insensitive) or symbol (case-sensitive);</span>
+<span class="sd">                  instead of the symbol ``µ`` the letter ``u`` can be used</span>
+<span class="sd">    :return: decimal prefix or ``None`` if not found</span>
+<span class="sd">    :rtype: Prefix or None</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="s1">&#39;u&#39;</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;µ&#39;</span>
+    <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">DECIMAL_PREFIXES</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="ow">or</span> <span class="n">s</span> <span class="o">==</span> <span class="n">p</span><span class="o">.</span><span class="n">symbol</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">p</span></div>
+
+
+<div class="viewcode-block" id="format_dec_prefix"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.format_dec_prefix">[docs]</a><span class="k">def</span> <span class="nf">format_dec_prefix</span><span class="p">(</span><span class="n">num_frmt</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">restricted</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a number with a decimal prefix.</span>
+
+<span class="sd">    &gt;&gt;&gt; format_dec_prefix(&#39;.1f&#39;, 0.012)</span>
+<span class="sd">    &#39;12.0 m&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_dec_prefix(&#39;.1f&#39;, 0.012, restricted=False)</span>
+<span class="sd">    &#39;1.2 c&#39;</span>
+
+<span class="sd">    :param str num_frmt: number format string as used with :func:`format`</span>
+<span class="sd">    :param value: the number</span>
+<span class="sd">    :type value: int or float</span>
+<span class="sd">    :param prefix: can be a decimal prefix object, name, or symbol;</span>
+<span class="sd">                   instead of the symbol ``µ`` the letter ``u`` can be used</span>
+<span class="sd">    :type prefix: Prefix or str</span>
+<span class="sd">    :param bool restricted: if ``True`` only integer powers of 1000 are used,</span>
+<span class="sd">                            i.e. *hecto, deca, deci, centi* are skipped.</span>
+<span class="sd">                            Ignored if ``prefix`` is set.</span>
+<span class="sd">    :return: the result of ``value / prefix.factor`` formatted according to</span>
+<span class="sd">             ``num_frmt`` with a space character and ``prefix.symbol`` appended</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises TypeError: if value is not of type int or float</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">prefix</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">),</span> <span class="s1">&#39;value&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="n">Prefix</span><span class="p">):</span>
+            <span class="n">prefix</span> <span class="o">=</span> <span class="n">find_dec_prefix</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="ow">or</span> <span class="n">NO_PREFIX</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="n">dec_prefix</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">restricted</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">format</span><span class="p">(</span><span class="n">value</span> <span class="o">/</span> <span class="n">prefix</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">num_frmt</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">prefix</span><span class="o">.</span><span class="n">symbol</span></div>
+
+
+<span class="n">_TIMEDELTA_FRMT_RE</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+    <span class="sa">r</span><span class="s1">&#39;%(?P&lt;flag&gt;[0 ]?)(?P&lt;width&gt;\d*)(?P&lt;code&gt;[DHMSs])&#39;</span><span class="p">)</span>
+
+<span class="n">_TdFmtTuple</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;TdFmtTuple&#39;</span><span class="p">,</span> <span class="s1">&#39;text, flag, width, code&#39;</span><span class="p">)</span>
+
+
+<span class="nd">@lru_cache</span><span class="p">(</span><span class="n">maxsize</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">_timedelta_format</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">):</span>
+    <span class="n">replacements</span> <span class="o">=</span> <span class="p">[(</span><span class="s1">&#39;</span><span class="si">%X</span><span class="s1">&#39;</span><span class="p">,</span> <span class="s1">&#39;%02H:%02M:%02S&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;%Y&#39;</span><span class="p">,</span> <span class="s1">&#39;%02H:%02M&#39;</span><span class="p">),</span>
+                    <span class="p">(</span><span class="s1">&#39;%Z&#39;</span><span class="p">,</span> <span class="s1">&#39;%02M:%02S&#39;</span><span class="p">)]</span>
+    <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">replacements</span><span class="p">:</span>
+        <span class="n">fmt_str</span> <span class="o">=</span> <span class="n">fmt_str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">r</span><span class="p">)</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">pos</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">units</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;s&#39;</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">)</span>
+    <span class="n">max_unit</span> <span class="o">=</span> <span class="s1">&#39;s&#39;</span>
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">_TIMEDELTA_FRMT_RE</span><span class="o">.</span><span class="n">finditer</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">]</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">])</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;width must be &gt; 0&#39;</span><span class="p">)</span>
+        <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_TdFmtTuple</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">[</span><span class="n">pos</span><span class="p">:</span><span class="n">m</span><span class="o">.</span><span class="n">start</span><span class="p">()],</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;flag&#39;</span><span class="p">],</span>
+                               <span class="n">m</span><span class="p">[</span><span class="s1">&#39;width&#39;</span><span class="p">],</span> <span class="n">m</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]))</span>
+        <span class="n">pos</span> <span class="o">=</span> <span class="n">m</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+        <span class="n">max_unit</span> <span class="o">=</span> <span class="n">units</span><span class="p">[</span><span class="nb">max</span><span class="p">(</span><span class="n">units</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">max_unit</span><span class="p">),</span> <span class="n">units</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">m</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]))]</span>
+    <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">[</span><span class="n">pos</span><span class="p">:])</span>
+    <span class="k">return</span> <span class="n">lst</span><span class="p">,</span> <span class="n">max_unit</span>
+
+
+<div class="viewcode-block" id="format_timedelta"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.format_timedelta">[docs]</a><span class="k">def</span> <span class="nf">format_timedelta</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">,</span> <span class="n">delta</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Format a time delta.</span>
+
+<span class="sd">    The time delta is the difference between two points in time,</span>
+<span class="sd">    e.g. a duration.</span>
+
+<span class="sd">    The delta can be given in seconds as a :class:`int` or :class:`float`,</span>
+<span class="sd">    or as a :class:`datetime.timedelta`. It must be &gt;= 0.</span>
+
+<span class="sd">    .. _ref-timedelta-format-specifiers:</span>
+
+<span class="sd">    A format specifier starts with a ``&#39;%&#39;`` character followed by a flag</span>
+<span class="sd">    (optional) and a number for the minimum field width (optional)</span>
+<span class="sd">    followed by a format code.</span>
+
+<span class="sd">    Supported flag:</span>
+
+<span class="sd">    =======  =======</span>
+<span class="sd">    Flag     Meaning</span>
+<span class="sd">    =======  =======</span>
+<span class="sd">    ``&#39;0&#39;``  zero-padded</span>
+<span class="sd">    ``&#39; &#39;``  space-padded (default except for ``&#39;s&#39;``)</span>
+<span class="sd">    =======  =======</span>
+
+<span class="sd">    Supported format codes:</span>
+
+<span class="sd">    =======  =======</span>
+<span class="sd">    Code     Meaning</span>
+<span class="sd">    =======  =======</span>
+<span class="sd">    ``&#39;D&#39;``  days as a decimal number</span>
+<span class="sd">    ``&#39;H&#39;``  hours as a decimal number</span>
+<span class="sd">    ``&#39;M&#39;``  minutes as a decimal number</span>
+<span class="sd">    ``&#39;S&#39;``  seconds as a decimal number</span>
+<span class="sd">    ``&#39;s&#39;``  microseconds as a decimal number</span>
+<span class="sd">    ``&#39;X&#39;``  equal to ``%02H:%02M:%02S``</span>
+<span class="sd">    ``&#39;Y&#39;``  equal to ``%02H:%02M``</span>
+<span class="sd">    ``&#39;Z&#39;``  equal to ``%02M:%02S``</span>
+<span class="sd">    =======  =======</span>
+
+<span class="sd">    The codes ``&#39;X&#39;, &#39;Y&#39;, &#39;Z&#39;`` cannot be used with flags and field widths.</span>
+
+<span class="sd">    If the field width for microseconds (code ``&#39;s&#39;``) is less than 6 it will</span>
+<span class="sd">    be counted from the left. So ``&#39;%3s&#39;`` will get milliseconds.</span>
+
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%06s&#39;, 90078.012345678)</span>
+<span class="sd">    &#39;025:1:18.012346&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%05s&#39;, 90078.012345678)</span>
+<span class="sd">    &#39;025:1:18.01235&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%03H:%M:%S.%04s&#39;, 90078.012345678)</span>
+<span class="sd">    &#39;025:1:18.0123&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%Z.%03s&#39;, 3678.0123)</span>
+<span class="sd">    &#39;61:18.012&#39;</span>
+<span class="sd">    &gt;&gt;&gt; format_timedelta(&#39;%M min %S sec %3s ms&#39;, 3678.0123)</span>
+<span class="sd">    &#39;61 min 18 sec 12 ms&#39;</span>
+
+<span class="sd">    :param str fmt_str: the format string</span>
+<span class="sd">    :param delta: the time delta</span>
+<span class="sd">    :type delta: int or float or datetime.timedelta</span>
+<span class="sd">    :return: the formatted time delta</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises TypeError: if the given ``delta`` is not ``int, float or timedelta``</span>
+<span class="sd">    :raises ValueError: if the given ``delta`` is negative or ``width`` &lt; 1</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">)):</span>
+        <span class="n">delta</span> <span class="o">=</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">delta</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">check_type</span><span class="p">(</span><span class="n">delta</span><span class="p">,</span> <span class="n">timedelta</span><span class="p">,</span>
+                   <span class="n">msg</span><span class="o">=</span><span class="s1">&#39;delta must be int, float or datetime.timedelta&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">delta</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;delta &lt; 0&#39;</span><span class="p">)</span>
+    <span class="n">fmt</span><span class="p">,</span> <span class="n">max_unit</span> <span class="o">=</span> <span class="n">_timedelta_format</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">)</span>
+    <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">((</span><span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86_400</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">seconds</span><span class="p">)</span> <span class="o">*</span>
+                     <span class="mi">1_000_000</span> <span class="o">+</span> <span class="n">delta</span><span class="o">.</span><span class="n">microseconds</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">microseconds</span>
+        <span class="n">delta_rest</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">seconds</span>
+        <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span>
+            <span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">86_400</span> <span class="o">+</span> <span class="n">delta_rest</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">delta_rest</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">delta_rest</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">1440</span> <span class="o">+</span> <span class="n">delta_rest</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">delta_rest</span><span class="p">,</span> <span class="n">args</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">delta_rest</span><span class="p">,</span> <span class="mi">60</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span>
+                    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span> <span class="o">*</span> <span class="mi">24</span> <span class="o">+</span> <span class="n">delta_rest</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">args</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta_rest</span>
+                    <span class="k">if</span> <span class="n">max_unit</span> <span class="o">==</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span>
+                        <span class="n">args</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">delta</span><span class="o">.</span><span class="n">days</span>
+    <span class="n">fmt_lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">code</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span> <span class="ow">and</span> <span class="n">max_unit</span> <span class="o">!=</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+                <span class="n">e</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">width</span><span class="p">))</span> <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">width</span> <span class="k">else</span> <span class="mi">0</span>
+                <span class="n">v</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">])</span> <span class="o">/</span> <span class="mi">10</span> <span class="o">**</span> <span class="n">e</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">flag</span><span class="p">:</span>
+                    <span class="n">v</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;%</span><span class="si">{x.flag}{x.width}</span><span class="s1">d&#39;</span> <span class="o">%</span> <span class="n">v</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{x.text}{v}</span><span class="s1">&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{x.text}</span><span class="s1">%(</span><span class="si">{x.code}</span><span class="s1">)</span><span class="si">{x.flag}{x.width}</span><span class="s1">d&#39;</span> <span class="o">%</span> <span class="n">args</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">x</span>
+        <span class="n">fmt_lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fmt_lst</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="parse_timedelta"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.parse_timedelta">[docs]</a><span class="k">def</span> <span class="nf">parse_timedelta</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">fmt_str</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parse a string as a time delta according to a format.</span>
+
+<span class="sd">    The time delta is the difference between two points in time,</span>
+<span class="sd">    e.g. a duration.</span>
+
+<span class="sd">    .. note::</span>
+<span class="sd">       The :ref:`format specifier &lt;ref-timedelta-format-specifiers&gt;`</span>
+<span class="sd">       ``&#39;%s&#39;`` for microseconds can only be used for strings that are the</span>
+<span class="sd">       fractional part of a second. The string ``&#39;1&#39;`` is ``100000 µs``;</span>
+<span class="sd">       but ``&#39;000001&#39;`` is ``1 µs``.</span>
+
+<span class="sd">    &gt;&gt;&gt; parse_timedelta(&#39;03:21.001&#39;, &#39;%M:%02S.%s&#39;)</span>
+<span class="sd">    datetime.timedelta(seconds=201, microseconds=1000)</span>
+<span class="sd">    &gt;&gt;&gt; str(_)</span>
+<span class="sd">    &#39;0:03:21.001000&#39;</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :param str fmt_str: string with</span>
+<span class="sd">                    :ref:`format specifiers &lt;ref-timedelta-format-specifiers&gt;`</span>
+<span class="sd">    :return: timedelta object</span>
+<span class="sd">    :rtype: datetime.timedelta</span>
+<span class="sd">    :raises ValueError: if the string cannot be parsed</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fmt</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">_timedelta_format</span><span class="p">(</span><span class="n">fmt_str</span><span class="p">)</span>
+    <span class="n">lst</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">fmt</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">%(text)s</span><span class="s1">&#39;</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">width</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">width</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">r</span><span class="s1">&#39;(?P&lt;</span><span class="si">%(code)s</span><span class="s1">&gt;[ \d]{&#39;</span> <span class="o">+</span> <span class="n">x</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="s1">&#39;})&#39;</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">+=</span> <span class="sa">r</span><span class="s1">&#39;(?P&lt;</span><span class="si">%(code)s</span><span class="s1">&gt;\d+)&#39;</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">s</span> <span class="o">%</span> <span class="n">x</span><span class="o">.</span><span class="n">_asdict</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">lst</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">m</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">fullmatch</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lst</span><span class="p">),</span> <span class="n">string</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">m</span><span class="p">:</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;s&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;S&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;M&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;H&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;D&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">m</span><span class="o">.</span><span class="n">groupdict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">k</span> <span class="o">==</span> <span class="s1">&#39;s&#39;</span><span class="p">:</span>
+                <span class="n">s</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">lstrip</span><span class="p">()</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="o">*</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="mi">6</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">s</span><span class="p">)))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">args</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">timedelta</span><span class="p">(</span><span class="n">days</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;D&#39;</span><span class="p">],</span> <span class="n">hours</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;H&#39;</span><span class="p">],</span> <span class="n">minutes</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;M&#39;</span><span class="p">],</span>
+                         <span class="n">seconds</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;S&#39;</span><span class="p">],</span> <span class="n">microseconds</span><span class="o">=</span><span class="n">args</span><span class="p">[</span><span class="s1">&#39;s&#39;</span><span class="p">])</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;time data </span><span class="si">%r</span><span class="s1"> does not match format </span><span class="si">%r</span><span class="s1">&#39;</span> <span class="o">%</span>
+                         <span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">fmt_str</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="is_hexdigit"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.is_hexdigit">[docs]</a><span class="k">def</span> <span class="nf">is_hexdigit</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if all characters are hexadecimal digits.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: ``True`` if all characters in the string are hexadecimal digits</span>
+<span class="sd">             and there is at least one character</span>
+<span class="sd">    :rtype: bool</span>
+
+<span class="sd">    .. versionadded:: 0.5.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">bool</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">x</span> <span class="ow">in</span> <span class="n">string</span><span class="o">.</span><span class="n">hexdigits</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="p">)</span></div>
+
+
+<span class="n">_DIGITS</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">string</span><span class="o">.</span><span class="n">ascii_lowercase</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="int2str"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.int2str">[docs]</a><span class="k">def</span> <span class="nf">int2str</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Convert an integer to a string.</span>
+
+<span class="sd">    For ``base &gt; 10`` lower case letters are used for digits.</span>
+
+<span class="sd">    See also the built-in functions :func:`bin`, :func:`oct`, :func:`hex`.</span>
+
+<span class="sd">    :param int n: the integer</span>
+<span class="sd">    :param int base: the base (``2 &lt;= base &lt;= 36``)</span>
+<span class="sd">    :return: converted integer</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises TypeError: if ``n`` or ``base`` are not integers</span>
+<span class="sd">    :raises ValueError: if ``base`` is outside the allowed range</span>
+
+<span class="sd">    .. versionadded:: 0.7.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;n&#39;</span><span class="p">)</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;base must be &gt;= 2 and &lt;= 36&#39;</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;0&#39;</span>
+    <span class="k">while</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">n</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="nb">divmod</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">base</span><span class="p">)</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">_DIGITS</span><span class="p">[</span><span class="n">r</span><span class="p">]</span> <span class="o">+</span> <span class="n">s</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<span class="n">_SLUGIFY_CHAR_MAP</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">({</span><span class="s1">&#39; &#39;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\t</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">:</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;ß&#39;</span><span class="p">:</span> <span class="s1">&#39;ss&#39;</span><span class="p">,</span> <span class="s1">&#39;æ&#39;</span><span class="p">:</span> <span class="s1">&#39;ae&#39;</span><span class="p">,</span> <span class="s1">&#39;œ&#39;</span><span class="p">:</span> <span class="s1">&#39;oe&#39;</span><span class="p">,</span> <span class="s1">&#39;ø&#39;</span><span class="p">:</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span>
+                                   <span class="s1">&#39;þ&#39;</span><span class="p">:</span> <span class="s1">&#39;th&#39;</span><span class="p">,</span> <span class="s1">&#39;ð&#39;</span><span class="p">:</span> <span class="s1">&#39;d&#39;</span><span class="p">})</span>
+
+
+<div class="viewcode-block" id="slugify"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.slugify">[docs]</a><span class="k">def</span> <span class="nf">slugify</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Slugify a string.</span>
+
+<span class="sd">    In the created `slug</span>
+<span class="sd">    &lt;https://en.wikipedia.org/wiki/Clean_URL#Slug&gt;`_ white space</span>
+<span class="sd">    characters are replaced by dashes (``-``) and all consecutive</span>
+<span class="sd">    dashes but one are eliminated.</span>
+
+<span class="sd">    :param str s: the string</span>
+<span class="sd">    :return: slugified string</span>
+<span class="sd">    :rtype: str</span>
+
+<span class="sd">    .. versionadded:: 0.9.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="n">_SLUGIFY_CHAR_MAP</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">unicodedata</span><span class="o">.</span><span class="n">normalize</span><span class="p">(</span><span class="s1">&#39;NFD&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">b</span><span class="s1">&#39;[^a-zA-Z0-9-]&#39;</span><span class="p">,</span> <span class="sa">b</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+    <span class="n">s</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="s1">&#39;-+&#39;</span><span class="p">,</span> <span class="s1">&#39;-&#39;</span><span class="p">,</span> <span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">s</span></div>
+
+
+<div class="viewcode-block" id="TranslationTable"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.TranslationTable">[docs]</a><span class="k">class</span> <span class="nc">TranslationTable</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;TranslationTable class.</span>
+
+<span class="sd">    This class is for use with :meth:`str.translate`. If a character is not</span>
+<span class="sd">    in ``mapped_chars``, ``unmapped_chars``, or ``delete_chars``</span>
+<span class="sd">    a :exc:`ValueError` will be raised. See also: :meth:`str.maketrans`.</span>
+
+<span class="sd">    :param mapped_chars: mapping from character to replacement string</span>
+<span class="sd">    :type mapped_chars: dict(str, str)</span>
+<span class="sd">    :param str unmapped_chars: string with characters that will not be replaced</span>
+<span class="sd">    :param str delete_chars: string with characters that will be deleted</span>
+<span class="sd">    :return: the resulting string</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: if a character is not allowed</span>
+
+<span class="sd">    .. versionadded:: 0.9.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapped_chars</span><span class="p">,</span> <span class="n">unmapped_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">delete_chars</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span> <span class="o">=</span> <span class="p">{</span><span class="nb">ord</span><span class="p">(</span><span class="n">k</span><span class="p">):</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">mapped_chars</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unmapped_chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">unmapped_chars</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delete_chars</span> <span class="o">=</span> <span class="p">[</span><span class="nb">ord</span><span class="p">(</span><span class="n">ch</span><span class="p">)</span> <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="n">delete_chars</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mapped_chars</span><span class="p">[</span><span class="n">n</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_unmapped_chars</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">LookupError</span>
+        <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete_chars</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;character &quot;</span><span class="si">%s</span><span class="s1">&quot; (</span><span class="si">%d</span><span class="s1">) is not allowed&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span></div>
+</pre></div>
+
+          </div>
+          
+        </div>
+      </div>
+    <div class="clearer"></div>
+  </div>
+    <div class="footer">
+      &copy;2018-2020, Andreas Suhre.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>
