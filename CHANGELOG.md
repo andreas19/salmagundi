@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-01-11 (0.11.0)**
  - Add functions sys_exit() and ensure_single_instance() to module utils
  - Add parameter err_code to utils.docopt_helper()
 
