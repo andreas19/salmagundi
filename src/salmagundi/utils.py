@@ -327,9 +327,11 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
                 raise
             try:
                 fd = os.open(lockfile, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
-                yield
-                os.close(fd)
-                os.remove(lockfile)
+                try:
+                    yield
+                finally:
+                    os.close(fd)
+                    os.remove(lockfile)
             except FileExistsError:  # another process was faster
                 _already_running(err_code, err_msg)
         else:
@@ -345,11 +347,13 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
                 os.umask(mask)
             try:
                 fcntl.lockf(fd, fcntl.LOCK_EX | fcntl.LOCK_NB)
-                yield
-                fcntl.lockf(fd, fcntl.LOCK_UN)
-                os.close(fd)
-                with suppress(OSError):
-                    os.remove(lockfile)
+                try:
+                    yield
+                finally:
+                    fcntl.lockf(fd, fcntl.LOCK_UN)
+                    os.close(fd)
+                    with suppress(PermissionError):
+                        os.remove(lockfile)
             except OSError as ex:
                 if ex.errno in (errno.EACCES, errno.EAGAIN):
                     _already_running(err_code, err_msg)
