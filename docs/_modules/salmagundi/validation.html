@@ -86,8 +86,8 @@
 
 <span class="sd">In this module a ``validator function`` is a callable that takes</span>
 <span class="sd">a value as its only argument and returns normally if the value</span>
-<span class="sd">is considered valid or raises a :class:`ValueError` otherwise. It</span>
-<span class="sd">may raise a :class:`TypeError` if the value is not of the right type.</span>
+<span class="sd">is considered valid or raises a :exc:`ValueError` otherwise. It</span>
+<span class="sd">may raise a :exc:`TypeError` if the value is not of the right type.</span>
 
 <span class="sd">.. |VF| replace:: :ref:`validator function &lt;def-validator-function&gt;`</span>
 <span class="sd">&quot;&quot;&quot;</span>
@@ -222,10 +222,10 @@
     <span class="sd">&quot;&quot;&quot;Create a function that checks whether a value is a valid integer.</span>
 
 <span class="sd">    If ``allow_floats`` is ``True``, a float value as the argument of the</span>
-<span class="sd">    returned |VF| will not raise a :class:`TypeError`. Instead a value that</span>
+<span class="sd">    returned |VF| will not raise a :exc:`TypeError`. Instead a value that</span>
 <span class="sd">    represents an integer (such as ``1.0``) and is in the interval</span>
 <span class="sd">    ``[min_value, max_value]`` will be considered valid. All other cases will</span>
-<span class="sd">    raise a :class:`ValueError`.</span>
+<span class="sd">    raise a :exc:`ValueError`.</span>
 
 <span class="sd">    :param min_value: minimum value (inclusive, ``None`` means no limit)</span>
 <span class="sd">    :type min_value: int or None</span>
@@ -272,7 +272,7 @@
 <span class="sd">    :param bool allow_inf: if ``True`` :data:`math.inf` is allowed as the</span>
 <span class="sd">                           argument of the returned |VF|</span>
 <span class="sd">    :param bool allow_ints: if ``True`` an integer value as the argument of the</span>
-<span class="sd">                            returned |VF| will not raise a :class:`TypeError`.</span>
+<span class="sd">                            returned |VF| will not raise a :exc:`TypeError`.</span>
 <span class="sd">    :return: |VF|</span>
 <span class="sd">    :raises ValueError: if ``min_value &gt; max_value``</span>
 <span class="sd">    :raises TypeError: if ``min_value`` or ``max_value`` are not</span>
@@ -445,7 +445,7 @@
 <span class="sd">    to a |VF| or ``None`` if only the existence of a property should be</span>
 <span class="sd">    checked. If the argument value for the returned</span>
 <span class="sd">    |VF| is missing a property, the value is considered invalid (no</span>
-<span class="sd">    :class:`AttributeError` will be raised).</span>
+<span class="sd">    :exc:`AttributeError` will be raised).</span>
 
 <span class="sd">    If ``mapping`` is ``True`` the value must be a mapping with string keys</span>
 <span class="sd">    that are used as properties.</span>
@@ -547,7 +547,7 @@
 <div class="viewcode-block" id="func2validator"><a class="viewcode-back" href="../../mod_validation.html#salmagundi.validation.func2validator">[docs]</a><span class="k">def</span> <span class="nf">func2validator</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">err_result</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a function to a |VF|.</span>
 
-<span class="sd">    The returned |VF| raises a :class:`ValueError` if ``func()`` returns</span>
+<span class="sd">    The returned |VF| raises a :exc:`ValueError` if ``func()`` returns</span>
 <span class="sd">    ``err_result``.</span>
 
 <span class="sd">    &gt;&gt;&gt; vf = func2validator(str.isupper)</span>

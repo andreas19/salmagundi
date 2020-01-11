@@ -6,8 +6,8 @@
 
 In this module a ``validator function`` is a callable that takes
 a value as its only argument and returns normally if the value
-is considered valid or raises a :class:`ValueError` otherwise. It
-may raise a :class:`TypeError` if the value is not of the right type.
+is considered valid or raises a :exc:`ValueError` otherwise. It
+may raise a :exc:`TypeError` if the value is not of the right type.
 
 .. |VF| replace:: :ref:`validator function <def-validator-function>`
 """
@@ -142,10 +142,10 @@ def int_validator(*, min_value=None, max_value=None, allow_floats=False):
     """Create a function that checks whether a value is a valid integer.
 
     If ``allow_floats`` is ``True``, a float value as the argument of the
-    returned |VF| will not raise a :class:`TypeError`. Instead a value that
+    returned |VF| will not raise a :exc:`TypeError`. Instead a value that
     represents an integer (such as ``1.0``) and is in the interval
     ``[min_value, max_value]`` will be considered valid. All other cases will
-    raise a :class:`ValueError`.
+    raise a :exc:`ValueError`.
 
     :param min_value: minimum value (inclusive, ``None`` means no limit)
     :type min_value: int or None
@@ -192,7 +192,7 @@ def float_validator(*, min_value=None, max_value=None,
     :param bool allow_inf: if ``True`` :data:`math.inf` is allowed as the
                            argument of the returned |VF|
     :param bool allow_ints: if ``True`` an integer value as the argument of the
-                            returned |VF| will not raise a :class:`TypeError`.
+                            returned |VF| will not raise a :exc:`TypeError`.
     :return: |VF|
     :raises ValueError: if ``min_value > max_value``
     :raises TypeError: if ``min_value`` or ``max_value`` are not
@@ -365,7 +365,7 @@ def properties_validator(validators, mapping=False):
     to a |VF| or ``None`` if only the existence of a property should be
     checked. If the argument value for the returned
     |VF| is missing a property, the value is considered invalid (no
-    :class:`AttributeError` will be raised).
+    :exc:`AttributeError` will be raised).
 
     If ``mapping`` is ``True`` the value must be a mapping with string keys
     that are used as properties.
@@ -467,7 +467,7 @@ def in_validator(container, negate=False):
 def func2validator(func, err_result=False):
     """Convert a function to a |VF|.
 
-    The returned |VF| raises a :class:`ValueError` if ``func()`` returns
+    The returned |VF| raises a :exc:`ValueError` if ``func()`` returns
     ``err_result``.
 
     >>> vf = func2validator(str.isupper)

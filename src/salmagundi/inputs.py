@@ -28,7 +28,7 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     If the ``check`` parameter is set to ``None`` any input is allowed,
     else it must be a ``callable`` that takes a string as a parameter
     and returns the (converted) input value or raises
-    :class:`ValueError` if the input is not allowed.
+    :exc:`ValueError` if the input is not allowed.
 
     There are 3 predefined check functions in this module:
     :func:`check_str`, :func:`check_int` and :func:`check_float`.

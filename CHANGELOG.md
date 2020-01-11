@@ -1,6 +1,9 @@
 History
 -------
 
+ - Add functions sys_exit() and ensure_single_instance() to module utils
+ - Add parameter err_code to utils.docopt_helper()
+
 **2020-01-04 (0.10.0)**
  - Add wildcards in spec for sections and options in module config
  - Add function docopt_helper() in module utils

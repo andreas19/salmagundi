@@ -689,7 +689,7 @@ class TranslationTable:
 
     This class is for use with :meth:`str.translate`. If a character is not
     in ``mapped_chars``, ``unmapped_chars``, or ``delete_chars``
-    a :class:`ValueError` will be raised. See also: :meth:`str.maketrans`.
+    a :exc:`ValueError` will be raised. See also: :meth:`str.maketrans`.
 
     :param mapped_chars: mapping from character to replacement string
     :type mapped_chars: dict(str, str)

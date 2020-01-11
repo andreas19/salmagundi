@@ -180,8 +180,8 @@ def sys_exit(arg=None, code=None, *, logger=None):
     :data:`sys.stderr` if it is not ``None`` and :func:`sys.exit`
     will be called with ``code`` as its argument.
 
-    If ``logger`` is set, the message will be logged with level ``CRITICAL``
-    instead of printing it to :data:`sys.stderr`.
+    If ``logger`` is set, the message, if any, will be logged with level
+    ``CRITICAL`` instead of printing it to :data:`sys.stderr`.
 
     :param arg: see: :func:`sys.exit`
     :param code: exit code (ignored if not an :class:`int`)
@@ -243,8 +243,9 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
     the absolute path of the program/script and the file will be created in
     the ``lockdir`` (which defaults to the temporary directory).
 
-    On Linux if ``use_socket=True`` the ``lockfile`` filename will be used to
-    create the name of the abstract domain socket.
+    On Linux ,if ``use_socket=True``, an abstract domain socket will be used
+    instead of a lock file and the name of the socket will be the ``lockfile``
+    filename.
 
     This function should work on Windows and any platform that supports
     :mod:`fcntl` but it is only tested on Linux. The user running the
@@ -333,15 +334,13 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
                 _already_running(err_code, err_msg)
         else:
             import fcntl
-            import stat
+            if os.path.exists(lockfile):
+                flags = os.O_WRONLY
+            else:
+                flags = os.O_CREAT | os.O_WRONLY
             mask = os.umask(0)
             try:
-                if os.path.exists(lockfile):
-                    flags = os.O_WRONLY
-                else:
-                    flags = os.O_CREAT | os.O_WRONLY
-                fd = os.open(lockfile, flags,
-                             stat.S_IWUSR | stat.S_IWGRP | stat.S_IWOTH)
+                fd = os.open(lockfile, flags, 0o222)
             finally:
                 os.umask(mask)
             try:

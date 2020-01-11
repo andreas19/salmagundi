@@ -83,12 +83,17 @@
 <span class="sd">.. versionadded:: 0.5.0</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">errno</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">socket</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">import</span> <span class="nn">string</span>
+<span class="kn">import</span> <span class="nn">tempfile</span>
 <span class="kn">import</span> <span class="nn">textwrap</span>
+<span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="p">,</span> <span class="n">suppress</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_type&#39;</span><span class="p">,</span> <span class="s1">&#39;docopt_helper&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AlreadyRunning&#39;</span><span class="p">,</span> <span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;check_type&#39;</span><span class="p">,</span> <span class="s1">&#39;docopt_helper&#39;</span><span class="p">,</span> <span class="s1">&#39;ensure_single_instance&#39;</span><span class="p">,</span> <span class="s1">&#39;sys_exit&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="check_type"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.check_type">[docs]</a><span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">classinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -157,7 +162,8 @@
 
 
 <div class="viewcode-block" id="docopt_helper"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.docopt_helper">[docs]</a><span class="k">def</span> <span class="nf">docopt_helper</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">version_str</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-                  <span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options_first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">converters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+                  <span class="n">help</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">options_first</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">converters</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err_code</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                  <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Helper function for `docopt &lt;https://pypi.org/project/docopt/&gt;`_.</span>
 
 <span class="sd">    The ``name`` defaults to ``os.path.basename(sys.argv[0])``.</span>
@@ -187,7 +193,7 @@
 <span class="sd">    take one argument of (an) appropriate type(s) and return a value of the</span>
 <span class="sd">    desired type. It is not required to provide a converter for every option,</span>
 <span class="sd">    argument and command. If a value cannot be converted the converter should</span>
-<span class="sd">    raise a :class:`ValueError`.</span>
+<span class="sd">    raise a :exc:`ValueError`.</span>
 
 <span class="sd">    Example (naval_fate.py):</span>
 
@@ -208,12 +214,17 @@
 <span class="sd">    :param bool option_first: see: |docopt_api|_</span>
 <span class="sd">    :param bool help: see: |docopt_api|_</span>
 <span class="sd">    :param dict converters: see :ref:`above &lt;ref-convs&gt;`</span>
+<span class="sd">    :param int err_code: exit status code if an error occurs</span>
 <span class="sd">    :param kwargs: additional values for substitution in the help message</span>
 <span class="sd">    :return: result of |docopt_api|_</span>
 <span class="sd">    :rtype: dict</span>
-<span class="sd">    :raises SystemExit: if a converter function raises a :class:`ValueError`</span>
+<span class="sd">    :raises SystemExit: if program was invoked with incorrect arguments or</span>
+<span class="sd">                        a converter function raised a :exc:`ValueError`</span>
 
 <span class="sd">    .. versionadded:: 0.10.0</span>
+
+<span class="sd">    .. versionchanged:: 0.11.0</span>
+<span class="sd">       Add parameter ``err_code``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">docopt</span>
 
@@ -224,17 +235,216 @@
     <span class="k">if</span> <span class="n">version_str</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">version</span><span class="p">:</span>
         <span class="n">version_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> </span><span class="si">{version}</span><span class="s1">&#39;</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">version_str</span><span class="o">=</span><span class="n">version_str</span><span class="p">)</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="o">.</span><span class="n">docopt</span><span class="p">(</span>
-        <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span><span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
-        <span class="n">version</span><span class="o">=</span><span class="n">version_str</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="n">argv</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">help</span><span class="p">,</span>
-        <span class="n">options_first</span><span class="o">=</span><span class="n">options_first</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="o">.</span><span class="n">docopt</span><span class="p">(</span>
+            <span class="n">string</span><span class="o">.</span><span class="n">Template</span><span class="p">(</span>
+                <span class="n">textwrap</span><span class="o">.</span><span class="n">dedent</span><span class="p">(</span><span class="n">text</span><span class="p">))</span><span class="o">.</span><span class="n">substitute</span><span class="p">(</span><span class="n">mapping</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">),</span>
+            <span class="n">version</span><span class="o">=</span><span class="n">version_str</span><span class="p">,</span> <span class="n">argv</span><span class="o">=</span><span class="n">argv</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">help</span><span class="p">,</span>
+            <span class="n">options_first</span><span class="o">=</span><span class="n">options_first</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">SystemExit</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+        <span class="n">sys_exit</span><span class="p">(</span><span class="n">ex</span><span class="p">,</span> <span class="n">err_code</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">converters</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">conv</span> <span class="ow">in</span> <span class="n">converters</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">SystemExit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="n">sys_exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">err_code</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arguments</span></div>
+
+
+<div class="viewcode-block" id="sys_exit"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.sys_exit">[docs]</a><span class="k">def</span> <span class="nf">sys_exit</span><span class="p">(</span><span class="n">arg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">code</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Exit from Python.</span>
+
+<span class="sd">    If ``code`` is not an integer, this function calls :func:`sys.exit` with</span>
+<span class="sd">    ``arg`` as its argument. Otherwise ``arg`` will be printed to</span>
+<span class="sd">    :data:`sys.stderr` if it is not ``None`` and :func:`sys.exit`</span>
+<span class="sd">    will be called with ``code`` as its argument.</span>
+
+<span class="sd">    If ``logger`` is set, the message, if any, will be logged with level</span>
+<span class="sd">    ``CRITICAL`` instead of printing it to :data:`sys.stderr`.</span>
+
+<span class="sd">    :param arg: see: :func:`sys.exit`</span>
+<span class="sd">    :param code: exit code (ignored if not an :class:`int`)</span>
+<span class="sd">    :type code: int or None</span>
+<span class="sd">    :param logger: a logger</span>
+<span class="sd">    :type logger: logging.Logger</span>
+<span class="sd">    :raises SystemExit:</span>
+
+<span class="sd">    .. versionadded:: 0.11.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">code</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">code</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">if</span> <span class="n">code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span> <span class="ow">and</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">arg</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">arg</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">logger</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">arg</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">arg</span><span class="p">,</span> <span class="n">file</span><span class="o">=</span><span class="n">sys</span><span class="o">.</span><span class="n">stderr</span><span class="p">)</span>
+    <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="n">code</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AlreadyRunning"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.AlreadyRunning">[docs]</a><span class="k">class</span> <span class="nc">AlreadyRunning</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised by :func:`ensure_single_instance`.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="ensure_single_instance"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.ensure_single_instance">[docs]</a><span class="nd">@contextmanager</span>
+<span class="k">def</span> <span class="nf">ensure_single_instance</span><span class="p">(</span><span class="n">lockfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lockdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># noqa: C901</span>
+                           <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err_code</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">err_msg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                           <span class="n">use_socket</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Make sure that only one instance of the program/script is running.</span>
+
+<span class="sd">    The result of this function can be used as a context manager in `with`</span>
+<span class="sd">    statements or as a decorator.</span>
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       def main():</span>
+<span class="sd">           ...</span>
+
+<span class="sd">       if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">           with ensure_single_instance():</span>
+<span class="sd">               main()</span>
+
+<span class="sd">       # is equivalent to:</span>
+
+<span class="sd">       @ensure_single_instance()</span>
+<span class="sd">       def main():</span>
+<span class="sd">           ...</span>
+
+<span class="sd">       if __name__ == &#39;__main__&#39;:</span>
+<span class="sd">           main()</span>
+
+<span class="sd">    If ``lockfile`` is not set the filename will be constructed from</span>
+<span class="sd">    the absolute path of the program/script and the file will be created in</span>
+<span class="sd">    the ``lockdir`` (which defaults to the temporary directory).</span>
+
+<span class="sd">    On Linux ,if ``use_socket=True``, an abstract domain socket will be used</span>
+<span class="sd">    instead of a lock file and the name of the socket will be the ``lockfile``</span>
+<span class="sd">    filename.</span>
+
+<span class="sd">    This function should work on Windows and any platform that supports</span>
+<span class="sd">    :mod:`fcntl` but it is only tested on Linux. The user running the</span>
+<span class="sd">    program/script must have the permissions to create and delete the lockfile.</span>
+<span class="sd">    If the program/script will be run by multiple users the single instance</span>
+<span class="sd">    restriction can be per user or system wide. The temporary directory on</span>
+<span class="sd">    Windows is normally user specific; on unix-like systems it is normally one</span>
+<span class="sd">    directory for all users. To create a user specific lockfile the ``extra``</span>
+<span class="sd">    argument can be used:</span>
+
+
+<span class="sd">    .. code-block:: python</span>
+
+<span class="sd">       import getpass</span>
+<span class="sd">       from salmagundi.utils import ensure_single_instance</span>
+
+<span class="sd">       with ensure_single_instance(extra=getpass.getuser()):</span>
+<span class="sd">           ...</span>
+
+<span class="sd">    :param str lockfile: user defined lockfile name</span>
+<span class="sd">    :param lockdir: user defined directory for lockfiles (must exist and the</span>
+<span class="sd">                    path must be absolute; ignored if ``use_socket=True``)</span>
+<span class="sd">    :type lockdir: :term:`path-like object`</span>
+<span class="sd">    :param str extra: will be appended to ``lockfile``</span>
+<span class="sd">    :param err_code: exit status code if another instance is running (if set to</span>
+<span class="sd">                     ``None`` :exc:`AlreadyRunning` will be raised instead of</span>
+<span class="sd">                     :exc:`SystemExit`)</span>
+<span class="sd">    :type err_code: int or None</span>
+<span class="sd">    :param err_msg: error message (if ``None`` it defaults to</span>
+<span class="sd">                    ``f&#39;already running: {sys.argv[0]}&#39;``)</span>
+<span class="sd">    :type err_msg: str or None</span>
+<span class="sd">    :param bool use_socket: if true an abstract domain socket is used</span>
+<span class="sd">                        (**Linux only**)</span>
+<span class="sd">    :raises SystemExit: if another instance is running and ``err_code``</span>
+<span class="sd">                        is not None</span>
+<span class="sd">    :raises AlreadyRunning: if another instance is running and ``err_code``</span>
+<span class="sd">                            is None</span>
+<span class="sd">    :raises RuntimeError: if ``lockdir`` is not absolute or ``use_socket=True``</span>
+<span class="sd">                          and platform is not Linux</span>
+<span class="sd">    :raises OSError: if the lockfile could not be created/deleted</span>
+
+<span class="sd">    .. versionadded:: 0.11.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">err_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="n">err_code</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lockfile</span><span class="p">:</span>
+        <span class="n">lockfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\/.: &#39;</span><span class="p">,</span> <span class="s1">&#39;-----&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
+        <span class="n">lockfile</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">extra</span>
+    <span class="k">if</span> <span class="n">use_socket</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
+                <span class="s1">&#39;abstract domain sockets only supported on Linux&#39;</span><span class="p">)</span>
+        <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_UNIX</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">lockfile</span><span class="p">)</span>
+            <span class="k">yield</span>
+        <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EADDRINUSE</span><span class="p">:</span>
+                <span class="n">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">)</span>
+            <span class="k">raise</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="n">sock</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">lockdir</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isabs</span><span class="p">(</span><span class="n">lockdir</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;lockdir path must be absolute&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">lockdir</span><span class="p">:</span>
+            <span class="n">lockdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
+        <span class="n">lockfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lockdir</span><span class="p">,</span> <span class="n">lockfile</span> <span class="o">+</span> <span class="s1">&#39;.lock&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lockfile</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileNotFoundError</span><span class="p">:</span>
+                <span class="k">pass</span>
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">winerror</span> <span class="o">==</span> <span class="mi">32</span><span class="p">:</span>  <span class="c1"># ERROR_SHARING_VIOLATION</span>
+                    <span class="n">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">)</span>
+                <span class="k">raise</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">lockfile</span><span class="p">,</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_EXCL</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span><span class="p">)</span>
+                <span class="k">yield</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lockfile</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">FileExistsError</span><span class="p">:</span>  <span class="c1"># another process was faster</span>
+                <span class="n">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="kn">import</span> <span class="nn">fcntl</span>
+            <span class="kn">import</span> <span class="nn">stat</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">lockfile</span><span class="p">):</span>
+                    <span class="n">flags</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">flags</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">O_CREAT</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">O_WRONLY</span>
+                <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">lockfile</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span>
+                             <span class="n">stat</span><span class="o">.</span><span class="n">S_IWUSR</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWGRP</span> <span class="o">|</span> <span class="n">stat</span><span class="o">.</span><span class="n">S_IWOTH</span><span class="p">)</span>
+            <span class="k">finally</span><span class="p">:</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">umask</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">fcntl</span><span class="o">.</span><span class="n">lockf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">LOCK_EX</span> <span class="o">|</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">LOCK_NB</span><span class="p">)</span>
+                <span class="k">yield</span>
+                <span class="n">fcntl</span><span class="o">.</span><span class="n">lockf</span><span class="p">(</span><span class="n">fd</span><span class="p">,</span> <span class="n">fcntl</span><span class="o">.</span><span class="n">LOCK_UN</span><span class="p">)</span>
+                <span class="n">os</span><span class="o">.</span><span class="n">close</span><span class="p">(</span><span class="n">fd</span><span class="p">)</span>
+                <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span><span class="ne">OSError</span><span class="p">):</span>
+                    <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lockfile</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">errno</span> <span class="ow">in</span> <span class="p">(</span><span class="n">errno</span><span class="o">.</span><span class="n">EACCES</span><span class="p">,</span> <span class="n">errno</span><span class="o">.</span><span class="n">EAGAIN</span><span class="p">):</span>
+                    <span class="n">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">)</span>
+                <span class="k">raise</span></div>
+
+
+<span class="k">def</span> <span class="nf">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">err_msg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;already running: </span><span class="si">{sys.argv[0]}</span><span class="s1">&#39;</span>
+    <span class="k">if</span> <span class="n">err_code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">AlreadyRunning</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">sys_exit</span><span class="p">(</span><span class="n">err_msg</span> <span class="ow">or</span> <span class="kc">None</span><span class="p">,</span> <span class="n">err_code</span><span class="p">)</span>
 </pre></div>
 
           </div>
