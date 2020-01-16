@@ -288,6 +288,9 @@ def ensure_single_instance(lockname=None, *, lockdir=None,  # noqa: C901
     :raises OSError: if the lock file could not be created/deleted
 
     .. versionadded:: 0.11.0
+
+    .. versionchanged:: 0.11.2
+       Rename parameter ``lockfile`` to ``lockname``
     """
     if err_code is not None and not isinstance(err_code, int):
         err_code = 1
