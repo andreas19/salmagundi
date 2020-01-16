@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-01-16 (0.11.2)**
  - Change utils.ensure_single_instance(): parameter lockfile -> lockname
 
 **2020-01-11 (0.11.1)**
