@@ -1,6 +1,8 @@
 History
 -------
 
+ - Change utils.ensure_single_instance(): parameter lockfile -> lockname
+
 **2020-01-11 (0.11.1)**
  - Bugfix: utils.ensure_single_instance()
 

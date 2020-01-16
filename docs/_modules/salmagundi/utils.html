@@ -293,7 +293,7 @@
 
 
 <div class="viewcode-block" id="ensure_single_instance"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.ensure_single_instance">[docs]</a><span class="nd">@contextmanager</span>
-<span class="k">def</span> <span class="nf">ensure_single_instance</span><span class="p">(</span><span class="n">lockfile</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lockdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># noqa: C901</span>
+<span class="k">def</span> <span class="nf">ensure_single_instance</span><span class="p">(</span><span class="n">lockname</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">lockdir</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>  <span class="c1"># noqa: C901</span>
                            <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err_code</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">err_msg</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
                            <span class="n">use_socket</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Make sure that only one instance of the program/script is running.</span>
@@ -319,21 +319,21 @@
 <span class="sd">       if __name__ == &#39;__main__&#39;:</span>
 <span class="sd">           main()</span>
 
-<span class="sd">    If ``lockfile`` is not set the filename will be constructed from</span>
-<span class="sd">    the absolute path of the program/script and the file will be created in</span>
-<span class="sd">    the ``lockdir`` (which defaults to the temporary directory).</span>
+<span class="sd">    If ``lockname`` is not set the name will be constructed from</span>
+<span class="sd">    the absolute path of the program/script and the lock file will be created</span>
+<span class="sd">    in the ``lockdir`` (which defaults to the temporary directory).</span>
 
 <span class="sd">    On Linux ,if ``use_socket=True``, an abstract domain socket will be used</span>
-<span class="sd">    instead of a lock file and the name of the socket will be the ``lockfile``</span>
-<span class="sd">    filename.</span>
+<span class="sd">    instead of a lock file and the name of the socket will be the value of</span>
+<span class="sd">    ``lockname``.</span>
 
 <span class="sd">    This function should work on Windows and any platform that supports</span>
 <span class="sd">    :mod:`fcntl` but it is only tested on Linux. The user running the</span>
-<span class="sd">    program/script must have the permissions to create and delete the lockfile.</span>
+<span class="sd">    program/script must have the permissions to create and delete the lock file.</span>
 <span class="sd">    If the program/script will be run by multiple users the single instance</span>
 <span class="sd">    restriction can be per user or system wide. The temporary directory on</span>
 <span class="sd">    Windows is normally user specific; on unix-like systems it is normally one</span>
-<span class="sd">    directory for all users. To create a user specific lockfile the ``extra``</span>
+<span class="sd">    directory for all users. To create a user specific lock name the ``extra``</span>
 <span class="sd">    argument can be used:</span>
 
 
@@ -345,11 +345,11 @@
 <span class="sd">       with ensure_single_instance(extra=getpass.getuser()):</span>
 <span class="sd">           ...</span>
 
-<span class="sd">    :param str lockfile: user defined lockfile name</span>
-<span class="sd">    :param lockdir: user defined directory for lockfiles (must exist and the</span>
+<span class="sd">    :param str lockname: user defined lock name</span>
+<span class="sd">    :param lockdir: user defined directory for lock files (must exist and the</span>
 <span class="sd">                    path must be absolute; ignored if ``use_socket=True``)</span>
 <span class="sd">    :type lockdir: :term:`path-like object`</span>
-<span class="sd">    :param str extra: will be appended to ``lockfile``</span>
+<span class="sd">    :param str extra: will be appended to lock name</span>
 <span class="sd">    :param err_code: exit status code if another instance is running (if set to</span>
 <span class="sd">                     ``None`` :exc:`AlreadyRunning` will be raised instead of</span>
 <span class="sd">                     :exc:`SystemExit`)</span>
@@ -365,24 +365,24 @@
 <span class="sd">                            is None</span>
 <span class="sd">    :raises RuntimeError: if ``lockdir`` is not absolute or ``use_socket=True``</span>
 <span class="sd">                          and platform is not Linux</span>
-<span class="sd">    :raises OSError: if the lockfile could not be created/deleted</span>
+<span class="sd">    :raises OSError: if the lock file could not be created/deleted</span>
 
 <span class="sd">    .. versionadded:: 0.11.0</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">err_code</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="n">err_code</span> <span class="o">=</span> <span class="mi">1</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">lockfile</span><span class="p">:</span>
-        <span class="n">lockfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">lockname</span><span class="p">:</span>
+        <span class="n">lockname</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="n">translate</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">maketrans</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;\/.: &#39;</span><span class="p">,</span> <span class="s1">&#39;-----&#39;</span><span class="p">))</span><span class="o">.</span><span class="n">strip</span><span class="p">(</span><span class="s1">&#39;-&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">extra</span><span class="p">:</span>
-        <span class="n">lockfile</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">extra</span>
+        <span class="n">lockname</span> <span class="o">+=</span> <span class="s1">&#39;-&#39;</span> <span class="o">+</span> <span class="n">extra</span>
     <span class="k">if</span> <span class="n">use_socket</span><span class="p">:</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s1">&#39;linux&#39;</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span>
                 <span class="s1">&#39;abstract domain sockets only supported on Linux&#39;</span><span class="p">)</span>
         <span class="n">sock</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_UNIX</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">lockfile</span><span class="p">)</span>
+            <span class="n">sock</span><span class="o">.</span><span class="n">bind</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\0</span><span class="s1">&#39;</span> <span class="o">+</span> <span class="n">lockname</span><span class="p">)</span>
             <span class="k">yield</span>
         <span class="k">except</span> <span class="ne">OSError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ex</span><span class="o">.</span><span class="n">errno</span> <span class="o">==</span> <span class="n">errno</span><span class="o">.</span><span class="n">EADDRINUSE</span><span class="p">:</span>
@@ -395,7 +395,7 @@
             <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s1">&#39;lockdir path must be absolute&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">lockdir</span><span class="p">:</span>
             <span class="n">lockdir</span> <span class="o">=</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">gettempdir</span><span class="p">()</span>
-        <span class="n">lockfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lockdir</span><span class="p">,</span> <span class="n">lockfile</span> <span class="o">+</span> <span class="s1">&#39;.lock&#39;</span><span class="p">)</span>
+        <span class="n">lockfile</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lockdir</span><span class="p">,</span> <span class="n">lockname</span> <span class="o">+</span> <span class="s1">&#39;.lock&#39;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s1">&#39;win32&#39;</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">os</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">lockfile</span><span class="p">)</span>
