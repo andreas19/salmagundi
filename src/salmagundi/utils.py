@@ -213,7 +213,7 @@ class AlreadyRunning(Exception):
 
 
 @contextmanager
-def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
+def ensure_single_instance(lockname=None, *, lockdir=None,  # noqa: C901
                            extra=None, err_code=1, err_msg=None,
                            use_socket=False):
     """Make sure that only one instance of the program/script is running.
@@ -239,21 +239,21 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
        if __name__ == '__main__':
            main()
 
-    If ``lockfile`` is not set the filename will be constructed from
-    the absolute path of the program/script and the file will be created in
-    the ``lockdir`` (which defaults to the temporary directory).
+    If ``lockname`` is not set the name will be constructed from
+    the absolute path of the program/script and the lock file will be created
+    in the ``lockdir`` (which defaults to the temporary directory).
 
     On Linux ,if ``use_socket=True``, an abstract domain socket will be used
-    instead of a lock file and the name of the socket will be the ``lockfile``
-    filename.
+    instead of a lock file and the name of the socket will be the value of
+    ``lockname``.
 
     This function should work on Windows and any platform that supports
     :mod:`fcntl` but it is only tested on Linux. The user running the
-    program/script must have the permissions to create and delete the lockfile.
+    program/script must have the permissions to create and delete the lock file.
     If the program/script will be run by multiple users the single instance
     restriction can be per user or system wide. The temporary directory on
     Windows is normally user specific; on unix-like systems it is normally one
-    directory for all users. To create a user specific lockfile the ``extra``
+    directory for all users. To create a user specific lock name the ``extra``
     argument can be used:
 
 
@@ -265,11 +265,11 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
        with ensure_single_instance(extra=getpass.getuser()):
            ...
 
-    :param str lockfile: user defined lockfile name
-    :param lockdir: user defined directory for lockfiles (must exist and the
+    :param str lockname: user defined lock name
+    :param lockdir: user defined directory for lock files (must exist and the
                     path must be absolute; ignored if ``use_socket=True``)
     :type lockdir: :term:`path-like object`
-    :param str extra: will be appended to ``lockfile``
+    :param str extra: will be appended to lock name
     :param err_code: exit status code if another instance is running (if set to
                      ``None`` :exc:`AlreadyRunning` will be raised instead of
                      :exc:`SystemExit`)
@@ -285,24 +285,24 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
                             is None
     :raises RuntimeError: if ``lockdir`` is not absolute or ``use_socket=True``
                           and platform is not Linux
-    :raises OSError: if the lockfile could not be created/deleted
+    :raises OSError: if the lock file could not be created/deleted
 
     .. versionadded:: 0.11.0
     """
     if err_code is not None and not isinstance(err_code, int):
         err_code = 1
-    if not lockfile:
-        lockfile = os.path.abspath(
+    if not lockname:
+        lockname = os.path.abspath(
             sys.argv[0]).translate(str.maketrans(r'\/.: ', '-----')).strip('-')
     if extra:
-        lockfile += '-' + extra
+        lockname += '-' + extra
     if use_socket:
         if not sys.platform.startswith('linux'):
             raise RuntimeError(
                 'abstract domain sockets only supported on Linux')
         sock = socket.socket(socket.AF_UNIX)
         try:
-            sock.bind('\0' + lockfile)
+            sock.bind('\0' + lockname)
             yield
         except OSError as ex:
             if ex.errno == errno.EADDRINUSE:
@@ -315,7 +315,7 @@ def ensure_single_instance(lockfile=None, *, lockdir=None,  # noqa: C901
             raise RuntimeError('lockdir path must be absolute')
         if not lockdir:
             lockdir = tempfile.gettempdir()
-        lockfile = os.path.join(lockdir, lockfile + '.lock')
+        lockfile = os.path.join(lockdir, lockname + '.lock')
         if sys.platform == 'win32':
             try:
                 os.remove(lockfile)
