@@ -658,7 +658,7 @@ def convert_loglevel(default_level=None, *, numeric=False):
                          will be returned
     :raises ValueError: if not a valid logging level and ``default_level=None``
 
-    .. versionchanged:: 0.11.3
+    .. versionchanged:: 0.11.3 Add parameter ``numeric``
     """
     if numeric:
         choices = _LOGLEVELS.values()
