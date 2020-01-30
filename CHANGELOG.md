@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-01-30 (0.11.3)**
  - Add parameter numeric to config.convert_loglevel()
 
 **2020-01-16 (0.11.2)**
