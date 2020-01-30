@@ -718,16 +718,34 @@
     <span class="k">return</span> <span class="n">f</span></div>
 
 
-<div class="viewcode-block" id="convert_loglevel"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.convert_loglevel">[docs]</a><span class="k">def</span> <span class="nf">convert_loglevel</span><span class="p">(</span><span class="n">default_level</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="n">_LOGLEVELS</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;NOTSET&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="s1">&#39;DEBUG&#39;</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span>
+    <span class="s1">&#39;INFO&#39;</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+    <span class="s1">&#39;WARNING&#39;</span><span class="p">:</span> <span class="mi">30</span><span class="p">,</span>
+    <span class="s1">&#39;ERROR&#39;</span><span class="p">:</span> <span class="mi">40</span><span class="p">,</span>
+    <span class="s1">&#39;CRITICAL&#39;</span><span class="p">:</span> <span class="mi">50</span>
+<span class="p">}</span>
+
+
+<div class="viewcode-block" id="convert_loglevel"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.convert_loglevel">[docs]</a><span class="k">def</span> <span class="nf">convert_loglevel</span><span class="p">(</span><span class="n">default_level</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">numeric</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Return a converter function for logging levels.</span>
 
 <span class="sd">    Valid values are the logging levels as defined in the :mod:`logging` module.</span>
 
 <span class="sd">    :param str default_level: the default logging level</span>
+<span class="sd">    :param bool numeric: if ``True`` the numeric value of the log level</span>
+<span class="sd">                         will be returned</span>
 <span class="sd">    :raises ValueError: if not a valid logging level and ``default_level=None``</span>
+
+<span class="sd">    .. versionchanged:: 0.11.3</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">choices</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;DEBUG&#39;</span><span class="p">,</span> <span class="s1">&#39;INFO&#39;</span><span class="p">,</span> <span class="s1">&#39;WARNING&#39;</span><span class="p">,</span> <span class="s1">&#39;ERROR&#39;</span><span class="p">,</span> <span class="s1">&#39;CRITICAL&#39;</span><span class="p">)</span>
-    <span class="n">converter</span> <span class="o">=</span> <span class="nb">str</span><span class="o">.</span><span class="n">upper</span>
+    <span class="k">if</span> <span class="n">numeric</span><span class="p">:</span>
+        <span class="n">choices</span> <span class="o">=</span> <span class="n">_LOGLEVELS</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+        <span class="n">converter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="n">_LOGLEVELS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="n">s</span><span class="p">)</span>  <span class="c1"># noqa: E731</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">choices</span> <span class="o">=</span> <span class="n">_LOGLEVELS</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
+        <span class="n">converter</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">s</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">s</span><span class="p">)</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span>  <span class="c1"># noqa: E731</span>
     <span class="n">default</span> <span class="o">=</span> <span class="n">default_level</span> <span class="ow">or</span> <span class="ne">ValueError</span>
     <span class="k">return</span> <span class="n">convert_choice</span><span class="p">(</span><span class="n">choices</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="n">converter</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">default</span><span class="p">)</span></div>
 
@@ -755,7 +773,7 @@
         <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="s1">&#39;invalid value: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{s}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">default</span>
     <span class="k">return</span> <span class="n">f</span></div>
 </pre></div>

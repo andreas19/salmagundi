@@ -1,6 +1,8 @@
 History
 -------
 
+ - Add parameter numeric to config.convert_loglevel()
+
 **2020-01-16 (0.11.2)**
  - Change utils.ensure_single_instance(): parameter lockfile -> lockname
 

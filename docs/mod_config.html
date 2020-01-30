@@ -484,17 +484,24 @@ of <a class="reference external" href="https://docs.python.org/3/library/excepti
 
 <dl class="function">
 <dt id="salmagundi.config.convert_loglevel">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_loglevel</code><span class="sig-paren">(</span><em class="sig-param">default_level=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_loglevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_loglevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_loglevel</code><span class="sig-paren">(</span><em class="sig-param">default_level=None</em>, <em class="sig-param">*</em>, <em class="sig-param">numeric=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_loglevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_loglevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a converter function for logging levels.</p>
 <p>Valid values are the logging levels as defined in the <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> module.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>default_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the default logging level</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>default_level</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the default logging level</p></li>
+<li><p><strong>numeric</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the numeric value of the log level
+will be returned</p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if not a valid logging level and <code class="docutils literal notranslate"><span class="pre">default_level=None</span></code></p>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.11.3.</span></p>
+</div>
 </dd></dl>
 
 <dl class="function">

@@ -638,16 +638,34 @@ def convert_choice(choices, *, converter=None, default=None):
     return f
 
 
-def convert_loglevel(default_level=None):
+_LOGLEVELS = {
+    'NOTSET': 0,
+    'DEBUG': 10,
+    'INFO': 20,
+    'WARNING': 30,
+    'ERROR': 40,
+    'CRITICAL': 50
+}
+
+
+def convert_loglevel(default_level=None, *, numeric=False):
     """Return a converter function for logging levels.
 
     Valid values are the logging levels as defined in the :mod:`logging` module.
 
     :param str default_level: the default logging level
+    :param bool numeric: if ``True`` the numeric value of the log level
+                         will be returned
     :raises ValueError: if not a valid logging level and ``default_level=None``
+
+    .. versionchanged:: 0.11.3
     """
-    choices = ('DEBUG', 'INFO', 'WARNING', 'ERROR', 'CRITICAL')
-    converter = str.upper
+    if numeric:
+        choices = _LOGLEVELS.values()
+        converter = lambda s: _LOGLEVELS.get(str(s).upper(), s)  # noqa: E731
+    else:
+        choices = _LOGLEVELS.keys()
+        converter = lambda s: str(s).upper()  # noqa: E731
     default = default_level or ValueError
     return convert_choice(choices, converter=converter, default=default)
 
@@ -675,6 +693,6 @@ def convert_predicate(predicate, *, converter=None, default=None):
         if predicate(x):
             return x
         if isinstance(default, type) and issubclass(default, Exception):
-            raise default('invalid value: %s' % s)
+            raise default(f'invalid value: {s}')
         return default
     return f
