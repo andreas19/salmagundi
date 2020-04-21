@@ -7,11 +7,11 @@
     <title>salmagundi.config &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -60,7 +60,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -243,7 +243,7 @@
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NOTFOUND&#39;</span><span class="p">,</span> <span class="s1">&#39;NOVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;Config&#39;</span><span class="p">,</span> <span class="s1">&#39;ConfigError&#39;</span><span class="p">,</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span>
            <span class="s1">&#39;ReadonlyError&#39;</span><span class="p">,</span> <span class="s1">&#39;SpecError&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_choice&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;convert_loglevel&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_predicate&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;convert_loglevel&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_string&#39;</span><span class="p">]</span>
 
 <span class="n">_NAME</span> <span class="o">=</span> <span class="s1">&#39;_configspec_&#39;</span>
 <span class="n">_CONVERTERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;str&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span> <span class="n">str2bool</span><span class="p">}</span>
@@ -285,9 +285,9 @@
 
 <span class="k">def</span> <span class="nf">_get_name</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">create_properties</span><span class="p">:</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{sec}</span><span class="s1">_</span><span class="si">{opt}</span><span class="s1">&#39;</span>
+        <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">sec</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">opt</span><span class="si">}</span><span class="s1">&#39;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
-            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;not a valid name: </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;not a valid name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">name</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">return</span> <span class="n">name</span>
@@ -323,49 +323,49 @@
             <span class="n">conv</span> <span class="o">=</span> <span class="n">t</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">conv</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;missing spec for option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">&#39;missing spec for option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">converter</span> <span class="o">=</span> <span class="n">converters</span><span class="p">[</span><span class="n">conv</span><span class="p">]</span>
             <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;unknown converter for option </span><span class="si">{opt!r}</span><span class="s1"> in &#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;section </span><span class="si">{sec!r}</span><span class="s1">: </span><span class="si">{conv}</span><span class="s1">&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">&#39;unknown converter for option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">conv</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="n">req</span> <span class="o">=</span> <span class="n">req_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="n">ro</span> <span class="o">=</span> <span class="n">ro_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="n">rw</span> <span class="o">=</span> <span class="n">rw_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="k">if</span> <span class="n">ro</span> <span class="ow">and</span> <span class="n">rw</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1"> has a </span><span class="si">{ro_tag!r}</span><span class="s1"> tag &#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;and a </span><span class="si">{rw_tag!r}</span><span class="s1"> tag (only one allowed)&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has a </span><span class="si">{</span><span class="n">ro_tag</span><span class="si">!r}</span><span class="s1"> tag &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;and a </span><span class="si">{</span><span class="n">rw_tag</span><span class="si">!r}</span><span class="s1"> tag (only one allowed)&#39;</span><span class="p">)</span>
             <span class="n">raw</span> <span class="o">=</span> <span class="n">raw_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                 <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">req_tag</span><span class="p">,</span> <span class="n">ro_tag</span><span class="p">,</span> <span class="n">rw_tag</span><span class="p">,</span> <span class="n">raw_tag</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">req</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1"> has a default &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;value and a </span><span class="si">{req_tag!r}</span><span class="s1"> tag (only one allowed)&#39;</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has a default &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;value and a </span><span class="si">{</span><span class="n">req_tag</span><span class="si">!r}</span><span class="s1"> tag (only one allowed)&#39;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">empty_tag</span><span class="p">:</span>
                         <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
                     <span class="k">try</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">converter</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                                <span class="sa">f</span><span class="s1">&#39;no default value allowed for </span><span class="si">{conv!r}</span><span class="s1"> for &#39;</span>
-                                <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                <span class="sa">f</span><span class="s1">&#39;no default value allowed for </span><span class="si">{</span><span class="n">conv</span><span class="si">!r}</span><span class="s1"> for &#39;</span>
+                                <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">none_tag</span><span class="p">:</span>
                             <span class="n">default</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="n">default</span> <span class="o">=</span> <span class="n">converter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
                     <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s1">&#39;error converting default value </span><span class="si">{s!r}</span><span class="s1"> for option &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1">&#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39; with converter </span><span class="si">{conv!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s1">&#39;error converting default value </span><span class="si">{</span><span class="n">s</span><span class="si">!r}</span><span class="s1"> for option &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">&#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39; with converter </span><span class="si">{</span><span class="n">conv</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                     <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">default</span> <span class="o">=</span> <span class="n">NOTFOUND</span>
             <span class="k">if</span> <span class="n">default</span> <span class="o">!=</span> <span class="n">NOTFOUND</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1"> has wildcard &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has wildcard &#39;</span>
                     <span class="s1">&#39;and default value&#39;</span><span class="p">)</span>
             <span class="n">spec</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">opt</span><span class="p">]</span> <span class="o">=</span> <span class="n">_OptSpec</span><span class="p">(</span><span class="n">converter</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span>
                                       <span class="n">ro</span> <span class="ow">or</span> <span class="p">(</span><span class="n">readonly</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rw</span><span class="p">),</span>
@@ -422,7 +422,7 @@
         <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">1</span><span class="p">]:</span>
             <span class="k">raise</span> <span class="n">ReadonlyError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s1">&#39;cannot set option </span><span class="si">{key[1]!r}</span><span class="s1"> in section </span><span class="si">{key[0]!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="sa">f</span><span class="s1">&#39;cannot set option </span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
 
     <span class="k">def</span> <span class="fm">__delitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">):</span>
@@ -450,9 +450,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_props</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
-                <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;not a valid name: </span><span class="si">{name}</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;not a valid name: </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
-                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;attribute </span><span class="si">{name!r}</span><span class="s1"> already exists&#39;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">AttributeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;attribute </span><span class="si">{</span><span class="n">name</span><span class="si">!r}</span><span class="s1"> already exists&#39;</span><span class="p">)</span>
             <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">property</span><span class="p">(</span><span class="n">_getter</span><span class="p">(</span><span class="n">key</span><span class="p">),</span>
                     <span class="kc">None</span> <span class="k">if</span> <span class="n">readonly</span> <span class="k">else</span> <span class="n">_setter</span><span class="p">(</span><span class="n">key</span><span class="p">),</span> <span class="n">_deleter</span><span class="p">(</span><span class="n">key</span><span class="p">)))</span></div>
 
@@ -583,8 +583,8 @@
             <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">sec_wildcard</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
                     <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s1">&#39;missing required option </span><span class="si">{spec_opt!r}</span><span class="s1"> &#39;</span>
-                        <span class="sa">f</span><span class="s1">&#39;in section </span><span class="si">{spec_sec!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                        <span class="sa">f</span><span class="s1">&#39;missing required option </span><span class="si">{</span><span class="n">spec_opt</span><span class="si">!r}</span><span class="s1"> &#39;</span>
+                        <span class="sa">f</span><span class="s1">&#39;in section </span><span class="si">{</span><span class="n">spec_sec</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">opt_wildcard</span><span class="p">:</span>
                     <span class="n">value</span> <span class="o">=</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">default</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">spec_sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
@@ -597,8 +597,8 @@
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">opts</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                            <span class="sa">f</span><span class="s1">&#39;missing required option </span><span class="si">{spec_opt!r}</span><span class="s1"> &#39;</span>
-                            <span class="sa">f</span><span class="s1">&#39;in section </span><span class="si">{sec!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+                            <span class="sa">f</span><span class="s1">&#39;missing required option </span><span class="si">{</span><span class="n">spec_opt</span><span class="si">!r}</span><span class="s1"> &#39;</span>
+                            <span class="sa">f</span><span class="s1">&#39;in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">opt_wildcard</span><span class="p">:</span>
                         <span class="n">value</span> <span class="o">=</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">default</span>
                         <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
@@ -613,16 +613,16 @@
                                 <span class="n">value</span> <span class="o">=</span> <span class="n">NOVALUE</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1"> &#39;</span>
+                                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> &#39;</span>
                                     <span class="s1">&#39;has no value&#39;</span><span class="p">)</span>
                         <span class="k">else</span><span class="p">:</span>
                             <span class="k">try</span><span class="p">:</span>
                                 <span class="n">value</span> <span class="o">=</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">converter</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
                             <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
                                 <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
-                                    <span class="sa">f</span><span class="s1">&#39;error converting value </span><span class="si">{value!r}</span><span class="s1"> for &#39;</span>
-                                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{opt!r}</span><span class="s1"> in section </span><span class="si">{sec!r}</span><span class="s1"> with &#39;</span>
-                                    <span class="sa">f</span><span class="s1">&#39;converter </span><span class="si">{opt_spec.conv_name!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">)</span>
+                                    <span class="sa">f</span><span class="s1">&#39;error converting value </span><span class="si">{</span><span class="n">value</span><span class="si">!r}</span><span class="s1"> for &#39;</span>
+                                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> with &#39;</span>
+                                    <span class="sa">f</span><span class="s1">&#39;converter </span><span class="si">{</span><span class="n">opt_spec</span><span class="o">.</span><span class="n">conv_name</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
                         <span class="n">options</span><span class="p">[(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_OptData</span><span class="p">(</span>
                             <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">readonly</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
@@ -707,13 +707,15 @@
 <span class="sd">                      conversion</span>
 <span class="sd">    :param default: a default value of the desired type or a subclass</span>
 <span class="sd">                    of :exc:`Exception` which will be raised</span>
+<span class="sd">    :return: converter function</span>
+<span class="sd">    :rtype: function(str)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">converter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">converter</span> <span class="k">else</span> <span class="n">s</span>
         <span class="k">if</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid choice: </span><span class="si">{s}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid choice: </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">default</span>
     <span class="k">return</span> <span class="n">f</span></div>
 
@@ -737,6 +739,8 @@
 <span class="sd">    :param bool numeric: if ``True`` the numeric value of the log level</span>
 <span class="sd">                         will be returned</span>
 <span class="sd">    :raises ValueError: if not a valid logging level and ``default_level=None``</span>
+<span class="sd">    :return: converter function</span>
+<span class="sd">    :rtype: function(str)</span>
 
 <span class="sd">    .. versionchanged:: 0.11.3 Add parameter ``numeric``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -767,14 +771,55 @@
 <span class="sd">                      conversion</span>
 <span class="sd">    :param default: a default value of the desired type or a subclass</span>
 <span class="sd">                    of :exc:`Exception` which will be raised instead</span>
+<span class="sd">    :return: converter function</span>
+<span class="sd">    :rtype: function(str)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
         <span class="n">x</span> <span class="o">=</span> <span class="n">converter</span><span class="p">(</span><span class="n">s</span><span class="p">)</span> <span class="k">if</span> <span class="n">converter</span> <span class="k">else</span> <span class="n">s</span>
         <span class="k">if</span> <span class="n">predicate</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">x</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">type</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{s}</span><span class="s1">&#39;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="n">default</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;invalid value: </span><span class="si">{</span><span class="n">s</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">default</span>
+    <span class="k">return</span> <span class="n">f</span></div>
+
+
+<div class="viewcode-block" id="convert_string"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.convert_string">[docs]</a><span class="k">def</span> <span class="nf">convert_string</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="s1">&#39;|&#39;</span><span class="p">,</span> <span class="n">newlines</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return a function that can be used as a converter.</span>
+
+<span class="sd">    The default converter ``str`` handles multiline values like</span>
+<span class="sd">    :class:`~configparser.ConfigParser`, i.e. preserving newlines but</span>
+<span class="sd">    ignoring indentations (because nothing gets realy converted).</span>
+
+<span class="sd">    A converter returned by this function can handle such values different.</span>
+
+<span class="sd">    &gt;&gt;&gt; s = &#39;&#39;&#39;</span>
+<span class="sd">    ... |def add(a, b):</span>
+<span class="sd">    ... |    return a + b</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+<span class="sd">    &gt;&gt;&gt; print(convert_string()(s))</span>
+<span class="sd">    def add(a, b):</span>
+<span class="sd">        return a + b</span>
+
+<span class="sd">    :param str start: a single none-whitspace character that starts a line</span>
+<span class="sd">    :param bool newlines: if ``True`` newlines will be preserved</span>
+<span class="sd">    :raises ValueError: if ``start`` is not a single character</span>
+<span class="sd">    :return: converter function</span>
+<span class="sd">    :rtype: function(str)</span>
+
+<span class="sd">    .. versionadded:: 0.12.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">start</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;parameter &#39;start&#39; must be a single&quot;</span>
+                         <span class="s2">&quot; none-whitespace character&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">f</span><span class="p">(</span><span class="n">s</span><span class="p">):</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">line</span><span class="p">:</span> <span class="n">line</span> <span class="ow">and</span> <span class="n">line</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">start</span><span class="p">,</span> <span class="n">lines</span><span class="p">)):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;all lines must start with </span><span class="si">{</span><span class="n">start</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">lines</span><span class="p">]</span>
+        <span class="k">return</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span> <span class="k">if</span> <span class="n">newlines</span> <span class="k">else</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">f</span></div>
 </pre></div>
 
@@ -788,7 +833,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

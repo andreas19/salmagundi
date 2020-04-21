@@ -1,6 +1,9 @@
 History
 -------
 
+ - Add function convert_string() to module config
+ - Add class StopWatch to module utils
+
 **2020-01-30 (0.11.3)**
  - Add parameter numeric to config.convert_loglevel()
 

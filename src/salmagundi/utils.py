@@ -12,8 +12,11 @@ import tempfile
 import textwrap
 from contextlib import contextmanager, suppress
 
-__all__ = ['AlreadyRunning', 'check_bytes_like', 'check_path_like',
-           'check_type', 'docopt_helper', 'ensure_single_instance', 'sys_exit']
+from ._stopwatch import StopWatch, StopWatchError
+
+__all__ = ['AlreadyRunning', 'StopWatch', 'StopWatchError', 'check_bytes_like',
+           'check_path_like', 'check_type', 'docopt_helper',
+           'ensure_single_instance', 'sys_exit']
 
 
 def check_type(obj, classinfo, name='object', msg=None):

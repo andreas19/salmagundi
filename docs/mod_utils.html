@@ -7,11 +7,11 @@
     <title>Module utils &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,7 +77,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -111,6 +111,12 @@
 <tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.AlreadyRunning" title="salmagundi.utils.AlreadyRunning"><code class="xref py py-obj docutils literal notranslate"><span class="pre">AlreadyRunning</span></code></a></p></td>
 <td><p>Raised by <a class="reference internal" href="#salmagundi.utils.ensure_single_instance" title="salmagundi.utils.ensure_single_instance"><code class="xref py py-func docutils literal notranslate"><span class="pre">ensure_single_instance()</span></code></a>.</p></td>
 </tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.StopWatch" title="salmagundi.utils.StopWatch"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StopWatch</span></code></a></p></td>
+<td><p>Simple stop watch.</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">StopWatchError</span></code></a></p></td>
+<td><p>Raised by <a class="reference internal" href="#salmagundi.utils.StopWatch" title="salmagundi.utils.StopWatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">StopWatch</span></code></a> if an action is not allowed.</p></td>
+</tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.check_bytes_like" title="salmagundi.utils.check_bytes_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_bytes_like</span></code></a></p></td>
 <td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p></td>
 </tr>
@@ -131,11 +137,120 @@
 </tr>
 </tbody>
 </table>
+<dl class="class">
+<dt id="salmagundi.utils.StopWatch">
+<em class="property">class </em><code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">StopWatch</code><span class="sig-paren">(</span><em class="sig-param">start=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch" title="Permalink to this definition">¶</a></dt>
+<dd><p>Simple stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the stop watch starts immediately</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.12.0.</span></p>
+</div>
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.started">
+<em class="property">property </em><code class="sig-name descname">started</code><a class="headerlink" href="#salmagundi.utils.StopWatch.started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the stop watch has been started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.running">
+<em class="property">property </em><code class="sig-name descname">running</code><a class="headerlink" href="#salmagundi.utils.StopWatch.running" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return whether the stop watch is running.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch.start"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start or restart the stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is running</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.pause">
+<code class="sig-name descname">pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch.pause"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch.pause" title="Permalink to this definition">¶</a></dt>
+<dd><p>Pause the stop watch.</p>
+<p>Does not reset the stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the elapsed time in seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is not running</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.stop">
+<code class="sig-name descname">stop</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch.stop"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch.stop" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stop and reset the stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the elapsed time in seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is not running</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.reset">
+<code class="sig-name descname">reset</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch.reset"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch.reset" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reset the stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is running</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="salmagundi.utils.StopWatch.time">
+<code class="sig-name descname">time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch.time"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch.time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get elapsed time from the stop watch.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>the currently elapsed time in seconds</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch has not been started</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt id="salmagundi.utils.StopWatchError">
+<em class="property">exception </em><code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">StopWatchError</code><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatchError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatchError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by <a class="reference internal" href="#salmagundi.utils.StopWatch" title="salmagundi.utils.StopWatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">StopWatch</span></code></a> if an action is not allowed.</p>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.12.0.</span></p>
+</div>
+</dd></dl>
+
 <dl class="function">
 <dt id="salmagundi.utils.check_type">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_type</code><span class="sig-paren">(</span><em class="sig-param">obj</em>, <em class="sig-param">classinfo</em>, <em class="sig-param">name='object'</em>, <em class="sig-param">msg=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check the type of an object.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="n">check_type</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;num&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">utils</span><span class="o">.</span><span class="n">check_type</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;num&#39;</span><span class="p">)</span>
 <span class="gt">Traceback (most recent call last):</span>
   <span class="c">...</span>
 <span class="gr">TypeError</span>: <span class="n">the type of &#39;num&#39; must be &#39;str&#39;, got &#39;int&#39;</span>
@@ -475,7 +590,7 @@ and platform is not Linux</p></li>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

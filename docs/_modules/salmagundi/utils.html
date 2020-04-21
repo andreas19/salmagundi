@@ -7,11 +7,11 @@
     <title>salmagundi.utils &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
-    <script type="text/javascript" src="../../_static/jquery.js"></script>
-    <script type="text/javascript" src="../../_static/underscore.js"></script>
-    <script type="text/javascript" src="../../_static/doctools.js"></script>
-    <script type="text/javascript" src="../../_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+    <script src="../../_static/jquery.js"></script>
+    <script src="../../_static/underscore.js"></script>
+    <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -60,7 +60,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -92,8 +92,11 @@
 <span class="kn">import</span> <span class="nn">textwrap</span>
 <span class="kn">from</span> <span class="nn">contextlib</span> <span class="kn">import</span> <span class="n">contextmanager</span><span class="p">,</span> <span class="n">suppress</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AlreadyRunning&#39;</span><span class="p">,</span> <span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;check_type&#39;</span><span class="p">,</span> <span class="s1">&#39;docopt_helper&#39;</span><span class="p">,</span> <span class="s1">&#39;ensure_single_instance&#39;</span><span class="p">,</span> <span class="s1">&#39;sys_exit&#39;</span><span class="p">]</span>
+<span class="kn">from</span> <span class="nn">._stopwatch</span> <span class="kn">import</span> <span class="n">StopWatch</span><span class="p">,</span> <span class="n">StopWatchError</span>
+
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;AlreadyRunning&#39;</span><span class="p">,</span> <span class="s1">&#39;StopWatch&#39;</span><span class="p">,</span> <span class="s1">&#39;StopWatchError&#39;</span><span class="p">,</span> <span class="s1">&#39;check_bytes_like&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;check_path_like&#39;</span><span class="p">,</span> <span class="s1">&#39;check_type&#39;</span><span class="p">,</span> <span class="s1">&#39;docopt_helper&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;ensure_single_instance&#39;</span><span class="p">,</span> <span class="s1">&#39;sys_exit&#39;</span><span class="p">]</span>
 
 
 <div class="viewcode-block" id="check_type"><a class="viewcode-back" href="../../mod_utils.html#salmagundi.utils.check_type">[docs]</a><span class="k">def</span> <span class="nf">check_type</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">classinfo</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s1">&#39;object&#39;</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
@@ -233,7 +236,7 @@
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">version</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
         <span class="n">version</span> <span class="o">=</span> <span class="s1">&#39;.&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">version</span><span class="p">))</span>
     <span class="k">if</span> <span class="n">version_str</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">version</span><span class="p">:</span>
-        <span class="n">version_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{name}</span><span class="s1"> </span><span class="si">{version}</span><span class="s1">&#39;</span>
+        <span class="n">version_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1"> </span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="n">mapping</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span> <span class="n">version</span><span class="o">=</span><span class="n">version</span><span class="p">,</span> <span class="n">version_str</span><span class="o">=</span><span class="n">version_str</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="n">arguments</span> <span class="o">=</span> <span class="n">docopt</span><span class="o">.</span><span class="n">docopt</span><span class="p">(</span>
@@ -248,7 +251,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">conv</span><span class="p">(</span><span class="n">arguments</span><span class="p">[</span><span class="n">key</span><span class="p">])</span>
             <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">ex</span><span class="p">:</span>
-                <span class="n">sys_exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in </span><span class="si">{key!r}</span><span class="s1">: </span><span class="si">{ex}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">err_code</span><span class="p">)</span>
+                <span class="n">sys_exit</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;error in </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">err_code</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arguments</span></div>
 
 
@@ -445,7 +448,7 @@
 
 <span class="k">def</span> <span class="nf">_already_running</span><span class="p">(</span><span class="n">err_code</span><span class="p">,</span> <span class="n">err_msg</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">err_msg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">err_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;already running: </span><span class="si">{sys.argv[0]}</span><span class="s1">&#39;</span>
+        <span class="n">err_msg</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;already running: </span><span class="si">{</span><span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
     <span class="k">if</span> <span class="n">err_code</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">raise</span> <span class="n">AlreadyRunning</span><span class="p">(</span><span class="n">err_msg</span><span class="p">)</span> <span class="kn">from</span> <span class="bp">None</span>
     <span class="k">else</span><span class="p">:</span>
@@ -462,7 +465,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

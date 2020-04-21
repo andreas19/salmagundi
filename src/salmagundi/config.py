@@ -163,7 +163,7 @@ from .utils import check_path_like
 
 __all__ = ['NOTFOUND', 'NOVALUE', 'Config', 'ConfigError', 'Error',
            'ReadonlyError', 'SpecError', 'configure', 'convert_choice',
-           'convert_loglevel', 'convert_predicate']
+           'convert_loglevel', 'convert_predicate', 'convert_string']
 
 _NAME = '_configspec_'
 _CONVERTERS = {'str': str, 'int': int, 'float': float, 'bool': str2bool}
@@ -627,6 +627,8 @@ def convert_choice(choices, *, converter=None, default=None):
                       conversion
     :param default: a default value of the desired type or a subclass
                     of :exc:`Exception` which will be raised
+    :return: converter function
+    :rtype: function(str)
     """
     def f(s):
         x = converter(s) if converter else s
@@ -657,6 +659,8 @@ def convert_loglevel(default_level=None, *, numeric=False):
     :param bool numeric: if ``True`` the numeric value of the log level
                          will be returned
     :raises ValueError: if not a valid logging level and ``default_level=None``
+    :return: converter function
+    :rtype: function(str)
 
     .. versionchanged:: 0.11.3 Add parameter ``numeric``
     """
@@ -687,6 +691,8 @@ def convert_predicate(predicate, *, converter=None, default=None):
                       conversion
     :param default: a default value of the desired type or a subclass
                     of :exc:`Exception` which will be raised instead
+    :return: converter function
+    :rtype: function(str)
     """
     def f(s):
         x = converter(s) if converter else s
@@ -695,4 +701,43 @@ def convert_predicate(predicate, *, converter=None, default=None):
         if isinstance(default, type) and issubclass(default, Exception):
             raise default(f'invalid value: {s}')
         return default
+    return f
+
+
+def convert_string(*, start='|', newlines=True):
+    """Return a function that can be used as a converter.
+
+    The default converter ``str`` handles multiline values like
+    :class:`~configparser.ConfigParser`, i.e. preserving newlines but
+    ignoring indentations (because nothing gets realy converted).
+
+    A converter returned by this function can handle such values different.
+
+    >>> s = '''
+    ... |def add(a, b):
+    ... |    return a + b
+    '''
+    >>> print(convert_string()(s))
+    def add(a, b):
+        return a + b
+
+    :param str start: a single none-whitspace character that starts a line
+    :param bool newlines: if ``True`` newlines will be preserved
+    :raises ValueError: if ``start`` is not a single character
+    :return: converter function
+    :rtype: function(str)
+
+    .. versionadded:: 0.12.0
+    """
+    start = start.strip()
+    if len(start) != 1:
+        raise ValueError("parameter 'start' must be a single"
+                         " none-whitespace character")
+
+    def f(s):
+        lines = s.strip().splitlines()
+        if not all(map(lambda line: line and line[0] == start, lines)):
+            raise ValueError(f'all lines must start with {start!r}')
+        lines = [line[1:] for line in lines]
+        return '\n'.join(lines) if newlines else ''.join(lines)
     return f

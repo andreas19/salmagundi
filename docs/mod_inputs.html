@@ -7,11 +7,11 @@
     <title>Module inputs &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,7 +77,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -144,7 +144,7 @@ and returns the (converted) input value or raises
 <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if the input is not allowed.</p>
 <p>There are 3 predefined check functions in this module:
 <a class="reference internal" href="#salmagundi.inputs.check_str" title="salmagundi.inputs.check_str"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_str()</span></code></a>, <a class="reference internal" href="#salmagundi.inputs.check_int" title="salmagundi.inputs.check_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_int()</span></code></a> and <a class="reference internal" href="#salmagundi.inputs.check_float" title="salmagundi.inputs.check_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_float()</span></code></a>.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
 <span class="go">Number: 21</span>
 <span class="go">&#39;21&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
@@ -184,7 +184,7 @@ and returns the (converted) input value or raises
 <p>If the typed character (case-insensitive) is not allowed
 (i.e. not in <code class="docutils literal notranslate"><span class="pre">yesno</span></code>) the prompt will be shown again.
 The input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">yesno</span><span class="p">(</span><span class="s1">&#39;Exit program?&#39;</span><span class="p">,</span> <span class="s1">&#39;yN&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">yesno</span><span class="p">(</span><span class="s1">&#39;Exit program?&#39;</span><span class="p">,</span> <span class="s1">&#39;yN&#39;</span><span class="p">)</span>
 <span class="go">Exit program? [yN] Y</span>
 <span class="go">True</span>
 </pre></div>
@@ -222,7 +222,7 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 <dd><p>Show an input with selectable options.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; &#39;</span><span class="p">,</span> <span class="s1">&#39;TBLR&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">select</span><span class="p">(</span><span class="s1">&#39;Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; &#39;</span><span class="p">,</span> <span class="s1">&#39;TBLR&#39;</span><span class="p">)</span>
 <span class="go">Select: [T]op, [B]ottom, [L]eft, [R]ight &gt; b</span>
 <span class="go">1</span>
 </pre></div>
@@ -391,7 +391,7 @@ are allowed</p></li>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -7,11 +7,11 @@
     <title>Module strings &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -77,7 +77,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -253,7 +253,7 @@ the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" titl
 <p>If <code class="docutils literal notranslate"><span class="pre">converter</span></code> is given and not <code class="docutils literal notranslate"><span class="pre">None</span></code>, it must be a callable that
 takes a string parameter and returns an object of the required type,
 or else a tuple with string elements will be returned.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;1, 2, 3,4&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;1, 2, 3,4&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="go">(1, 2, 3, 4)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">str2tuple</span><span class="p">(</span><span class="s1">&#39;on, off, no, true, YES&#39;</span><span class="p">)</span>
 <span class="go">(&#39;on&#39;, &#39;off&#39;, &#39;no&#39;, &#39;true&#39;, &#39;YES&#39;)</span>
@@ -307,7 +307,7 @@ or else a tuple with string elements will be returned.</p>
 <dt id="salmagundi.strings.split_host_port">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">split_host_port</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#split_host_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.split_host_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split a string into host and port.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_host_port</span><span class="p">(</span><span class="s1">&#39;example.com:42&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_host_port</span><span class="p">(</span><span class="s1">&#39;example.com:42&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
 <span class="go">(&#39;example.com&#39;, 42)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">split_host_port</span><span class="p">(</span><span class="s1">&#39;example.com&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
 <span class="go">(&#39;example.com&#39;, 21)</span>
@@ -340,7 +340,7 @@ are not in [0..65535] or neither of them is given</p>
 <dt id="salmagundi.strings.insert_separator">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">insert_separator</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">sep</em>, <em class="sig-param">group_size</em>, <em class="sig-param">reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#insert_separator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.insert_separator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert separators in a string.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;008041aefd7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;008041aefd7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="go">00:80:41:ae:fd:7e</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;aaabbbcccd&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 <span class="go">&#39;aaa:bbb:ccc:d&#39;</span>
@@ -390,7 +390,7 @@ left to right</p></li>
 are replaced by a single space.</p>
 <p>if <code class="docutils literal notranslate"><span class="pre">negate=True</span></code> all characters <strong>not</strong> in chars will be
 purged (only applies when <code class="docutils literal notranslate"><span class="pre">chars</span></code> is at least one character)</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">purge</span><span class="p">(</span><span class="s1">&#39;00:80:41:ae:fd:7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">purge</span><span class="p">(</span><span class="s1">&#39;00:80:41:ae:fd:7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">)</span>
 <span class="go">008041aefd7e</span>
 </pre></div>
 </div>
@@ -419,7 +419,7 @@ purged (only applies when <code class="docutils literal notranslate"><span class
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">shorten</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">width=80</em>, <em class="sig-param">placeholder='…'</em>, <em class="sig-param">pos='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#shorten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.shorten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shorten the text to fit in the given width.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">len(text)</span> <span class="pre">&lt;=</span> <span class="pre">width</span></code> the <code class="docutils literal notranslate"><span class="pre">text</span></code> is returned unchanged.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet&#39;</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
 <span class="go">&#39;Lorem ipsum do…&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">shorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">15</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39; ... &#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;middle&#39;</span><span class="p">)</span>
@@ -491,7 +491,7 @@ placeholder in text</p></li>
 <dt id="salmagundi.strings.format_bin_prefix">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_bin_prefix</code><span class="sig-paren">(</span><em class="sig-param">num_frmt</em>, <em class="sig-param">value</em>, <em class="sig-param">prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_bin_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a number with a binary prefix.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">)</span>
 <span class="go">&#39;1.001 Mi&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s1">&#39;Gi&#39;</span><span class="p">)</span>
 <span class="go">&#39;0.001 Gi&#39;</span>
@@ -564,7 +564,7 @@ instead of the symbol <code class="docutils literal notranslate"><span class="pr
 <dt id="salmagundi.strings.format_dec_prefix">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_dec_prefix</code><span class="sig-paren">(</span><em class="sig-param">num_frmt</em>, <em class="sig-param">value</em>, <em class="sig-param">prefix=None</em>, <em class="sig-param">restricted=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_dec_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a number with a decimal prefix.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">)</span>
 <span class="go">&#39;12.0 m&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">,</span> <span class="n">restricted</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="go">&#39;1.2 c&#39;</span>
@@ -667,7 +667,7 @@ followed by a format code.</p>
 <p>The codes <code class="docutils literal notranslate"><span class="pre">'X',</span> <span class="pre">'Y',</span> <span class="pre">'Z'</span></code> cannot be used with flags and field widths.</p>
 <p>If the field width for microseconds (code <code class="docutils literal notranslate"><span class="pre">'s'</span></code>) is less than 6 it will
 be counted from the left. So <code class="docutils literal notranslate"><span class="pre">'%3s'</span></code> will get milliseconds.</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%03H:%M:%S.</span><span class="si">%06s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">90078.012345678</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%03H:%M:%S.</span><span class="si">%06s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">90078.012345678</span><span class="p">)</span>
 <span class="go">&#39;025:1:18.012346&#39;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">format_timedelta</span><span class="p">(</span><span class="s1">&#39;%03H:%M:%S.</span><span class="si">%05s</span><span class="s1">&#39;</span><span class="p">,</span> <span class="mf">90078.012345678</span><span class="p">)</span>
 <span class="go">&#39;025:1:18.01235&#39;</span>
@@ -714,7 +714,7 @@ e.g. a duration.</p>
 fractional part of a second. The string <code class="docutils literal notranslate"><span class="pre">'1'</span></code> is <code class="docutils literal notranslate"><span class="pre">100000</span> <span class="pre">µs</span></code>;
 but <code class="docutils literal notranslate"><span class="pre">'000001'</span></code> is <code class="docutils literal notranslate"><span class="pre">1</span> <span class="pre">µs</span></code>.</p>
 </div>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_timedelta</span><span class="p">(</span><span class="s1">&#39;03:21.001&#39;</span><span class="p">,</span> <span class="s1">&#39;%M:%02S.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">parse_timedelta</span><span class="p">(</span><span class="s1">&#39;03:21.001&#39;</span><span class="p">,</span> <span class="s1">&#39;%M:%02S.</span><span class="si">%s</span><span class="s1">&#39;</span><span class="p">)</span>
 <span class="go">datetime.timedelta(seconds=201, microseconds=1000)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="nb">str</span><span class="p">(</span><span class="n">_</span><span class="p">)</span>
 <span class="go">&#39;0:03:21.001000&#39;</span>
@@ -859,7 +859,7 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

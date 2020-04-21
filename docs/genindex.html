@@ -8,11 +8,11 @@
     <title>Index &#8212; Salmagundi 0.11.3 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
-    <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-    <script type="text/javascript" src="_static/jquery.js"></script>
-    <script type="text/javascript" src="_static/underscore.js"></script>
-    <script type="text/javascript" src="_static/doctools.js"></script>
-    <script type="text/javascript" src="_static/language_data.js"></script>
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="#" />
     <link rel="search" title="Search" href="search.html" />
@@ -59,7 +59,7 @@
     </form>
     </div>
 </div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
+<script>$('#searchbox').show(0);</script>
 
 
 
@@ -163,6 +163,8 @@
       <li><a href="mod_config.html#salmagundi.config.convert_loglevel">convert_loglevel() (in module salmagundi.config)</a>
 </li>
       <li><a href="mod_config.html#salmagundi.config.convert_predicate">convert_predicate() (in module salmagundi.config)</a>
+</li>
+      <li><a href="mod_config.html#salmagundi.config.convert_string">convert_string() (in module salmagundi.config)</a>
 </li>
       <li><a href="mod_files.html#salmagundi.files.copyfile">copyfile() (in module salmagundi.files)</a>
 </li>
@@ -332,6 +334,8 @@
 </li>
       <li><a href="mod_validation.html#salmagundi.validation.pattern_validator">pattern_validator() (in module salmagundi.validation)</a>
 </li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.pause">pause() (salmagundi.utils.StopWatch method)</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="mod_strings.html#salmagundi.strings.Prefix">Prefix (class in salmagundi.strings)</a>
@@ -352,13 +356,17 @@
 </li>
       <li><a href="mod_files.html#salmagundi.files.read_lines">read_lines() (in module salmagundi.files)</a>
 </li>
+      <li><a href="mod_config.html#salmagundi.config.ReadonlyError">ReadonlyError</a>
+</li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="mod_config.html#salmagundi.config.ReadonlyError">ReadonlyError</a>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.reset">reset() (salmagundi.utils.StopWatch method)</a>
 </li>
       <li><a href="mod_colors.html#salmagundi.colors.rgb2floats">rgb2floats() (in module salmagundi.colors)</a>
 </li>
       <li><a href="mod_colors.html#salmagundi.colors.rgb2hex">rgb2hex() (in module salmagundi.colors)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.running">running() (salmagundi.utils.StopWatch property)</a>
 </li>
   </ul></td>
 </tr></table>
@@ -386,12 +394,12 @@
 </li>
       <li><a href="mod_inputs.html#salmagundi.inputs.select">select() (in module salmagundi.inputs)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="mod_validation.html#salmagundi.validation.sequence_validator">sequence_validator() (in module salmagundi.validation)</a>
 </li>
       <li><a href="mod_validation.html#salmagundi.validation.set_validator">set_validator() (in module salmagundi.validation)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="mod_strings.html#salmagundi.strings.shorten">shorten() (in module salmagundi.strings)</a>
 </li>
       <li><a href="mod_strings.html#salmagundi.strings.slugify">slugify() (in module salmagundi.strings)</a>
@@ -399,6 +407,16 @@
       <li><a href="mod_config.html#salmagundi.config.SpecError">SpecError</a>
 </li>
       <li><a href="mod_strings.html#salmagundi.strings.split_host_port">split_host_port() (in module salmagundi.strings)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.start">start() (salmagundi.utils.StopWatch method)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.started">started() (salmagundi.utils.StopWatch property)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.stop">stop() (salmagundi.utils.StopWatch method)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch">StopWatch (class in salmagundi.utils)</a>
+</li>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatchError">StopWatchError</a>
 </li>
       <li><a href="mod_strings.html#salmagundi.strings.str2bool">str2bool() (in module salmagundi.strings)</a>
 </li>
@@ -414,10 +432,12 @@
 <h2 id="T">T</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="mod_files.html#salmagundi.files.touch">touch() (in module salmagundi.files)</a>
+      <li><a href="mod_utils.html#salmagundi.utils.StopWatch.time">time() (salmagundi.utils.StopWatch method)</a>
 </li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="mod_files.html#salmagundi.files.touch">touch() (in module salmagundi.files)</a>
+</li>
       <li><a href="mod_strings.html#salmagundi.strings.TranslationTable">TranslationTable (class in salmagundi.strings)</a>
 </li>
   </ul></td>
@@ -479,7 +499,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.2.2</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
