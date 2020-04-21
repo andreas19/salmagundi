@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-04-21 (0.12.0)**
  - Add function convert_string() to module config
  - Add class StopWatch to module utils
 
