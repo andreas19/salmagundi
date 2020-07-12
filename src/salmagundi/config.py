@@ -8,15 +8,18 @@
 .. versionchanged:: 0.10.0
    :ref:`Wildcards <ref-wildcards>` for sections and options
 
+.. versionchanged:: 0.13.0
+   Add :ref:`tag <ref-tags>` ``:fix:`` to specification
+
 .. _ref-spec:
 
 This module uses a specification when reading a configuration file with a
-:class:`ConfigParser` (see module :mod:`configparser` for more information).
-Option values will be converted with the specified converter function, it will
-be checked whether an option is required or not, default values can be given
-for options that are not present in the configuration, and it can be specified
-if an option is readonly or not. All this is done by calling :func:`configure`
-which returns a :class:`Config` object.
+:class:`~configparser.ConfigParser` (see module :mod:`configparser` for more
+information). Option values will be converted with the specified converter
+function, it will be checked whether an option is required or not, default
+values can be given for options that are not present in the configuration,
+and it can be specified if an option is readonly or not. All this is done by
+calling :func:`configure` which returns a :class:`Config` object.
 
 If ``create_properties=True`` in :func:`configure` the name of each property
 will be a concatenation of the section name and the option name with an
@@ -40,11 +43,12 @@ specification for each option can be modified in a special section
    req_tag: :req:
    ro_tag: :ro:
    rw_tag: :rw:
+   fix_tag: :fix:
    raw_tag: :raw:
 
 A specification for an option looks like this::
 
-   opt = conv | :novalue:[; dflt | :req:][; :rw: | :ro:][; :raw:]
+   opt = conv | :novalue:[; dflt | :req:][; :rw: | :ro: | :fix:][; :raw:]
 
 The converter ``conv`` must be the name of a callable that takes a string
 argument and returns an object of the desired type. The default converters are:
@@ -68,17 +72,21 @@ be used.
 With the readwrite tag ``:rw:`` and the readonly tag ``:ro:`` exceptions
 to the global access mode (see above) can be set for each option.
 
+If the ``:fix:`` tag is used, it indicates that the option cannot be changed
+in a configuration file and is therefore a constant. In this case a
+default value is required.
+
 The raw tag ``:raw:`` indicates that for the option value no interpolation
-expansion should be done (see: :meth:`configparser.ConfigParser.get`).
+expansion should be done (see: :meth:`~configparser.ConfigParser.get`).
 
 For configurations that allow options without values the ``allow_no_value``
 parameter for :func:`configure` must be set to ``True`` (this is one of
-the keyword arguments that is passed directly the :class:`ConfigParser`
-constructor). For such an option the tag ``:novalue:`` must be used instead
-of the name of a converter. If the option is present in the configuration
-it will be set to the value :data:`NOVALUE`.
+the keyword arguments that is passed directly the
+:class:`~configparser.ConfigParser` constructor). For such an option the tag
+``:novalue:`` must be used instead of the name of a converter. If the option
+is present in the configuration it will be set to the value :data:`NOVALUE`.
 
-If ``spec=None`` no conversion will be done and all options are writeable.
+If ``spec=None``, no conversion will be done and all options are writeable.
 
 Example:
 
@@ -161,11 +169,12 @@ from functools import lru_cache
 from .strings import str2bool, str2tuple
 from .utils import check_path_like
 
-__all__ = ['NOTFOUND', 'NOVALUE', 'Config', 'ConfigError', 'Error',
-           'ReadonlyError', 'SpecError', 'configure', 'convert_choice',
-           'convert_loglevel', 'convert_predicate', 'convert_string']
+__all__ = ['NOTFOUND', 'NOVALUE', 'Config', 'ConfigError', 'DuplicateError',
+           'Error', 'ReadonlyError', 'SpecError', 'configure',
+           'convert_choice', 'convert_loglevel', 'convert_predicate',
+           'convert_string']
 
-_NAME = '_configspec_'
+_CONFIGSPEC = '_configspec_'
 _CONVERTERS = {'str': str, 'int': int, 'float': float, 'bool': str2bool}
 
 NOVALUE = type('NoValue', (), {'__repr__': lambda x: '<NOVALUE>'})()
@@ -182,7 +191,7 @@ The truth value is ``False``.
 """
 
 _OptSpec = namedtuple('OptSpec', 'converter, conv_name,'
-                      'required, readonly, raw, default,'
+                      'required, flag, raw, default,'
                       'sec_wildcard, opt_wildcard')
 _OptData = namedtuple('OptData', 'name, ro, value')
 
@@ -193,6 +202,10 @@ class Error(Exception):
 
 class ConfigError(Error):
     """Raised if there is a problem with the configuration."""
+
+
+class DuplicateError(Error):
+    """Raised if an option already exists in a section."""
 
 
 class SpecError(Error):
@@ -223,17 +236,18 @@ def _spec(spec, convs):
             cp.read_file(fh)
     except TypeError:
         cp.read_file(spec)
-    readonly = cp.getboolean(_NAME, 'readonly', fallback=True)
-    separator = cp.get(_NAME, 'separator', fallback=';')
-    wildcard = cp.get(_NAME, 'wildcard', fallback=None)
-    noval_tag = cp.get(_NAME, 'novalue', fallback=':novalue:')
-    empty_tag = cp.get(_NAME, 'empty', fallback=':empty:')
-    none_tag = cp.get(_NAME, 'none', fallback=':none:')
-    req_tag = cp.get(_NAME, 'req_tag', fallback=':req:')
-    ro_tag = cp.get(_NAME, 'ro_tag', fallback=':ro:')
-    rw_tag = cp.get(_NAME, 'rw_tag', fallback=':rw:')
-    raw_tag = cp.get(_NAME, 'raw_tag', fallback=':raw:')
-    cp.remove_section(_NAME)
+    readonly = cp.getboolean(_CONFIGSPEC, 'readonly', fallback=True)
+    separator = cp.get(_CONFIGSPEC, 'separator', fallback=';')
+    wildcard = cp.get(_CONFIGSPEC, 'wildcard', fallback=None)
+    noval_tag = cp.get(_CONFIGSPEC, 'novalue', fallback=':novalue:')
+    empty_tag = cp.get(_CONFIGSPEC, 'empty', fallback=':empty:')
+    none_tag = cp.get(_CONFIGSPEC, 'none', fallback=':none:')
+    req_tag = cp.get(_CONFIGSPEC, 'req_tag', fallback=':req:')
+    ro_tag = cp.get(_CONFIGSPEC, 'ro_tag', fallback=':ro:')
+    rw_tag = cp.get(_CONFIGSPEC, 'rw_tag', fallback=':rw:')
+    fix_tag = cp.get(_CONFIGSPEC, 'fix_tag', fallback=':fix:')
+    raw_tag = cp.get(_CONFIGSPEC, 'raw_tag', fallback=':raw:')
+    cp.remove_section(_CONFIGSPEC)
     converters[noval_tag] = None
     spec = {}
     for sec in cp.sections():
@@ -253,13 +267,14 @@ def _spec(spec, convs):
             req = req_tag in t
             ro = ro_tag in t
             rw = rw_tag in t
-            if ro and rw:
+            fix = fix_tag in t
+            if ro + rw + fix > 1:
                 raise SpecError(
-                    f'option {opt!r} in section {sec!r} has a {ro_tag!r} tag '
-                    f'and a {rw_tag!r} tag (only one allowed)')
+                    f'option {opt!r} in section {sec!r}: only one of '
+                    f' {ro_tag!r}, {rw_tag!r}, {fix_tag!r} allowed')
             raw = raw_tag in t
             for s in t[1:]:
-                if s not in (req_tag, ro_tag, rw_tag, raw_tag):
+                if s not in (req_tag, ro_tag, rw_tag, fix_tag, raw_tag):
                     if req:
                         raise SpecError(
                             f'option {opt!r} in section {sec!r} has a default '
@@ -282,14 +297,21 @@ def _spec(spec, convs):
                             f' with converter {conv!r}: {ex}')
                     break
             else:
+                if fix:
+                    raise SpecError(
+                        f'option {opt!r} in section {sec!r} uses {fix_tag!r} '
+                        'without a default value')
                 default = NOTFOUND
             if default != NOTFOUND and wildcard and wildcard in opt:
                 raise SpecError(
                     f'option {opt!r} in section {sec!r} has wildcard '
                     'and default value')
+            if fix:
+                flag = None
+            else:
+                flag = ro or (readonly and not rw)
             spec[sec][opt] = _OptSpec(converter, conv, req,
-                                      ro or (readonly and not rw),
-                                      raw, default,
+                                      flag, raw, default,
                                       wildcard and wildcard in sec,
                                       wildcard and wildcard in opt)
     return spec, wildcard
@@ -310,16 +332,16 @@ class Config:
     option named as explained :ref:`above <ref-spec>`. For extra data this is
     just the name given in the :meth:`add` method.
 
-    Options can also be accessed like this: ``config[sec_name, opt_name]``.
+    Options can also be accessed like this: ``config[secname, optname]``.
     To check if an option exists, the ``in`` operator can be used:
-    ``(sec_name, opt_name) in config``.
+    ``(secname, optname) in config``.
 
     For extra data either ``None`` must be used for the section name or only
     the name of the data, i.e. ``config[None, name]`` and ``config[name]`` are
     equivalent as are ``(None, name) in config`` and ``name in config``.
 
     When a :class:`Config` object is used as an iterator it yields 3-tuples
-    for each option: ``(sec_name, opt_name, value)``.
+    for each option: ``(secname, optname, value)``.
     """
 
     def __init__(self, options, create_props, kwargs):
@@ -350,23 +372,41 @@ class Config:
         name = self._options[key][0]
         del self._options[key]
         del self._values[key]
-        if hasattr(self.__class__, name):
+        if name and hasattr(self.__class__, name):
             delattr(self.__class__, name)
 
-    def add(self, name, value, readonly=True):
-        """Add extra data to configuration object.
+    def add(self, key, value, readonly=True):
+        """Add extra data to configuration or an option to a section.
 
-        :param str name: the name of the extra data
+        :param key: either a name of extra data or a tuple
+                    ``('secname', 'optname')``
+        :type: str or tuple
         :param value: the value of the data
         :param bool readonly: if ``True`` the data cannot be changed
+        :raises DuplicateError: if an option already exists in a section
         :raises AttributeError: if an attribute with the same name already
-                                exists
-        :raises ConfigError: if ``create_properties=True`` and ``name`` is not
-                             a valid Python identifier; the data can still be
-                             accessed with ``cfg[name]``
+                                exists (only if ``create_properties=True``)
+        :raises ConfigError: if ``create_properties=True`` and ``name`` or
+                             ``secname_optname`` is not a valid Python
+                             identifier; the data can still be
+                             accessed with ``cfg['name']`` or
+                             ``cfg['secname', 'optname']``
+
+        .. versionchanged:: 0.13.0
+           Options can now be added to sections
+           (renamed parameter ``name`` to ``key``)
         """
-        key = (None, name)
-        self._options[key] = (name if self._create_props else None, readonly)
+        key = _key(key)
+        if key in self._options:
+            raise DuplicateError(f'Key {key!r} already exists')
+        if self._create_props:
+            if key[0] is None:
+                name = key[1]
+            else:
+                name = f'{key[0]}_{key[1]}'
+        else:
+            name = ''
+        self._options[key] = (name if name.isidentifier() else None, readonly)
         self._values[key] = value
         if self._create_props:
             if not name.isidentifier():
@@ -392,15 +432,15 @@ class Config:
                 seen.add(sec)
         return lst
 
-    def options(self, sec):
+    def options(self, section):
         """Return option names in the specified section.
 
         :param str section: a section name
         :return: list with option names
         :rtype: list
         """
-        return list(opt for (s, opt) in self._options
-                    if s == sec and sec is not None)
+        return list(opt for (sec, opt) in self._options
+                    if sec == section and section is not None)
 
     def extras(self):
         """Return names of extra data added with :meth:`add`.
@@ -409,6 +449,17 @@ class Config:
         :rtype: list
         """
         return list(opt for (sec, opt) in self._options if sec is None)
+
+    def as_dict(self, section):
+        """Return options and values in a section as a :class:`dict`.
+
+        :param str section: a section name
+        :return: mapping option names => values
+        :rtype: dict
+
+        .. versionadded:: 0.13.0
+        """
+        return {opt: val for sec, opt, val in self if sec == section}
 
     def write(self, file, space_around_delimiters=True):
         """Write a representation of the configuration to the specified file.
@@ -471,7 +522,7 @@ def _deleter(key):
     return f
 
 
-def get_options(cp, sec, spec_opt, wildcard, has_wildcard):
+def _get_options(cp, sec, spec_opt, wildcard, has_wildcard):
     if has_wildcard:
         opts = []
         for opt in cp.options(sec):
@@ -509,11 +560,11 @@ def _with_spec(cp, create_properties, opt_specs, wildcard, kwargs):
                     value = opt_spec.default
                     name = _get_name(spec_sec, spec_opt, create_properties)
                     options[(spec_sec, spec_opt)] = _OptData(
-                        name, opt_spec.readonly, value)
+                        name, opt_spec.flag is not False, value)
         else:
             for sec in secs:
-                opts = get_options(cp, sec, spec_opt, wildcard,
-                                   opt_spec.opt_wildcard)
+                opts = _get_options(cp, sec, spec_opt, wildcard,
+                                    opt_spec.opt_wildcard)
                 if not opts:
                     if opt_spec.required:
                         raise ConfigError(
@@ -523,9 +574,12 @@ def _with_spec(cp, create_properties, opt_specs, wildcard, kwargs):
                         value = opt_spec.default
                         name = _get_name(sec, spec_opt, create_properties)
                         options[(sec, spec_opt)] = _OptData(
-                            name, opt_spec.readonly, value)
+                            name, opt_spec.flag is not False, value)
                 else:
                     for opt in opts:
+                        if opt_spec.flag is None:
+                            raise ConfigError(
+                                f'option {opt!r} in section {sec!r} is fixed')
                         value = cp.get(sec, opt, raw=opt_spec.raw)
                         if (value is None and
                                 kwargs.get('allow_no_value', False)):
@@ -545,7 +599,7 @@ def _with_spec(cp, create_properties, opt_specs, wildcard, kwargs):
                                     f'converter {opt_spec.conv_name!r}: {ex}')
                         name = _get_name(sec, opt, create_properties)
                         options[(sec, opt)] = _OptData(
-                            name, opt_spec.readonly, value)
+                            name, opt_spec.flag is not False, value)
     get_sections.cache_clear()
     return options
 

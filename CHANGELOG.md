@@ -1,6 +1,12 @@
 History
 -------
 
+ - Add method Config.as_dict() in module config
+ - Add exception DuplicateError in module config
+ - Options can now be added to sections in module config (renamed parameter name -> key)
+ - Add a tag to specification in module config
+ - Bugfix: Config.\_\_delitem\_\_() now works even if create_properties=False
+
 **2020-04-21 (0.12.0)**
  - Add function convert_string() to module config
  - Add class StopWatch to module utils

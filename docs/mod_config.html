@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module config &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module config &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -106,13 +106,16 @@
 <div class="versionchanged">
 <p><span class="versionmodified changed">Changed in version 0.10.0: </span><a class="reference internal" href="#ref-wildcards"><span class="std std-ref">Wildcards</span></a> for sections and options</p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.13.0: </span>Add <a class="reference internal" href="#ref-tags"><span class="std std-ref">tag</span></a> <code class="docutils literal notranslate"><span class="pre">:fix:</span></code> to specification</p>
+</div>
 <p id="ref-spec">This module uses a specification when reading a configuration file with a
-<code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code> (see module <a class="reference external" href="https://docs.python.org/3/library/configparser.html#module-configparser" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code></a> for more information).
-Option values will be converted with the specified converter function, it will
-be checked whether an option is required or not, default values can be given
-for options that are not present in the configuration, and it can be specified
-if an option is readonly or not. All this is done by calling <a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-func docutils literal notranslate"><span class="pre">configure()</span></code></a>
-which returns a <a class="reference internal" href="#salmagundi.config.Config" title="salmagundi.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a> object.</p>
+<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code></a> (see module <a class="reference external" href="https://docs.python.org/3/library/configparser.html#module-configparser" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">configparser</span></code></a> for more
+information). Option values will be converted with the specified converter
+function, it will be checked whether an option is required or not, default
+values can be given for options that are not present in the configuration,
+and it can be specified if an option is readonly or not. All this is done by
+calling <a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-func docutils literal notranslate"><span class="pre">configure()</span></code></a> which returns a <a class="reference internal" href="#salmagundi.config.Config" title="salmagundi.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a> object.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">create_properties=True</span></code> in <a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-func docutils literal notranslate"><span class="pre">configure()</span></code></a> the name of each property
 will be a concatenation of the section name and the option name with an
 underscore (<code class="docutils literal notranslate"><span class="pre">_</span></code>) in between. The resulting string must be a valid Python
@@ -131,11 +134,12 @@ specification for each option can be modified in a special section
 <span class="n">req_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">req</span><span class="p">:</span>
 <span class="n">ro_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">ro</span><span class="p">:</span>
 <span class="n">rw_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">rw</span><span class="p">:</span>
+<span class="n">fix_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">fix</span><span class="p">:</span>
 <span class="n">raw_tag</span><span class="p">:</span> <span class="p">:</span><span class="n">raw</span><span class="p">:</span>
 </pre></div>
 </div>
 <p>A specification for an option looks like this:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">conv</span> <span class="o">|</span> <span class="p">:</span><span class="n">novalue</span><span class="p">:[;</span> <span class="n">dflt</span> <span class="o">|</span> <span class="p">:</span><span class="n">req</span><span class="p">:][;</span> <span class="p">:</span><span class="n">rw</span><span class="p">:</span> <span class="o">|</span> <span class="p">:</span><span class="n">ro</span><span class="p">:][;</span> <span class="p">:</span><span class="n">raw</span><span class="p">:]</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">conv</span> <span class="o">|</span> <span class="p">:</span><span class="n">novalue</span><span class="p">:[;</span> <span class="n">dflt</span> <span class="o">|</span> <span class="p">:</span><span class="n">req</span><span class="p">:][;</span> <span class="p">:</span><span class="n">rw</span><span class="p">:</span> <span class="o">|</span> <span class="p">:</span><span class="n">ro</span><span class="p">:</span> <span class="o">|</span> <span class="p">:</span><span class="n">fix</span><span class="p">:][;</span> <span class="p">:</span><span class="n">raw</span><span class="p">:]</span>
 </pre></div>
 </div>
 <p>The converter <code class="docutils literal notranslate"><span class="pre">conv</span></code> must be the name of a callable that takes a string
@@ -157,15 +161,18 @@ converter <em>str</em>). For <code class="docutils literal notranslate"><span cl
 be used.</p>
 <p>With the readwrite tag <code class="docutils literal notranslate"><span class="pre">:rw:</span></code> and the readonly tag <code class="docutils literal notranslate"><span class="pre">:ro:</span></code> exceptions
 to the global access mode (see above) can be set for each option.</p>
+<p>If the <code class="docutils literal notranslate"><span class="pre">:fix:</span></code> tag is used, it indicates that the option cannot be changed
+in a configuration file and is therefore a constant. In this case a
+default value is required.</p>
 <p>The raw tag <code class="docutils literal notranslate"><span class="pre">:raw:</span></code> indicates that for the option value no interpolation
-expansion should be done (see: <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.get" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">configparser.ConfigParser.get()</span></code></a>).</p>
+expansion should be done (see: <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.get" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get()</span></code></a>).</p>
 <p>For configurations that allow options without values the <code class="docutils literal notranslate"><span class="pre">allow_no_value</span></code>
 parameter for <a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-func docutils literal notranslate"><span class="pre">configure()</span></code></a> must be set to <code class="docutils literal notranslate"><span class="pre">True</span></code> (this is one of
-the keyword arguments that is passed directly the <code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code>
-constructor). For such an option the tag <code class="docutils literal notranslate"><span class="pre">:novalue:</span></code> must be used instead
-of the name of a converter. If the option is present in the configuration
-it will be set to the value <a class="reference internal" href="#salmagundi.config.NOVALUE" title="salmagundi.config.NOVALUE"><code class="xref py py-data docutils literal notranslate"><span class="pre">NOVALUE</span></code></a>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">spec=None</span></code> no conversion will be done and all options are writeable.</p>
+the keyword arguments that is passed directly the
+<a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code></a> constructor). For such an option the tag
+<code class="docutils literal notranslate"><span class="pre">:novalue:</span></code> must be used instead of the name of a converter. If the option
+is present in the configuration it will be set to the value <a class="reference internal" href="#salmagundi.config.NOVALUE" title="salmagundi.config.NOVALUE"><code class="xref py py-data docutils literal notranslate"><span class="pre">NOVALUE</span></code></a>.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">spec=None</span></code>, no conversion will be done and all options are writeable.</p>
 <p>Example:</p>
 <div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="c1"># spec.ini</span>
 <span class="k">[sec]</span>
@@ -251,111 +258,131 @@ default values.</p>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.ConfigError" title="salmagundi.config.ConfigError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ConfigError</span></code></a></p></td>
 <td><p>Raised if there is a problem with the configuration.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.Error" title="salmagundi.config.Error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Error</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.DuplicateError" title="salmagundi.config.DuplicateError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DuplicateError</span></code></a></p></td>
+<td><p>Raised if an option already exists in a section.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.Error" title="salmagundi.config.Error"><code class="xref py py-obj docutils literal notranslate"><span class="pre">Error</span></code></a></p></td>
 <td><p>Base Exception.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.ReadonlyError" title="salmagundi.config.ReadonlyError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadonlyError</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.ReadonlyError" title="salmagundi.config.ReadonlyError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">ReadonlyError</span></code></a></p></td>
 <td><p>Raised on an attempt to set a readonly option.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.SpecError" title="salmagundi.config.SpecError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpecError</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.SpecError" title="salmagundi.config.SpecError"><code class="xref py py-obj docutils literal notranslate"><span class="pre">SpecError</span></code></a></p></td>
 <td><p>Raised if there is a problem with the specification.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">configure</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-obj docutils literal notranslate"><span class="pre">configure</span></code></a></p></td>
 <td><p>For an explanation see <a class="reference internal" href="#ref-spec"><span class="std std-ref">above</span></a>.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.convert_choice" title="salmagundi.config.convert_choice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_choice</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.convert_choice" title="salmagundi.config.convert_choice"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_choice</span></code></a></p></td>
 <td><p>Return a function that can be used as a converter.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.convert_loglevel" title="salmagundi.config.convert_loglevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_loglevel</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.convert_loglevel" title="salmagundi.config.convert_loglevel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_loglevel</span></code></a></p></td>
 <td><p>Return a converter function for logging levels.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.convert_predicate" title="salmagundi.config.convert_predicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_predicate</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.convert_predicate" title="salmagundi.config.convert_predicate"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_predicate</span></code></a></p></td>
 <td><p>Return a converter function with a predicate.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.config.convert_string" title="salmagundi.config.convert_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_string</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.config.convert_string" title="salmagundi.config.convert_string"><code class="xref py py-obj docutils literal notranslate"><span class="pre">convert_string</span></code></a></p></td>
 <td><p>Return a function that can be used as a converter.</p></td>
 </tr>
 </tbody>
 </table>
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.config.NOVALUE">
 <code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">NOVALUE</code><em class="property"> = &lt;NOVALUE&gt;</em><a class="headerlink" href="#salmagundi.config.NOVALUE" title="Permalink to this definition">¶</a></dt>
 <dd><p>Special value for options without a value (see above).</p>
 <p>The truth value is <code class="docutils literal notranslate"><span class="pre">True</span></code>.</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.config.NOTFOUND">
 <code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">NOTFOUND</code><em class="property"> = &lt;NOTFOUND&gt;</em><a class="headerlink" href="#salmagundi.config.NOTFOUND" title="Permalink to this definition">¶</a></dt>
 <dd><p>Special value for options that are not found and have no default.</p>
 <p>The truth value is <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="salmagundi.config.Error">
 <em class="property">exception </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">Error</code><a class="reference internal" href="_modules/salmagundi/config.html#Error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Error" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base Exception.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="salmagundi.config.ConfigError">
 <em class="property">exception </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">ConfigError</code><a class="reference internal" href="_modules/salmagundi/config.html#ConfigError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.ConfigError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if there is a problem with the configuration.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
+<dt id="salmagundi.config.DuplicateError">
+<em class="property">exception </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">DuplicateError</code><a class="reference internal" href="_modules/salmagundi/config.html#DuplicateError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.DuplicateError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised if an option already exists in a section.</p>
+</dd></dl>
+
+<dl class="py exception">
 <dt id="salmagundi.config.SpecError">
 <em class="property">exception </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">SpecError</code><a class="reference internal" href="_modules/salmagundi/config.html#SpecError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.SpecError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if there is a problem with the specification.</p>
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="salmagundi.config.ReadonlyError">
 <em class="property">exception </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">ReadonlyError</code><a class="reference internal" href="_modules/salmagundi/config.html#ReadonlyError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.ReadonlyError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised on an attempt to set a readonly option.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="salmagundi.config.Config">
-<em class="property">class </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param">options</em>, <em class="sig-param">create_props</em>, <em class="sig-param">kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">Config</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">create_props</span></em>, <em class="sig-param"><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Configuration class.</p>
 <p>An instance of this class is returned by the function <a class="reference internal" href="#salmagundi.config.configure" title="salmagundi.config.configure"><code class="xref py py-func docutils literal notranslate"><span class="pre">configure()</span></code></a>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">create_properties=True</span></code> it will have a property for each configuration
 option named as explained <a class="reference internal" href="#ref-spec"><span class="std std-ref">above</span></a>. For extra data this is
 just the name given in the <a class="reference internal" href="#salmagundi.config.Config.add" title="salmagundi.config.Config.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> method.</p>
-<p>Options can also be accessed like this: <code class="docutils literal notranslate"><span class="pre">config[sec_name,</span> <span class="pre">opt_name]</span></code>.
+<p>Options can also be accessed like this: <code class="docutils literal notranslate"><span class="pre">config[secname,</span> <span class="pre">optname]</span></code>.
 To check if an option exists, the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator can be used:
-<code class="docutils literal notranslate"><span class="pre">(sec_name,</span> <span class="pre">opt_name)</span> <span class="pre">in</span> <span class="pre">config</span></code>.</p>
+<code class="docutils literal notranslate"><span class="pre">(secname,</span> <span class="pre">optname)</span> <span class="pre">in</span> <span class="pre">config</span></code>.</p>
 <p>For extra data either <code class="docutils literal notranslate"><span class="pre">None</span></code> must be used for the section name or only
 the name of the data, i.e. <code class="docutils literal notranslate"><span class="pre">config[None,</span> <span class="pre">name]</span></code> and <code class="docutils literal notranslate"><span class="pre">config[name]</span></code> are
 equivalent as are <code class="docutils literal notranslate"><span class="pre">(None,</span> <span class="pre">name)</span> <span class="pre">in</span> <span class="pre">config</span></code> and <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">in</span> <span class="pre">config</span></code>.</p>
 <p>When a <a class="reference internal" href="#salmagundi.config.Config" title="salmagundi.config.Config"><code class="xref py py-class docutils literal notranslate"><span class="pre">Config</span></code></a> object is used as an iterator it yields 3-tuples
-for each option: <code class="docutils literal notranslate"><span class="pre">(sec_name,</span> <span class="pre">opt_name,</span> <span class="pre">value)</span></code>.</p>
-<dl class="method">
+for each option: <code class="docutils literal notranslate"><span class="pre">(secname,</span> <span class="pre">optname,</span> <span class="pre">value)</span></code>.</p>
+<dl class="py method">
 <dt id="salmagundi.config.Config.add">
-<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param">name</em>, <em class="sig-param">value</em>, <em class="sig-param">readonly=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.add" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add extra data to configuration object.</p>
+<code class="sig-name descname">add</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">readonly</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add extra data to configuration or an option to a section.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the name of the extra data</p></li>
+<li><p><strong>key</strong> – either a name of extra data or a tuple
+<code class="docutils literal notranslate"><span class="pre">('secname',</span> <span class="pre">'optname')</span></code></p></li>
 <li><p><strong>value</strong> – the value of the data</p></li>
 <li><p><strong>readonly</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the data cannot be changed</p></li>
 </ul>
 </dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><ul class="simple">
+<dt class="field-even">Type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference internal" href="#salmagundi.config.DuplicateError" title="salmagundi.config.DuplicateError"><strong>DuplicateError</strong></a> – if an option already exists in a section</p></li>
 <li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><strong>AttributeError</strong></a> – if an attribute with the same name already
-exists</p></li>
-<li><p><a class="reference internal" href="#salmagundi.config.ConfigError" title="salmagundi.config.ConfigError"><strong>ConfigError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">create_properties=True</span></code> and <code class="docutils literal notranslate"><span class="pre">name</span></code> is not
-a valid Python identifier; the data can still be
-accessed with <code class="docutils literal notranslate"><span class="pre">cfg[name]</span></code></p></li>
+exists (only if <code class="docutils literal notranslate"><span class="pre">create_properties=True</span></code>)</p></li>
+<li><p><a class="reference internal" href="#salmagundi.config.ConfigError" title="salmagundi.config.ConfigError"><strong>ConfigError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">create_properties=True</span></code> and <code class="docutils literal notranslate"><span class="pre">name</span></code> or
+<code class="docutils literal notranslate"><span class="pre">secname_optname</span></code> is not a valid Python
+identifier; the data can still be
+accessed with <code class="docutils literal notranslate"><span class="pre">cfg['name']</span></code> or
+<code class="docutils literal notranslate"><span class="pre">cfg['secname',</span> <span class="pre">'optname']</span></code></p></li>
 </ul>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.13.0: </span>Options can now be added to sections
+(renamed parameter <code class="docutils literal notranslate"><span class="pre">name</span></code> to <code class="docutils literal notranslate"><span class="pre">key</span></code>)</p>
+</div>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="salmagundi.config.Config.sections">
 <code class="sig-name descname">sections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.sections"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.sections" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return section names.</p>
@@ -369,9 +396,9 @@ accessed with <code class="docutils literal notranslate"><span class="pre">cfg[n
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="salmagundi.config.Config.options">
-<code class="sig-name descname">options</code><span class="sig-paren">(</span><em class="sig-param">sec</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.options" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">options</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">section</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.options"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.options" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return option names in the specified section.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -386,7 +413,7 @@ accessed with <code class="docutils literal notranslate"><span class="pre">cfg[n
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="salmagundi.config.Config.extras">
 <code class="sig-name descname">extras</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.extras"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.extras" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return names of extra data added with <a class="reference internal" href="#salmagundi.config.Config.add" title="salmagundi.config.Config.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a>.</p>
@@ -400,9 +427,29 @@ accessed with <code class="docutils literal notranslate"><span class="pre">cfg[n
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
+<dt id="salmagundi.config.Config.as_dict">
+<code class="sig-name descname">as_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">section</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.as_dict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.as_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return options and values in a section as a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">dict</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>section</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – a section name</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>mapping option names =&gt; values</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.13.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py method">
 <dt id="salmagundi.config.Config.write">
-<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">space_around_delimiters=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.write" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">write</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">space_around_delimiters</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.write"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.write" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write a representation of the configuration to the specified file.</p>
 <p>Extra data added with <a class="reference internal" href="#salmagundi.config.Config.add" title="salmagundi.config.Config.add"><code class="xref py py-meth docutils literal notranslate"><span class="pre">add()</span></code></a> will be excluded.</p>
 <dl class="field-list simple">
@@ -418,7 +465,7 @@ spaces</p></li>
 </dl>
 </dd></dl>
 
-<dl class="method">
+<dl class="py method">
 <dt id="salmagundi.config.Config.debug_info">
 <code class="sig-name descname">debug_info</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#Config.debug_info"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.Config.debug_info" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return an iterator for debugging.</p>
@@ -428,9 +475,9 @@ for each option.</p>
 
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.config.configure">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param">conf</em>, <em class="sig-param">spec</em>, <em class="sig-param">*</em>, <em class="sig-param">create_properties=True</em>, <em class="sig-param">converters=None</em>, <em class="sig-param">**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.configure" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">configure</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">conf</span></em>, <em class="sig-param"><span class="n">spec</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">create_properties</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">converters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#configure"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.configure" title="Permalink to this definition">¶</a></dt>
 <dd><p>For an explanation see <a class="reference internal" href="#ref-spec"><span class="std std-ref">above</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -465,9 +512,9 @@ object)</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.config.convert_choice">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_choice</code><span class="sig-paren">(</span><em class="sig-param">choices</em>, <em class="sig-param">*</em>, <em class="sig-param">converter=None</em>, <em class="sig-param">default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_choice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_choice" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_choice</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">choices</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">converter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_choice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_choice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a function that can be used as a converter.</p>
 <p>For an example see the source code of <a class="reference internal" href="#salmagundi.config.convert_loglevel" title="salmagundi.config.convert_loglevel"><code class="xref py py-func docutils literal notranslate"><span class="pre">convert_loglevel()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -491,9 +538,9 @@ of <a class="reference external" href="https://docs.python.org/3/library/excepti
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.config.convert_loglevel">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_loglevel</code><span class="sig-paren">(</span><em class="sig-param">default_level=None</em>, <em class="sig-param">*</em>, <em class="sig-param">numeric=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_loglevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_loglevel" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_loglevel</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">default_level</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">numeric</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_loglevel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_loglevel" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a converter function for logging levels.</p>
 <p>Valid values are the logging levels as defined in the <a class="reference external" href="https://docs.python.org/3/library/logging.html#module-logging" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">logging</span></code></a> module.</p>
 <dl class="field-list simple">
@@ -519,9 +566,9 @@ will be returned</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.config.convert_predicate">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_predicate</code><span class="sig-paren">(</span><em class="sig-param">predicate</em>, <em class="sig-param">*</em>, <em class="sig-param">converter=None</em>, <em class="sig-param">default=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_predicate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_predicate" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_predicate</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">converter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_predicate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_predicate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a converter function with a predicate.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">positive_float</span> <span class="o">=</span> <span class="n">convert_predicate</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="mf">0.0</span><span class="p">,</span>
 <span class="gp">... </span><span class="n">converter</span><span class="o">=</span><span class="nb">float</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">0.0</span><span class="p">)</span>
@@ -552,9 +599,9 @@ of <a class="reference external" href="https://docs.python.org/3/library/excepti
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.config.convert_string">
-<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_string</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">start='|'</em>, <em class="sig-param">newlines=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_string" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.config.</code><code class="sig-name descname">convert_string</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">'|'</span></em>, <em class="sig-param"><span class="n">newlines</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/config.html#convert_string"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.config.convert_string" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a function that can be used as a converter.</p>
 <p>The default converter <code class="docutils literal notranslate"><span class="pre">str</span></code> handles multiline values like
 <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">ConfigParser</span></code></a>, i.e. preserving newlines but
@@ -605,7 +652,7 @@ ignoring indentations (because nothing gets realy converted).</p>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

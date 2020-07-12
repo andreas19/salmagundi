@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module validation &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module validation &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -165,9 +165,9 @@ may raise a <a class="reference external" href="https://docs.python.org/3/librar
 </tr>
 </tbody>
 </table>
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.object_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">object_validator</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">validator=None</em>, <em class="sig-param">value_type=None</em>, <em class="sig-param">strict_type=False</em>, <em class="sig-param">allow_none=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#object_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.object_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">object_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">validator</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">value_type</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">strict_type</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allow_none</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#object_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.object_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks whether an object is valid.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># validator for values of type str and length 5-10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">len_vf</span> <span class="o">=</span> <span class="n">length_validator</span><span class="p">(</span><span class="n">min_len</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -204,9 +204,9 @@ when <code class="docutils literal notranslate"><span class="pre">value_type</sp
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.interval_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">interval_validator</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">max_value=None</em>, <em class="sig-param">min_incl=True</em>, <em class="sig-param">max_incl=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#interval_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.interval_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">interval_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_incl</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">max_incl</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#interval_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.interval_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks whether a value is in an interval.</p>
 <p>The type of the checked values must at least support the operators
 <code class="docutils literal notranslate"><span class="pre">&lt;</span></code> (for <code class="docutils literal notranslate"><span class="pre">*_incl=False</span></code>) or <code class="docutils literal notranslate"><span class="pre">&lt;=</span></code> (for <code class="docutils literal notranslate"><span class="pre">*_incl=True</span></code>).</p>
@@ -228,9 +228,9 @@ when <code class="docutils literal notranslate"><span class="pre">value_type</sp
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.int_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">int_validator</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">max_value=None</em>, <em class="sig-param">allow_floats=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#int_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.int_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">int_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow_floats</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#int_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.int_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks whether a value is a valid integer.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">allow_floats</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, a float value as the argument of the
 returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> will not raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Instead a value that
@@ -258,9 +258,9 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.float_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">float_validator</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">min_value=None</em>, <em class="sig-param">max_value=None</em>, <em class="sig-param">min_incl=True</em>, <em class="sig-param">max_incl=True</em>, <em class="sig-param">allow_nan=False</em>, <em class="sig-param">allow_inf=False</em>, <em class="sig-param">allow_ints=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#float_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.float_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">float_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">min_incl</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">max_incl</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">allow_nan</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allow_inf</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">allow_ints</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#float_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.float_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks whether a value is a valid float.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -290,9 +290,9 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.pattern_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">pattern_validator</code><span class="sig-paren">(</span><em class="sig-param">pattern</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#pattern_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.pattern_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">pattern_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pattern</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#pattern_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.pattern_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks a value with a pattern.</p>
 <p>The type of the argument for the returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> can be either
 <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>. It must be the same type that
@@ -321,9 +321,9 @@ is used for the pattern.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.sequence_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">sequence_validator</code><span class="sig-paren">(</span><em class="sig-param">validator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#sequence_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.sequence_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">sequence_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">validator</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#sequence_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.sequence_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks a sequence.</p>
 <p>The check is done by applying the <code class="docutils literal notranslate"><span class="pre">validator</span></code> to
 each item in the sequence.</p>
@@ -348,9 +348,9 @@ each item in the sequence.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.set_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">set_validator</code><span class="sig-paren">(</span><em class="sig-param">validator</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#set_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.set_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">set_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">validator</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#set_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.set_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks a set.</p>
 <p>The check is done by applying the <code class="docutils literal notranslate"><span class="pre">validator</span></code> to
 each element in the set.</p>
@@ -367,9 +367,9 @@ each element in the set.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.mapping_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">mapping_validator</code><span class="sig-paren">(</span><em class="sig-param">validator</em>, <em class="sig-param">what='values'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#mapping_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.mapping_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">mapping_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">validator</span></em>, <em class="sig-param"><span class="n">what</span><span class="o">=</span><span class="default_value">'values'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#mapping_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.mapping_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks a mapping.</p>
 <p>The check is done by applying the <code class="docutils literal notranslate"><span class="pre">validator</span></code> to each key
 (if <code class="docutils literal notranslate"><span class="pre">what='keys'</span></code>), value (if <code class="docutils literal notranslate"><span class="pre">what='values'</span></code>) or
@@ -390,9 +390,9 @@ each element in the set.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.properties_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">properties_validator</code><span class="sig-paren">(</span><em class="sig-param">validators</em>, <em class="sig-param">mapping=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#properties_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.properties_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">properties_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">validators</span></em>, <em class="sig-param"><span class="n">mapping</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#properties_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.properties_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks the properties of an object.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">validators</span></code> argument must be a mapping from a property name
 to a <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code> if only the existence of a property should be
@@ -428,9 +428,9 @@ strings or values are not callable or <code class="docutils literal notranslate"
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.length_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">length_validator</code><span class="sig-paren">(</span><em class="sig-param">min_len=0</em>, <em class="sig-param">max_len=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#length_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.length_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">length_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_len</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#length_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.length_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks the length.</p>
 <p>The type of the checked values must support the
 <a class="reference external" href="https://docs.python.org/3/library/functions.html#len" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> function.</p>
@@ -452,9 +452,9 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.in_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">in_validator</code><span class="sig-paren">(</span><em class="sig-param">container</em>, <em class="sig-param">negate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#in_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.in_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">in_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">container</span></em>, <em class="sig-param"><span class="n">negate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#in_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.in_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks for membership.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -473,9 +473,9 @@ the container.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.func2validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">func2validator</code><span class="sig-paren">(</span><em class="sig-param">func</em>, <em class="sig-param">err_result=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#func2validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.func2validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">func2validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">err_result</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#func2validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.func2validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a function to a <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a>.</p>
 <p>The returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if <code class="docutils literal notranslate"><span class="pre">func()</span></code> returns
 <code class="docutils literal notranslate"><span class="pre">err_result</span></code>.</p>
@@ -500,9 +500,9 @@ the container.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.chain_validator">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">chain_validator</code><span class="sig-paren">(</span><em class="sig-param">*validators</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#chain_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.chain_validator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">chain_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">validators</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#chain_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.chain_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Chain some validators.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">str_vf</span> <span class="o">=</span> <span class="n">object_validator</span><span class="p">(</span><span class="n">value_type</span><span class="o">=</span><span class="nb">str</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">len_vf</span> <span class="o">=</span> <span class="n">length_validator</span><span class="p">(</span><span class="n">min_len</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
@@ -532,9 +532,9 @@ the container.</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.is_valid_iban">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_iban</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_iban"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_iban" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_iban</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_iban"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_iban" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether a string is a valid IBAN.</p>
 <p>IBAN = <a class="reference external" href="https://en.wikipedia.org/wiki/International_Bank_Account_Number">International Bank Account Number</a></p>
 <p>The string must not contain any separators;
@@ -555,9 +555,9 @@ only the characters <code class="docutils literal notranslate"><span class="pre"
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.is_valid_ean13">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_ean13</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_ean13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_ean13" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_ean13</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_ean13"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_ean13" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether a string is a valid EAN-13.</p>
 <p>EAN = <a class="reference external" href="https://en.wikipedia.org/wiki/European_Article_Number">European Article Number</a></p>
 <p>The string must not contain any separators; only the characters <code class="docutils literal notranslate"><span class="pre">0-9</span></code>
@@ -578,9 +578,9 @@ are allowed and the length of the string must be 13.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.is_valid_isbn">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_isbn</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_isbn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_isbn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_isbn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_isbn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_isbn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether a string is a valid ISBN.</p>
 <p>ISBN = <a class="reference external" href="https://en.wikipedia.org/wiki/International_Standard_Book_Number">International Standard Book Number</a></p>
 <p>The string must not contain any separators; only the characters <code class="docutils literal notranslate"><span class="pre">0-9</span></code>
@@ -602,9 +602,9 @@ either 10 or 13.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.validation.is_valid_luhn">
-<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_luhn</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_luhn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_luhn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">is_valid_luhn</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#is_valid_luhn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.is_valid_luhn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check whether a string is valid according to the Luhn algorithm.</p>
 <p>The <a class="reference external" href="https://en.wikipedia.org/wiki/Luhn_algorithm">Luhn algorithm</a> is used to validate
 a variety of identification numbers, e.g. credit card numbers.</p>
@@ -640,7 +640,7 @@ are allowed.</p>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

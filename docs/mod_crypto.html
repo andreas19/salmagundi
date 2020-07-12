@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module crypto &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module crypto &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -147,32 +147,32 @@ with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" t
 </tr>
 </tbody>
 </table>
-<dl class="class">
+<dl class="py class">
 <dt id="salmagundi.crypto.Version">
 <em class="property">class </em><code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">Version</code><a class="reference internal" href="_modules/salmagundi/crypto.html#Version"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.Version" title="Permalink to this definition">¶</a></dt>
 <dd><p>Version enum.</p>
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.8.0.</span></p>
 </div>
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="salmagundi.crypto.Version.V1">
 <code class="sig-name descname">V1</code><em class="property"> = b'\x8a'</em><a class="headerlink" href="#salmagundi.crypto.Version.V1" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 1</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="salmagundi.crypto.Version.V2">
 <code class="sig-name descname">V2</code><em class="property"> = b'\x8b'</em><a class="headerlink" href="#salmagundi.crypto.Version.V2" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 2</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="salmagundi.crypto.Version.V3">
 <code class="sig-name descname">V3</code><em class="property"> = b'\x8c'</em><a class="headerlink" href="#salmagundi.crypto.Version.V3" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 3</p>
 </dd></dl>
 
-<dl class="attribute">
+<dl class="py attribute">
 <dt id="salmagundi.crypto.Version.V4">
 <code class="sig-name descname">V4</code><em class="property"> = b'\x8d'</em><a class="headerlink" href="#salmagundi.crypto.Version.V4" title="Permalink to this definition">¶</a></dt>
 <dd><p>version 4</p>
@@ -180,13 +180,13 @@ with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" t
 
 </dd></dl>
 
-<dl class="exception">
+<dl class="py exception">
 <dt id="salmagundi.crypto.DecryptError">
 <em class="property">exception </em><code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">DecryptError</code><a class="reference internal" href="_modules/salmagundi/crypto.html#DecryptError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.DecryptError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised if data could not be decrypted.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.create_secret_key">
 <code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">create_secret_key</code><span class="sig-paren">(</span><em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#create_secret_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.create_secret_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a secret key.</p>
@@ -205,7 +205,7 @@ with <a class="reference internal" href="#salmagundi.crypto.create_secret_key" t
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.encrypt_with_password">
 <code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">encrypt_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em>, <em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a password.</p>
@@ -233,9 +233,9 @@ password and signed.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.decrypt_with_password">
-<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_password</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">password</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrypt data using a password.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_password" title="salmagundi.crypto.encrypt_with_password"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_password()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -260,9 +260,9 @@ password and signed.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.verify_with_password">
-<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_password</code><span class="sig-paren">(</span><em class="sig-param">password</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_password" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_password</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">password</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_password"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_password" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify the encrypted data.</p>
 <p>This function verifies the authenticity and the integrity of the data
 with the key derived from the password. This is also done during decryption.</p>
@@ -286,7 +286,7 @@ with the key derived from the password. This is also done during decryption.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.encrypt_with_key">
 <code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">encrypt_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em>, <em class="sig-param">*</em>, <em class="sig-param">version=&lt;Version.V1&gt;</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#encrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.encrypt_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Encrypt data using a secret key.</p>
@@ -315,9 +315,9 @@ with the key derived from the password. This is also done during decryption.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.decrypt_with_key">
-<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">decrypt_with_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#decrypt_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.decrypt_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decrypt data using a secret key.</p>
 <p>The data must have been encrypted with <a class="reference internal" href="#salmagundi.crypto.encrypt_with_key" title="salmagundi.crypto.encrypt_with_key"><code class="xref py py-func docutils literal notranslate"><span class="pre">encrypt_with_key()</span></code></a>.</p>
 <dl class="field-list simple">
@@ -343,9 +343,9 @@ with the key derived from the password. This is also done during decryption.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.crypto.verify_with_key">
-<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_key</code><span class="sig-paren">(</span><em class="sig-param">key</em>, <em class="sig-param">data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_key" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.crypto.</code><code class="sig-name descname">verify_with_key</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">key</span></em>, <em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/crypto.html#verify_with_key"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.crypto.verify_with_key" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify the encrypted data.</p>
 <p>This function verifies the authenticity and the integrity of the data
 with the given key. This is also done during decryption.</p>
@@ -386,7 +386,7 @@ with the given key. This is also done during decryption.</p>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

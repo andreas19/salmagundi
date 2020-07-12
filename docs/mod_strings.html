@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module strings &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module strings &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -182,7 +182,7 @@
 </tr>
 </tbody>
 </table>
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.strings.BOOLEAN_STATES">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">BOOLEAN_STATES</code><a class="headerlink" href="#salmagundi.strings.BOOLEAN_STATES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Dictionary with mappings from strings to boolean values.</p>
@@ -197,36 +197,36 @@
 <p>These are the same as in <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.BOOLEAN_STATES" title="(in Python v3.8)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">configparser.ConfigParser.BOOLEAN_STATES</span></code></a>.</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.strings.NO_PREFIX">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">NO_PREFIX</code><a class="headerlink" href="#salmagundi.strings.NO_PREFIX" title="Permalink to this definition">¶</a></dt>
 <dd><p>No prefix</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.strings.BINARY_PREFIXES">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">BINARY_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.BINARY_PREFIXES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Binary prefixes.</p>
 <p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
 </dd></dl>
 
-<dl class="data">
+<dl class="py data">
 <dt id="salmagundi.strings.DECIMAL_PREFIXES">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">DECIMAL_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.DECIMAL_PREFIXES" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decimal prefixes.</p>
 <p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="salmagundi.strings.Prefix">
 <em class="property">class </em><code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">Prefix</code><a class="headerlink" href="#salmagundi.strings.Prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class for prefixes with fields <code class="docutils literal notranslate"><span class="pre">name,</span> <span class="pre">symbol,</span> <span class="pre">factor</span></code>.</p>
 <p>Used by the <code class="docutils literal notranslate"><span class="pre">*_prefix()</span></code> functions.</p>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.str2bool">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2bool</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2bool" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2bool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2bool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2bool" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a string to a boolean value.</p>
 <p>The string is converted to lowercase before looked up in
 the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a> dictionary.</p>
@@ -246,9 +246,9 @@ the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" titl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.str2tuple">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2tuple</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">sep='</em>, <em class="sig-param">'</em>, <em class="sig-param">converter=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2tuple" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2tuple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">','</span></em>, <em class="sig-param"><span class="n">converter</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2tuple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a string to a tuple.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">converter</span></code> is given and not <code class="docutils literal notranslate"><span class="pre">None</span></code>, it must be a callable that
 takes a string parameter and returns an object of the required type,
@@ -280,9 +280,9 @@ or else a tuple with string elements will be returned.</p>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.str2port">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2port</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2port" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2port</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a string to a network port number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -303,9 +303,9 @@ or else a tuple with string elements will be returned.</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.split_host_port">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">split_host_port</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">port=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#split_host_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.split_host_port" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">split_host_port</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">port</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#split_host_port"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.split_host_port" title="Permalink to this definition">¶</a></dt>
 <dd><p>Split a string into host and port.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">split_host_port</span><span class="p">(</span><span class="s1">&#39;example.com:42&#39;</span><span class="p">,</span> <span class="mi">21</span><span class="p">)</span>
 <span class="go">(&#39;example.com&#39;, 42)</span>
@@ -336,9 +336,9 @@ are not in [0..65535] or neither of them is given</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.insert_separator">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">insert_separator</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">sep</em>, <em class="sig-param">group_size</em>, <em class="sig-param">reverse=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#insert_separator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.insert_separator" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">insert_separator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">sep</span></em>, <em class="sig-param"><span class="n">group_size</span></em>, <em class="sig-param"><span class="n">reverse</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#insert_separator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.insert_separator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert separators in a string.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">insert_separator</span><span class="p">(</span><span class="s1">&#39;008041aefd7e&#39;</span><span class="p">,</span> <span class="s1">&#39;:&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="go">00:80:41:ae:fd:7e</span>
@@ -381,9 +381,9 @@ left to right</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.purge">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">purge</code><span class="sig-paren">(</span><em class="sig-param">s</em>, <em class="sig-param">chars=None</em>, <em class="sig-param">negate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.purge" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">purge</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">chars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">negate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#purge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.purge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Purge characters from a string.</p>
 <p>Each character in <code class="docutils literal notranslate"><span class="pre">chars</span></code> will be eliminated from the string.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">chars=None</span></code> or <code class="docutils literal notranslate"><span class="pre">chars=''</span></code> all consecutive whitespace
@@ -414,9 +414,9 @@ purged (only applies when <code class="docutils literal notranslate"><span class
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.shorten">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">shorten</code><span class="sig-paren">(</span><em class="sig-param">text</em>, <em class="sig-param">width=80</em>, <em class="sig-param">placeholder='…'</em>, <em class="sig-param">pos='right'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#shorten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.shorten" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">shorten</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">width</span><span class="o">=</span><span class="default_value">80</span></em>, <em class="sig-param"><span class="n">placeholder</span><span class="o">=</span><span class="default_value">'…'</span></em>, <em class="sig-param"><span class="n">pos</span><span class="o">=</span><span class="default_value">'right'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#shorten"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.shorten" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shorten the text to fit in the given width.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">len(text)</span> <span class="pre">&lt;=</span> <span class="pre">width</span></code> the <code class="docutils literal notranslate"><span class="pre">text</span></code> is returned unchanged.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">text</span> <span class="o">=</span> <span class="s1">&#39;Lorem ipsum dolor sit amet&#39;</span>
@@ -450,9 +450,9 @@ placeholder in text</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.bin_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">bin_prefix</code><span class="sig-paren">(</span><em class="sig-param">value</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.bin_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">bin_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.bin_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an appropriate binary prefix for an integer number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -470,9 +470,9 @@ placeholder in text</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.find_bin_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">find_bin_prefix</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_bin_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">find_bin_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_bin_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find binary prefix for name or symbol.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -487,9 +487,9 @@ placeholder in text</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.format_bin_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_bin_prefix</code><span class="sig-paren">(</span><em class="sig-param">num_frmt</em>, <em class="sig-param">value</em>, <em class="sig-param">prefix=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_bin_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_bin_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_frmt</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_bin_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_bin_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a number with a binary prefix.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_bin_prefix</span><span class="p">(</span><span class="s1">&#39;.3f&#39;</span><span class="p">,</span> <span class="mi">1024</span><span class="o">**</span><span class="mi">2</span><span class="o">+</span><span class="mi">1024</span><span class="p">)</span>
 <span class="go">&#39;1.001 Mi&#39;</span>
@@ -518,9 +518,9 @@ placeholder in text</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.dec_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">dec_prefix</code><span class="sig-paren">(</span><em class="sig-param">value</em>, <em class="sig-param">restricted=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.dec_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">dec_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">restricted</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.dec_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get an appropriate decimal prefix for a number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -542,9 +542,9 @@ i.e. <em>hecto, deca, deci, centi</em> are skipped</p></li>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.find_dec_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">find_dec_prefix</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_dec_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">find_dec_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#find_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.find_dec_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find decimal prefix for name or symbol.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -560,9 +560,9 @@ instead of the symbol <code class="docutils literal notranslate"><span class="pr
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.format_dec_prefix">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_dec_prefix</code><span class="sig-paren">(</span><em class="sig-param">num_frmt</em>, <em class="sig-param">value</em>, <em class="sig-param">prefix=None</em>, <em class="sig-param">restricted=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_dec_prefix" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_dec_prefix</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">num_frmt</span></em>, <em class="sig-param"><span class="n">value</span></em>, <em class="sig-param"><span class="n">prefix</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">restricted</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_dec_prefix"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_dec_prefix" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a number with a decimal prefix.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">format_dec_prefix</span><span class="p">(</span><span class="s1">&#39;.1f&#39;</span><span class="p">,</span> <span class="mf">0.012</span><span class="p">)</span>
 <span class="go">&#39;12.0 m&#39;</span>
@@ -595,9 +595,9 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">prefix</
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.format_timedelta">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_timedelta</code><span class="sig-paren">(</span><em class="sig-param">fmt_str</em>, <em class="sig-param">delta</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_timedelta" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">format_timedelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">fmt_str</span></em>, <em class="sig-param"><span class="n">delta</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#format_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.format_timedelta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format a time delta.</p>
 <p>The time delta is the difference between two points in time,
 e.g. a duration.</p>
@@ -701,9 +701,9 @@ be counted from the left. So <code class="docutils literal notranslate"><span cl
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.parse_timedelta">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">parse_timedelta</code><span class="sig-paren">(</span><em class="sig-param">string</em>, <em class="sig-param">fmt_str</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#parse_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.parse_timedelta" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">parse_timedelta</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">string</span></em>, <em class="sig-param"><span class="n">fmt_str</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#parse_timedelta"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.parse_timedelta" title="Permalink to this definition">¶</a></dt>
 <dd><p>Parse a string as a time delta according to a format.</p>
 <p>The time delta is the difference between two points in time,
 e.g. a duration.</p>
@@ -740,9 +740,9 @@ but <code class="docutils literal notranslate"><span class="pre">'000001'</span>
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.is_hexdigit">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">is_hexdigit</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#is_hexdigit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.is_hexdigit" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">is_hexdigit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#is_hexdigit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.is_hexdigit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check if all characters are hexadecimal digits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -761,9 +761,9 @@ and there is at least one character</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.int2str">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">int2str</code><span class="sig-paren">(</span><em class="sig-param">n</em>, <em class="sig-param">base</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#int2str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.int2str" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">int2str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">base</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#int2str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.int2str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an integer to a string.</p>
 <p>For <code class="docutils literal notranslate"><span class="pre">base</span> <span class="pre">&gt;</span> <span class="pre">10</span></code> lower case letters are used for digits.</p>
 <p>See also the built-in functions <a class="reference external" href="https://docs.python.org/3/library/functions.html#bin" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">bin()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#oct" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">oct()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#hex" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">hex()</span></code></a>.</p>
@@ -792,9 +792,9 @@ and there is at least one character</p>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.strings.slugify">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">slugify</code><span class="sig-paren">(</span><em class="sig-param">s</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#slugify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.slugify" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">slugify</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#slugify"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.slugify" title="Permalink to this definition">¶</a></dt>
 <dd><p>Slugify a string.</p>
 <p>In the created <a class="reference external" href="https://en.wikipedia.org/wiki/Clean_URL#Slug">slug</a> white space
 characters are replaced by dashes (<code class="docutils literal notranslate"><span class="pre">-</span></code>) and all consecutive
@@ -815,9 +815,9 @@ dashes but one are eliminated.</p>
 </div>
 </dd></dl>
 
-<dl class="class">
+<dl class="py class">
 <dt id="salmagundi.strings.TranslationTable">
-<em class="property">class </em><code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">TranslationTable</code><span class="sig-paren">(</span><em class="sig-param">mapped_chars</em>, <em class="sig-param">unmapped_chars=''</em>, <em class="sig-param">delete_chars=''</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#TranslationTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.TranslationTable" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">TranslationTable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapped_chars</span></em>, <em class="sig-param"><span class="n">unmapped_chars</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">delete_chars</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#TranslationTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.TranslationTable" title="Permalink to this definition">¶</a></dt>
 <dd><p>TranslationTable class.</p>
 <p>This class is for use with <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.translate" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.translate()</span></code></a>. If a character is not
 in <code class="docutils literal notranslate"><span class="pre">mapped_chars</span></code>, <code class="docutils literal notranslate"><span class="pre">unmapped_chars</span></code>, or <code class="docutils literal notranslate"><span class="pre">delete_chars</span></code>
@@ -859,7 +859,7 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

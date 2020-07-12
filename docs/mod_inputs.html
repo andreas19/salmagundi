@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module inputs &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module inputs &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -132,9 +132,9 @@
 </tr>
 </tbody>
 </table>
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.read">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param">prompt=''</em>, <em class="sig-param">default=None</em>, <em class="sig-param">check=None</em>, <em class="sig-param">exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">check</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a line of input and check if it is allowed.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -177,9 +177,9 @@ and returns the (converted) input value or raises
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.yesno">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">yesno</code><span class="sig-paren">(</span><em class="sig-param">prompt</em>, <em class="sig-param">yesno</em>, <em class="sig-param">exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.yesno" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">yesno</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">yesno</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.yesno" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show yes/no input prompt.</p>
 <p>If the typed character (case-insensitive) is not allowed
 (i.e. not in <code class="docutils literal notranslate"><span class="pre">yesno</span></code>) the prompt will be shown again.
@@ -216,9 +216,9 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.select">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param">prompt</em>, <em class="sig-param">options</em>, <em class="sig-param">default=None</em>, <em class="sig-param">case_sensitive=False</em>, <em class="sig-param">exc_on_cancel=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show an input with selectable options.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -258,9 +258,9 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.menu">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">menu</code><span class="sig-paren">(</span><em class="sig-param">prompt</em>, <em class="sig-param">titles</em>, <em class="sig-param">cols=1</em>, <em class="sig-param">col_by_col=True</em>, <em class="sig-param">exc_on_cancel=False</em>, <em class="sig-param">caption=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">menu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">titles</span></em>, <em class="sig-param"><span class="n">cols</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">col_by_col</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show a simple menu.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -323,9 +323,9 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.check_str">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_str</code><span class="sig-paren">(</span><em class="sig-param">min_len=0</em>, <em class="sig-param">max_len=None</em>, <em class="sig-param">chars=None</em>, <em class="sig-param">negate=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_str" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_len</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chars</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">negate</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a check function for strings.</p>
 <p>The returned function can be used as the <code class="docutils literal notranslate"><span class="pre">check</span></code> argument in the
 <a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> function.</p>
@@ -345,9 +345,9 @@ are allowed</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.check_int">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_int</code><span class="sig-paren">(</span><em class="sig-param">predicate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_int" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_int</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_int"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_int" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a check function for integers.</p>
 <p>The returned function can be used as the <code class="docutils literal notranslate"><span class="pre">check</span></code> argument in the
 <a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> function.</p>
@@ -361,9 +361,9 @@ are allowed</p></li>
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.inputs.check_float">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_float</code><span class="sig-paren">(</span><em class="sig-param">predicate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_float" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_float</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_float" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return a check function for floats.</p>
 <p>The returned function can be used as the <code class="docutils literal notranslate"><span class="pre">check</span></code> argument in the
 <a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> function.</p>
@@ -391,7 +391,7 @@ are allowed</p></li>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

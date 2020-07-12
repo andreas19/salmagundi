@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>salmagundi.config &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>salmagundi.config &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -88,15 +88,18 @@
 <span class="sd">.. versionchanged:: 0.10.0</span>
 <span class="sd">   :ref:`Wildcards &lt;ref-wildcards&gt;` for sections and options</span>
 
+<span class="sd">.. versionchanged:: 0.13.0</span>
+<span class="sd">   Add :ref:`tag &lt;ref-tags&gt;` ``:fix:`` to specification</span>
+
 <span class="sd">.. _ref-spec:</span>
 
 <span class="sd">This module uses a specification when reading a configuration file with a</span>
-<span class="sd">:class:`ConfigParser` (see module :mod:`configparser` for more information).</span>
-<span class="sd">Option values will be converted with the specified converter function, it will</span>
-<span class="sd">be checked whether an option is required or not, default values can be given</span>
-<span class="sd">for options that are not present in the configuration, and it can be specified</span>
-<span class="sd">if an option is readonly or not. All this is done by calling :func:`configure`</span>
-<span class="sd">which returns a :class:`Config` object.</span>
+<span class="sd">:class:`~configparser.ConfigParser` (see module :mod:`configparser` for more</span>
+<span class="sd">information). Option values will be converted with the specified converter</span>
+<span class="sd">function, it will be checked whether an option is required or not, default</span>
+<span class="sd">values can be given for options that are not present in the configuration,</span>
+<span class="sd">and it can be specified if an option is readonly or not. All this is done by</span>
+<span class="sd">calling :func:`configure` which returns a :class:`Config` object.</span>
 
 <span class="sd">If ``create_properties=True`` in :func:`configure` the name of each property</span>
 <span class="sd">will be a concatenation of the section name and the option name with an</span>
@@ -120,11 +123,12 @@
 <span class="sd">   req_tag: :req:</span>
 <span class="sd">   ro_tag: :ro:</span>
 <span class="sd">   rw_tag: :rw:</span>
+<span class="sd">   fix_tag: :fix:</span>
 <span class="sd">   raw_tag: :raw:</span>
 
 <span class="sd">A specification for an option looks like this::</span>
 
-<span class="sd">   opt = conv | :novalue:[; dflt | :req:][; :rw: | :ro:][; :raw:]</span>
+<span class="sd">   opt = conv | :novalue:[; dflt | :req:][; :rw: | :ro: | :fix:][; :raw:]</span>
 
 <span class="sd">The converter ``conv`` must be the name of a callable that takes a string</span>
 <span class="sd">argument and returns an object of the desired type. The default converters are:</span>
@@ -148,17 +152,21 @@
 <span class="sd">With the readwrite tag ``:rw:`` and the readonly tag ``:ro:`` exceptions</span>
 <span class="sd">to the global access mode (see above) can be set for each option.</span>
 
+<span class="sd">If the ``:fix:`` tag is used, it indicates that the option cannot be changed</span>
+<span class="sd">in a configuration file and is therefore a constant. In this case a</span>
+<span class="sd">default value is required.</span>
+
 <span class="sd">The raw tag ``:raw:`` indicates that for the option value no interpolation</span>
-<span class="sd">expansion should be done (see: :meth:`configparser.ConfigParser.get`).</span>
+<span class="sd">expansion should be done (see: :meth:`~configparser.ConfigParser.get`).</span>
 
 <span class="sd">For configurations that allow options without values the ``allow_no_value``</span>
 <span class="sd">parameter for :func:`configure` must be set to ``True`` (this is one of</span>
-<span class="sd">the keyword arguments that is passed directly the :class:`ConfigParser`</span>
-<span class="sd">constructor). For such an option the tag ``:novalue:`` must be used instead</span>
-<span class="sd">of the name of a converter. If the option is present in the configuration</span>
-<span class="sd">it will be set to the value :data:`NOVALUE`.</span>
+<span class="sd">the keyword arguments that is passed directly the</span>
+<span class="sd">:class:`~configparser.ConfigParser` constructor). For such an option the tag</span>
+<span class="sd">``:novalue:`` must be used instead of the name of a converter. If the option</span>
+<span class="sd">is present in the configuration it will be set to the value :data:`NOVALUE`.</span>
 
-<span class="sd">If ``spec=None`` no conversion will be done and all options are writeable.</span>
+<span class="sd">If ``spec=None``, no conversion will be done and all options are writeable.</span>
 
 <span class="sd">Example:</span>
 
@@ -241,11 +249,12 @@
 <span class="kn">from</span> <span class="nn">.strings</span> <span class="kn">import</span> <span class="n">str2bool</span><span class="p">,</span> <span class="n">str2tuple</span>
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_path_like</span>
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NOTFOUND&#39;</span><span class="p">,</span> <span class="s1">&#39;NOVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;Config&#39;</span><span class="p">,</span> <span class="s1">&#39;ConfigError&#39;</span><span class="p">,</span> <span class="s1">&#39;Error&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;ReadonlyError&#39;</span><span class="p">,</span> <span class="s1">&#39;SpecError&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_choice&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;convert_loglevel&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_predicate&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_string&#39;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;NOTFOUND&#39;</span><span class="p">,</span> <span class="s1">&#39;NOVALUE&#39;</span><span class="p">,</span> <span class="s1">&#39;Config&#39;</span><span class="p">,</span> <span class="s1">&#39;ConfigError&#39;</span><span class="p">,</span> <span class="s1">&#39;DuplicateError&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;Error&#39;</span><span class="p">,</span> <span class="s1">&#39;ReadonlyError&#39;</span><span class="p">,</span> <span class="s1">&#39;SpecError&#39;</span><span class="p">,</span> <span class="s1">&#39;configure&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convert_choice&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_loglevel&#39;</span><span class="p">,</span> <span class="s1">&#39;convert_predicate&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;convert_string&#39;</span><span class="p">]</span>
 
-<span class="n">_NAME</span> <span class="o">=</span> <span class="s1">&#39;_configspec_&#39;</span>
+<span class="n">_CONFIGSPEC</span> <span class="o">=</span> <span class="s1">&#39;_configspec_&#39;</span>
 <span class="n">_CONVERTERS</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;str&#39;</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;int&#39;</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;float&#39;</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="s1">&#39;bool&#39;</span><span class="p">:</span> <span class="n">str2bool</span><span class="p">}</span>
 
 <span class="n">NOVALUE</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="s1">&#39;NoValue&#39;</span><span class="p">,</span> <span class="p">(),</span> <span class="p">{</span><span class="s1">&#39;__repr__&#39;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="s1">&#39;&lt;NOVALUE&gt;&#39;</span><span class="p">})()</span>
@@ -262,7 +271,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">_OptSpec</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;OptSpec&#39;</span><span class="p">,</span> <span class="s1">&#39;converter, conv_name,&#39;</span>
-                      <span class="s1">&#39;required, readonly, raw, default,&#39;</span>
+                      <span class="s1">&#39;required, flag, raw, default,&#39;</span>
                       <span class="s1">&#39;sec_wildcard, opt_wildcard&#39;</span><span class="p">)</span>
 <span class="n">_OptData</span> <span class="o">=</span> <span class="n">namedtuple</span><span class="p">(</span><span class="s1">&#39;OptData&#39;</span><span class="p">,</span> <span class="s1">&#39;name, ro, value&#39;</span><span class="p">)</span>
 
@@ -273,6 +282,10 @@
 
 <div class="viewcode-block" id="ConfigError"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.ConfigError">[docs]</a><span class="k">class</span> <span class="nc">ConfigError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Raised if there is a problem with the configuration.&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="DuplicateError"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.DuplicateError">[docs]</a><span class="k">class</span> <span class="nc">DuplicateError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Raised if an option already exists in a section.&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="SpecError"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.SpecError">[docs]</a><span class="k">class</span> <span class="nc">SpecError</span><span class="p">(</span><span class="n">Error</span><span class="p">):</span>
@@ -303,17 +316,18 @@
             <span class="n">cp</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">fh</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">TypeError</span><span class="p">:</span>
         <span class="n">cp</span><span class="o">.</span><span class="n">read_file</span><span class="p">(</span><span class="n">spec</span><span class="p">)</span>
-    <span class="n">readonly</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">separator</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;separator&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
-    <span class="n">wildcard</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;wildcard&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-    <span class="n">noval_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;novalue&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:novalue:&#39;</span><span class="p">)</span>
-    <span class="n">empty_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;empty&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:empty:&#39;</span><span class="p">)</span>
-    <span class="n">none_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:none:&#39;</span><span class="p">)</span>
-    <span class="n">req_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;req_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:req:&#39;</span><span class="p">)</span>
-    <span class="n">ro_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;ro_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:ro:&#39;</span><span class="p">)</span>
-    <span class="n">rw_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;rw_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:rw:&#39;</span><span class="p">)</span>
-    <span class="n">raw_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_NAME</span><span class="p">,</span> <span class="s1">&#39;raw_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:raw:&#39;</span><span class="p">)</span>
-    <span class="n">cp</span><span class="o">.</span><span class="n">remove_section</span><span class="p">(</span><span class="n">_NAME</span><span class="p">)</span>
+    <span class="n">readonly</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">getboolean</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;readonly&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">separator</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;separator&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;;&#39;</span><span class="p">)</span>
+    <span class="n">wildcard</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;wildcard&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">noval_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;novalue&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:novalue:&#39;</span><span class="p">)</span>
+    <span class="n">empty_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;empty&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:empty:&#39;</span><span class="p">)</span>
+    <span class="n">none_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:none:&#39;</span><span class="p">)</span>
+    <span class="n">req_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;req_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:req:&#39;</span><span class="p">)</span>
+    <span class="n">ro_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;ro_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:ro:&#39;</span><span class="p">)</span>
+    <span class="n">rw_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;rw_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:rw:&#39;</span><span class="p">)</span>
+    <span class="n">fix_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;fix_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:fix:&#39;</span><span class="p">)</span>
+    <span class="n">raw_tag</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">,</span> <span class="s1">&#39;raw_tag&#39;</span><span class="p">,</span> <span class="n">fallback</span><span class="o">=</span><span class="s1">&#39;:raw:&#39;</span><span class="p">)</span>
+    <span class="n">cp</span><span class="o">.</span><span class="n">remove_section</span><span class="p">(</span><span class="n">_CONFIGSPEC</span><span class="p">)</span>
     <span class="n">converters</span><span class="p">[</span><span class="n">noval_tag</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">spec</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">sec</span> <span class="ow">in</span> <span class="n">cp</span><span class="o">.</span><span class="n">sections</span><span class="p">():</span>
@@ -333,13 +347,14 @@
             <span class="n">req</span> <span class="o">=</span> <span class="n">req_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="n">ro</span> <span class="o">=</span> <span class="n">ro_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="n">rw</span> <span class="o">=</span> <span class="n">rw_tag</span> <span class="ow">in</span> <span class="n">t</span>
-            <span class="k">if</span> <span class="n">ro</span> <span class="ow">and</span> <span class="n">rw</span><span class="p">:</span>
+            <span class="n">fix</span> <span class="o">=</span> <span class="n">fix_tag</span> <span class="ow">in</span> <span class="n">t</span>
+            <span class="k">if</span> <span class="n">ro</span> <span class="o">+</span> <span class="n">rw</span> <span class="o">+</span> <span class="n">fix</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has a </span><span class="si">{</span><span class="n">ro_tag</span><span class="si">!r}</span><span class="s1"> tag &#39;</span>
-                    <span class="sa">f</span><span class="s1">&#39;and a </span><span class="si">{</span><span class="n">rw_tag</span><span class="si">!r}</span><span class="s1"> tag (only one allowed)&#39;</span><span class="p">)</span>
+                    <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1">: only one of &#39;</span>
+                    <span class="sa">f</span><span class="s1">&#39; </span><span class="si">{</span><span class="n">ro_tag</span><span class="si">!r}</span><span class="s1">, </span><span class="si">{</span><span class="n">rw_tag</span><span class="si">!r}</span><span class="s1">, </span><span class="si">{</span><span class="n">fix_tag</span><span class="si">!r}</span><span class="s1"> allowed&#39;</span><span class="p">)</span>
             <span class="n">raw</span> <span class="o">=</span> <span class="n">raw_tag</span> <span class="ow">in</span> <span class="n">t</span>
             <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">t</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
-                <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">req_tag</span><span class="p">,</span> <span class="n">ro_tag</span><span class="p">,</span> <span class="n">rw_tag</span><span class="p">,</span> <span class="n">raw_tag</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">s</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">req_tag</span><span class="p">,</span> <span class="n">ro_tag</span><span class="p">,</span> <span class="n">rw_tag</span><span class="p">,</span> <span class="n">fix_tag</span><span class="p">,</span> <span class="n">raw_tag</span><span class="p">):</span>
                     <span class="k">if</span> <span class="n">req</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
                             <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has a default &#39;</span>
@@ -362,14 +377,21 @@
                             <span class="sa">f</span><span class="s1">&#39; with converter </span><span class="si">{</span><span class="n">conv</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                     <span class="k">break</span>
             <span class="k">else</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">fix</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
+                        <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> uses </span><span class="si">{</span><span class="n">fix_tag</span><span class="si">!r}</span><span class="s1"> &#39;</span>
+                        <span class="s1">&#39;without a default value&#39;</span><span class="p">)</span>
                 <span class="n">default</span> <span class="o">=</span> <span class="n">NOTFOUND</span>
             <span class="k">if</span> <span class="n">default</span> <span class="o">!=</span> <span class="n">NOTFOUND</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="n">SpecError</span><span class="p">(</span>
                     <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> has wildcard &#39;</span>
                     <span class="s1">&#39;and default value&#39;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">fix</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">flag</span> <span class="o">=</span> <span class="n">ro</span> <span class="ow">or</span> <span class="p">(</span><span class="n">readonly</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rw</span><span class="p">)</span>
             <span class="n">spec</span><span class="p">[</span><span class="n">sec</span><span class="p">][</span><span class="n">opt</span><span class="p">]</span> <span class="o">=</span> <span class="n">_OptSpec</span><span class="p">(</span><span class="n">converter</span><span class="p">,</span> <span class="n">conv</span><span class="p">,</span> <span class="n">req</span><span class="p">,</span>
-                                      <span class="n">ro</span> <span class="ow">or</span> <span class="p">(</span><span class="n">readonly</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">rw</span><span class="p">),</span>
-                                      <span class="n">raw</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span>
+                                      <span class="n">flag</span><span class="p">,</span> <span class="n">raw</span><span class="p">,</span> <span class="n">default</span><span class="p">,</span>
                                       <span class="n">wildcard</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">in</span> <span class="n">sec</span><span class="p">,</span>
                                       <span class="n">wildcard</span> <span class="ow">and</span> <span class="n">wildcard</span> <span class="ow">in</span> <span class="n">opt</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">spec</span><span class="p">,</span> <span class="n">wildcard</span>
@@ -390,16 +412,16 @@
 <span class="sd">    option named as explained :ref:`above &lt;ref-spec&gt;`. For extra data this is</span>
 <span class="sd">    just the name given in the :meth:`add` method.</span>
 
-<span class="sd">    Options can also be accessed like this: ``config[sec_name, opt_name]``.</span>
+<span class="sd">    Options can also be accessed like this: ``config[secname, optname]``.</span>
 <span class="sd">    To check if an option exists, the ``in`` operator can be used:</span>
-<span class="sd">    ``(sec_name, opt_name) in config``.</span>
+<span class="sd">    ``(secname, optname) in config``.</span>
 
 <span class="sd">    For extra data either ``None`` must be used for the section name or only</span>
 <span class="sd">    the name of the data, i.e. ``config[None, name]`` and ``config[name]`` are</span>
 <span class="sd">    equivalent as are ``(None, name) in config`` and ``name in config``.</span>
 
 <span class="sd">    When a :class:`Config` object is used as an iterator it yields 3-tuples</span>
-<span class="sd">    for each option: ``(sec_name, opt_name, value)``.</span>
+<span class="sd">    for each option: ``(secname, optname, value)``.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">create_props</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
@@ -430,23 +452,41 @@
         <span class="n">name</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">key</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
         <span class="k">del</span> <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">name</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
             <span class="nb">delattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Config.add"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-        <span class="sd">&quot;&quot;&quot;Add extra data to configuration object.</span>
+<div class="viewcode-block" id="Config.add"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.add">[docs]</a>    <span class="k">def</span> <span class="nf">add</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Add extra data to configuration or an option to a section.</span>
 
-<span class="sd">        :param str name: the name of the extra data</span>
+<span class="sd">        :param key: either a name of extra data or a tuple</span>
+<span class="sd">                    ``(&#39;secname&#39;, &#39;optname&#39;)``</span>
+<span class="sd">        :type: str or tuple</span>
 <span class="sd">        :param value: the value of the data</span>
 <span class="sd">        :param bool readonly: if ``True`` the data cannot be changed</span>
+<span class="sd">        :raises DuplicateError: if an option already exists in a section</span>
 <span class="sd">        :raises AttributeError: if an attribute with the same name already</span>
-<span class="sd">                                exists</span>
-<span class="sd">        :raises ConfigError: if ``create_properties=True`` and ``name`` is not</span>
-<span class="sd">                             a valid Python identifier; the data can still be</span>
-<span class="sd">                             accessed with ``cfg[name]``</span>
+<span class="sd">                                exists (only if ``create_properties=True``)</span>
+<span class="sd">        :raises ConfigError: if ``create_properties=True`` and ``name`` or</span>
+<span class="sd">                             ``secname_optname`` is not a valid Python</span>
+<span class="sd">                             identifier; the data can still be</span>
+<span class="sd">                             accessed with ``cfg[&#39;name&#39;]`` or</span>
+<span class="sd">                             ``cfg[&#39;secname&#39;, &#39;optname&#39;]``</span>
+
+<span class="sd">        .. versionchanged:: 0.13.0</span>
+<span class="sd">           Options can now be added to sections</span>
+<span class="sd">           (renamed parameter ``name`` to ``key``)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">key</span> <span class="o">=</span> <span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_props</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">_key</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">key</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">DuplicateError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Key </span><span class="si">{</span><span class="n">key</span><span class="si">!r}</span><span class="s1"> already exists&#39;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_props</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">_</span><span class="si">{</span><span class="n">key</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_options</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">name</span> <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">()</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span> <span class="n">readonly</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_values</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_create_props</span><span class="p">:</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">isidentifier</span><span class="p">():</span>
@@ -472,15 +512,15 @@
                 <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">sec</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">lst</span></div>
 
-<div class="viewcode-block" id="Config.options"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.options">[docs]</a>    <span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sec</span><span class="p">):</span>
+<div class="viewcode-block" id="Config.options"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.options">[docs]</a>    <span class="k">def</span> <span class="nf">options</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return option names in the specified section.</span>
 
 <span class="sd">        :param str section: a section name</span>
 <span class="sd">        :return: list with option names</span>
 <span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">opt</span> <span class="k">for</span> <span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span>
-                    <span class="k">if</span> <span class="n">s</span> <span class="o">==</span> <span class="n">sec</span> <span class="ow">and</span> <span class="n">sec</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">opt</span> <span class="k">for</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span>
+                    <span class="k">if</span> <span class="n">sec</span> <span class="o">==</span> <span class="n">section</span> <span class="ow">and</span> <span class="n">section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Config.extras"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.extras">[docs]</a>    <span class="k">def</span> <span class="nf">extras</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Return names of extra data added with :meth:`add`.</span>
@@ -489,6 +529,17 @@
 <span class="sd">        :rtype: list</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">opt</span> <span class="k">for</span> <span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">)</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_options</span> <span class="k">if</span> <span class="n">sec</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Config.as_dict"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.as_dict">[docs]</a>    <span class="k">def</span> <span class="nf">as_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">section</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return options and values in a section as a :class:`dict`.</span>
+
+<span class="sd">        :param str section: a section name</span>
+<span class="sd">        :return: mapping option names =&gt; values</span>
+<span class="sd">        :rtype: dict</span>
+
+<span class="sd">        .. versionadded:: 0.13.0</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">opt</span><span class="p">:</span> <span class="n">val</span> <span class="k">for</span> <span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">val</span> <span class="ow">in</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">sec</span> <span class="o">==</span> <span class="n">section</span><span class="p">}</span></div>
 
 <div class="viewcode-block" id="Config.write"><a class="viewcode-back" href="../../mod_config.html#salmagundi.config.Config.write">[docs]</a>    <span class="k">def</span> <span class="nf">write</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">file</span><span class="p">,</span> <span class="n">space_around_delimiters</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Write a representation of the configuration to the specified file.</span>
@@ -551,7 +602,7 @@
     <span class="k">return</span> <span class="n">f</span>
 
 
-<span class="k">def</span> <span class="nf">get_options</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">wildcard</span><span class="p">,</span> <span class="n">has_wildcard</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">_get_options</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">wildcard</span><span class="p">,</span> <span class="n">has_wildcard</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">has_wildcard</span><span class="p">:</span>
         <span class="n">opts</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">cp</span><span class="o">.</span><span class="n">options</span><span class="p">(</span><span class="n">sec</span><span class="p">):</span>
@@ -589,11 +640,11 @@
                     <span class="n">value</span> <span class="o">=</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">default</span>
                     <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">spec_sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
                     <span class="n">options</span><span class="p">[(</span><span class="n">spec_sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_OptData</span><span class="p">(</span>
-                        <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">readonly</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                        <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">flag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">sec</span> <span class="ow">in</span> <span class="n">secs</span><span class="p">:</span>
-                <span class="n">opts</span> <span class="o">=</span> <span class="n">get_options</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">wildcard</span><span class="p">,</span>
-                                   <span class="n">opt_spec</span><span class="o">.</span><span class="n">opt_wildcard</span><span class="p">)</span>
+                <span class="n">opts</span> <span class="o">=</span> <span class="n">_get_options</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">wildcard</span><span class="p">,</span>
+                                    <span class="n">opt_spec</span><span class="o">.</span><span class="n">opt_wildcard</span><span class="p">)</span>
                 <span class="k">if</span> <span class="ow">not</span> <span class="n">opts</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">required</span><span class="p">:</span>
                         <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
@@ -603,9 +654,12 @@
                         <span class="n">value</span> <span class="o">=</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">default</span>
                         <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
                         <span class="n">options</span><span class="p">[(</span><span class="n">sec</span><span class="p">,</span> <span class="n">spec_opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_OptData</span><span class="p">(</span>
-                            <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">readonly</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                            <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">flag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">for</span> <span class="n">opt</span> <span class="ow">in</span> <span class="n">opts</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">flag</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">raise</span> <span class="n">ConfigError</span><span class="p">(</span>
+                                <span class="sa">f</span><span class="s1">&#39;option </span><span class="si">{</span><span class="n">opt</span><span class="si">!r}</span><span class="s1"> in section </span><span class="si">{</span><span class="n">sec</span><span class="si">!r}</span><span class="s1"> is fixed&#39;</span><span class="p">)</span>
                         <span class="n">value</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">raw</span><span class="o">=</span><span class="n">opt_spec</span><span class="o">.</span><span class="n">raw</span><span class="p">)</span>
                         <span class="k">if</span> <span class="p">(</span><span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span>
                                 <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;allow_no_value&#39;</span><span class="p">,</span> <span class="kc">False</span><span class="p">)):</span>
@@ -625,7 +679,7 @@
                                     <span class="sa">f</span><span class="s1">&#39;converter </span><span class="si">{</span><span class="n">opt_spec</span><span class="o">.</span><span class="n">conv_name</span><span class="si">!r}</span><span class="s1">: </span><span class="si">{</span><span class="n">ex</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
                         <span class="n">name</span> <span class="o">=</span> <span class="n">_get_name</span><span class="p">(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">,</span> <span class="n">create_properties</span><span class="p">)</span>
                         <span class="n">options</span><span class="p">[(</span><span class="n">sec</span><span class="p">,</span> <span class="n">opt</span><span class="p">)]</span> <span class="o">=</span> <span class="n">_OptData</span><span class="p">(</span>
-                            <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">readonly</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                            <span class="n">name</span><span class="p">,</span> <span class="n">opt_spec</span><span class="o">.</span><span class="n">flag</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">False</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
     <span class="n">get_sections</span><span class="o">.</span><span class="n">cache_clear</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">options</span>
 
@@ -833,7 +887,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

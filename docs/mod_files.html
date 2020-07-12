@@ -1,10 +1,10 @@
 
 <!DOCTYPE html>
 
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html>
   <head>
     <meta charset="utf-8" />
-    <title>Module files &#8212; Salmagundi 0.12.0 documentation</title>
+    <title>Module files &#8212; Salmagundi 0.12.1 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -142,9 +142,9 @@ The default error handler is <code class="docutils literal notranslate"><span cl
 </tr>
 </tbody>
 </table>
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.read_all">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">read_all</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">binary=False</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_all" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">read_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return the content of the file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -171,9 +171,9 @@ else as <code class="docutils literal notranslate"><span class="pre">str</span><
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.read_lines">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">read_lines</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">predicate=None</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_lines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">read_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">predicate</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return the content of the file as a list of lines.</p>
 <p>Line breaks are not included in the resulting list.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">predicate</span></code> is given, it must be a callable that takes a single
@@ -203,9 +203,9 @@ line as its argument and returns a bool. Only the lines for which
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.write_all">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">content</em>, <em class="sig-param">binary=False</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_all" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the content to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -232,9 +232,9 @@ line as its argument and returns a bool. Only the lines for which
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.write_lines">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_lines</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">lines</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_lines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Write the lines to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -260,9 +260,9 @@ line as its argument and returns a bool. Only the lines for which
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.append_all">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_all</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">content</em>, <em class="sig-param">binary=False</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_all" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append the content to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -289,9 +289,9 @@ line as its argument and returns a bool. Only the lines for which
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.append_lines">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_lines</code><span class="sig-paren">(</span><em class="sig-param">file</em>, <em class="sig-param">lines</em>, <em class="sig-param">encoding=None</em>, <em class="sig-param">errors=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_lines" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_lines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Append the lines to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -317,9 +317,9 @@ line as its argument and returns a bool. Only the lines for which
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.touch">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">touch</code><span class="sig-paren">(</span><em class="sig-param">filepath</em>, <em class="sig-param">new_time=None</em>, <em class="sig-param">atime=True</em>, <em class="sig-param">mtime=True</em>, <em class="sig-param">create=True</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#touch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.touch" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">touch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">filepath</span></em>, <em class="sig-param"><span class="n">new_time</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">atime</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">mtime</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">create</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#touch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.touch" title="Permalink to this definition">¶</a></dt>
 <dd><p>Change file timestamps.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">new_time</span></code> parameter may be:</p>
 <table class="docutils align-default">
@@ -370,9 +370,9 @@ file for <code class="docutils literal notranslate"><span class="pre">new_time</
 </div>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.on_same_dev">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">on_same_dev</code><span class="sig-paren">(</span><em class="sig-param">file1</em>, <em class="sig-param">file2</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#on_same_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.on_same_dev" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">on_same_dev</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file1</span></em>, <em class="sig-param"><span class="n">file2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#on_same_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.on_same_dev" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition.</p>
 <p><code class="docutils literal notranslate"><span class="pre">file1,</span> <span class="pre">file2</span></code> may also refer to directories.</p>
 <dl class="field-list simple">
@@ -391,9 +391,9 @@ file for <code class="docutils literal notranslate"><span class="pre">new_time</
 </dl>
 </dd></dl>
 
-<dl class="function">
+<dl class="py function">
 <dt id="salmagundi.files.copyfile">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">copyfile</code><span class="sig-paren">(</span><em class="sig-param">src</em>, <em class="sig-param">dst</em>, <em class="sig-param">callback</em>, <em class="sig-param">cancel_evt</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#copyfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.copyfile" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">copyfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span></em>, <em class="sig-param"><span class="n">dst</span></em>, <em class="sig-param"><span class="n">callback</span></em>, <em class="sig-param"><span class="n">cancel_evt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#copyfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.copyfile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy a file.</p>
 <p>The progess of a long running copy process can be monitored
 and the process can be cancelled.</p>
@@ -450,7 +450,7 @@ and the process can be cancelled.</p>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 2.4.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

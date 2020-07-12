@@ -13,6 +13,7 @@ Module *config*
       NOVALUE
       Config
       ConfigError
+      DuplicateError
       Error
       ReadonlyError
       SpecError
