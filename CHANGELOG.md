@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-07-12 (0.13.0)**
  - Add method Config.as_dict() in module config
  - Add exception DuplicateError in module config
  - Options can now be added to sections in module config (renamed parameter name -> key)
