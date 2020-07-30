@@ -248,7 +248,7 @@ the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" titl
 
 <dl class="py function">
 <dt id="salmagundi.strings.str2tuple">
-<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2tuple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">','</span></em>, <em class="sig-param"><span class="n">converter</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2tuple" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">str2tuple</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em>, <em class="sig-param"><span class="n">sep</span><span class="o">=</span><span class="default_value">','</span></em>, <em class="sig-param"><span class="n">converter</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">maxsplit</span><span class="o">=</span><span class="default_value">- 1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#str2tuple"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.str2tuple" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a string to a tuple.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">converter</span></code> is given and not <code class="docutils literal notranslate"><span class="pre">None</span></code>, it must be a callable that
 takes a string parameter and returns an object of the required type,
@@ -269,6 +269,7 @@ or else a tuple with string elements will be returned.</p>
 <li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
 <li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the separator (whitespace around <code class="docutils literal notranslate"><span class="pre">sep</span></code> will be ignored)</p></li>
 <li><p><strong>converter</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – the converter function</p></li>
+<li><p><strong>maxsplit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – max. number of splits (-1 means no limit)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -278,6 +279,9 @@ or else a tuple with string elements will be returned.</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.14.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">maxsplit</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="py function">

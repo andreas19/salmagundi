@@ -131,7 +131,7 @@
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;not a boolean: </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">s</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="str2tuple"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2tuple">[docs]</a><span class="k">def</span> <span class="nf">str2tuple</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<div class="viewcode-block" id="str2tuple"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.str2tuple">[docs]</a><span class="k">def</span> <span class="nf">str2tuple</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;,&#39;</span><span class="p">,</span> <span class="n">converter</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">maxsplit</span><span class="o">=-</span><span class="mi">1</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Convert a string to a tuple.</span>
 
 <span class="sd">    If ``converter`` is given and not ``None``, it must be a callable that</span>
@@ -151,12 +151,15 @@
 <span class="sd">    :param str sep: the separator (whitespace around ``sep`` will be ignored)</span>
 <span class="sd">    :param converter: the converter function</span>
 <span class="sd">    :type converter: callable(str)</span>
+<span class="sd">    :param int maxsplit: max. number of splits (-1 means no limit)</span>
 <span class="sd">    :return: tuple with elements of the required type</span>
 <span class="sd">    :rtype: tuple</span>
+
+<span class="sd">    .. versionchanged:: 0.14.0 Add parameter ``maxsplit``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">s</span><span class="p">:</span>
         <span class="n">f</span> <span class="o">=</span> <span class="n">converter</span> <span class="ow">or</span> <span class="nb">str</span>
-        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">))</span>
+        <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="n">sep</span><span class="p">,</span> <span class="n">maxsplit</span><span class="p">))</span>
     <span class="k">return</span> <span class="p">()</span></div>
 
 

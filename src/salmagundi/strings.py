@@ -51,7 +51,7 @@ def str2bool(s):
         raise ValueError('not a boolean: %s' % s)
 
 
-def str2tuple(s, sep=',', converter=None):
+def str2tuple(s, sep=',', converter=None, *, maxsplit=-1):
     """Convert a string to a tuple.
 
     If ``converter`` is given and not ``None``, it must be a callable that
@@ -71,12 +71,15 @@ def str2tuple(s, sep=',', converter=None):
     :param str sep: the separator (whitespace around ``sep`` will be ignored)
     :param converter: the converter function
     :type converter: callable(str)
+    :param int maxsplit: max. number of splits (-1 means no limit)
     :return: tuple with elements of the required type
     :rtype: tuple
+
+    .. versionchanged:: 0.14.0 Add parameter ``maxsplit``
     """
     if s:
         f = converter or str
-        return tuple(f(x.strip()) for x in s.split(sep))
+        return tuple(f(x.strip()) for x in s.split(sep, maxsplit))
     return ()
 
 
