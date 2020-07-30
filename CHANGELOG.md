@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-07-30 (0.14.0)**
  - Add parameter maxsplit to strings.str2tuple
  - Deprecate modules crypto and config
 
