@@ -8,6 +8,7 @@ The terminal must support `ANSI escape sequences
 
 import math
 from functools import partial
+from getpass import getpass
 
 from ansictrls import CS
 
@@ -19,7 +20,8 @@ __all__ = ['check_float', 'check_int', 'check_str', 'menu', 'read', 'select',
 _cs_print = partial(print, end='', sep='', flush=True)
 
 
-def read(prompt='', default=None, check=None, exc_on_cancel=False):
+def read(prompt='', default=None, check=None, exc_on_cancel=False,
+         *, noecho=False):
     """Read a line of input and check if it is allowed.
 
     If the input is not allowed the prompt will be shown again. The
@@ -46,11 +48,15 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     :param check: the check parameter (see above)
     :type check: callable(str) or None
     :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param bool noecho: if set to ``True`` :func:`~getpass.getpass` will be used
+                        instead of :func:`input`
     :return: (converted) input value or ``None`` if input was cancelled and
               ``exc_on_cancel=False``
     :rtype: str or return-type of the ``check`` callable or None
     :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
     :raises TypeError: if ``default`` is not of type ``str``
+
+    .. versionchanged:: 0.15.0 Add parameter ``noecho``
     """
     default is not None and check_type(default, str, 'default')
     value = None
@@ -61,7 +67,10 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False):
     _cs_print('\n', CS.CUU, CS.SCP)
     while True:
         try:
-            a = input(line) or default
+            if noecho:
+                a = getpass(prompt) or default
+            else:
+                a = input(line) or default
         except EOFError:
             print()
             if exc_on_cancel:

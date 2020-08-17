@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module utils &#8212; Salmagundi 0.14.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -137,6 +138,12 @@
 </tr>
 </tbody>
 </table>
+<dl class="py exception">
+<dt id="salmagundi.utils.AlreadyRunning">
+<em class="property">exception </em><code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">AlreadyRunning</code><a class="reference internal" href="_modules/salmagundi/utils.html#AlreadyRunning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.AlreadyRunning" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by <a class="reference internal" href="#salmagundi.utils.ensure_single_instance" title="salmagundi.utils.ensure_single_instance"><code class="xref py py-func docutils literal notranslate"><span class="pre">ensure_single_instance()</span></code></a>.</p>
+</dd></dl>
+
 <dl class="py class">
 <dt id="salmagundi.utils.StopWatch">
 <em class="property">class </em><code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">StopWatch</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">start</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/_stopwatch.html#StopWatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.StopWatch" title="Permalink to this definition">¶</a></dt>
@@ -247,6 +254,42 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="salmagundi.utils.check_bytes_like">
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_bytes_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_bytes_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_bytes_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="salmagundi.utils.check_path_like">
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_path_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_path_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_path_like" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="salmagundi.utils.check_type">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_type</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">classinfo</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_type"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Check the type of an object.</p>
@@ -280,42 +323,6 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.utils.check_path_like">
-<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_path_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_path_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_path_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.utils.check_bytes_like">
-<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_bytes_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_bytes_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_bytes_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
 <dt id="salmagundi.utils.docopt_helper">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">docopt_helper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">version_str</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">argv</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">help</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">options_first</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">converters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">err_code</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#docopt_helper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.docopt_helper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function for <a class="reference external" href="https://pypi.org/project/docopt/">docopt</a>.</p>
@@ -333,7 +340,7 @@ more can be added with <code class="docutils literal notranslate"><span class="p
 indented lines line up with the left edge of the display.</p>
 <p id="ref-convs">The optional argument <code class="docutils literal notranslate"><span class="pre">converters</span></code> is a mapping with the same keys as in
 the dictionary returned by <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a>. The values are callables which
-take one argument of (an) appropriate type(s) and return a value of the
+take one argument of an appropriate type and return a value of the
 desired type. It is not required to provide a converter for every option,
 argument and command. If a value cannot be converted the converter should
 raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
@@ -464,39 +471,6 @@ a converter function raised a <a class="reference external" href="https://docs.p
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.utils.sys_exit">
-<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">sys_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">code</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#sys_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.sys_exit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Exit from Python.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">code</span></code> is not an integer, this function calls <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a> with
-<code class="docutils literal notranslate"><span class="pre">arg</span></code> as its argument. Otherwise <code class="docutils literal notranslate"><span class="pre">arg</span></code> will be printed to
-<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> if it is not <code class="docutils literal notranslate"><span class="pre">None</span></code> and <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a>
-will be called with <code class="docutils literal notranslate"><span class="pre">code</span></code> as its argument.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">logger</span></code> is set, the message, if any, will be logged with level
-<code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> instead of printing it to <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>arg</strong> – see: <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a></p></li>
-<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – exit code (ignored if not an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
-<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.8)"><em>logging.Logger</em></a>) – a logger</p></li>
-</ul>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><strong>SystemExit</strong></a> – </p>
-</dd>
-</dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.11.0.</span></p>
-</div>
-</dd></dl>
-
-<dl class="py exception">
-<dt id="salmagundi.utils.AlreadyRunning">
-<em class="property">exception </em><code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">AlreadyRunning</code><a class="reference internal" href="_modules/salmagundi/utils.html#AlreadyRunning"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.AlreadyRunning" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised by <a class="reference internal" href="#salmagundi.utils.ensure_single_instance" title="salmagundi.utils.ensure_single_instance"><code class="xref py py-func docutils literal notranslate"><span class="pre">ensure_single_instance()</span></code></a>.</p>
-</dd></dl>
-
-<dl class="py function">
 <dt id="salmagundi.utils.ensure_single_instance">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">ensure_single_instance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">lockname</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">lockdir</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">extra</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">err_code</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">err_msg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">use_socket</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#ensure_single_instance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.ensure_single_instance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Make sure that only one instance of the program/script is running.</p>
@@ -576,6 +550,33 @@ and platform is not Linux</p></li>
 </div>
 </dd></dl>
 
+<dl class="py function">
+<dt id="salmagundi.utils.sys_exit">
+<code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">sys_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">code</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#sys_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.sys_exit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Exit from Python.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">code</span></code> is not an integer, this function calls <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a> with
+<code class="docutils literal notranslate"><span class="pre">arg</span></code> as its argument. Otherwise <code class="docutils literal notranslate"><span class="pre">arg</span></code> will be printed to
+<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> if it is not <code class="docutils literal notranslate"><span class="pre">None</span></code> and <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a>
+will be called with <code class="docutils literal notranslate"><span class="pre">code</span></code> as its argument.</p>
+<p>If <code class="docutils literal notranslate"><span class="pre">logger</span></code> is set, the message, if any, will be logged with level
+<code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> instead of printing it to <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>arg</strong> – see: <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a></p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – exit code (ignored if not an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.8)"><em>logging.Logger</em></a>) – a logger</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><strong>SystemExit</strong></a> – </p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.11.0.</span></p>
+</div>
+</dd></dl>
+
 </div>
 </div>
 
@@ -590,7 +591,7 @@ and platform is not Linux</p></li>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module files &#8212; Salmagundi 0.14.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -143,6 +144,129 @@ The default error handler is <code class="docutils literal notranslate"><span cl
 </tbody>
 </table>
 <dl class="py function">
+<dt id="salmagundi.files.append_all">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append the content to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file content</p></li>
+<li><p><strong>binary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the content must be <code class="docutils literal notranslate"><span class="pre">bytes</span></code> else <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
+<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>number of bytes or characters written</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="salmagundi.files.append_lines">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Append the lines to a file.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – list of strings w/o newline</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding</p></li>
+<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>number of characters written</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
+</dd>
+</dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="salmagundi.files.copyfile">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">copyfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span></em>, <em class="sig-param"><span class="n">dst</span></em>, <em class="sig-param"><span class="n">callback</span></em>, <em class="sig-param"><span class="n">cancel_evt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#copyfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.copyfile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Copy a file.</p>
+<p>The progess of a long running copy process can be monitored
+and the process can be cancelled.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">callback</span></code> must be a callable that takes two parameters:</p>
+<ul class="simple">
+<li><p>number of the copied bytes</p></li>
+<li><p>size of the source file</p></li>
+</ul>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="si">%d</span><span class="s1"> / </span><span class="si">%d</span><span class="s1"> (</span><span class="si">%.1f%%</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">t</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
+          <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="n">evt</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">copyfile</span><span class="p">(</span><span class="s1">&#39;/path/to/source/file&#39;</span><span class="p">,</span>
+             <span class="s1">&#39;/path/to/destination/file&#39;</span><span class="p">,</span>
+             <span class="n">cb</span><span class="p">,</span> <span class="n">evt</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">()</span>
+<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+    <span class="n">evt</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">Abbruch                           </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>) – source filepath</p></li>
+<li><p><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>) – destination filepath (not a directory)</p></li>
+<li><p><strong>callback</strong> – callback function</p></li>
+<li><p><strong>cancel_evt</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Event" title="(in Python v3.8)"><em>threading.Event</em></a>) – if set the process will be cancelled</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – if the file could not be copied</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="salmagundi.files.on_same_dev">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">on_same_dev</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file1</span></em>, <em class="sig-param"><span class="n">file2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#on_same_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.on_same_dev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition.</p>
+<p><code class="docutils literal notranslate"><span class="pre">file1,</span> <span class="pre">file2</span></code> may also refer to directories.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>file1</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>file2</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="salmagundi.files.read_all">
 <code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">read_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#read_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.read_all" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read and return the content of the file.</p>
@@ -193,120 +317,6 @@ line as its argument and returns a bool. Only the lines for which
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a>(<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>)</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
-</dd>
-</dl>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.files.write_all">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the content to a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
-<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file content</p></li>
-<li><p><strong>binary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the content must be <code class="docutils literal notranslate"><span class="pre">bytes</span></code> else <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
-<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>number of bytes or characters written</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
-</dd>
-</dl>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.files.write_lines">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_lines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Write the lines to a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
-<li><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – list of strings w/o newline</p></li>
-<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding</p></li>
-<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>number of characters written</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
-</dd>
-</dl>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.files.append_all">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_all" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append the content to a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
-<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file content</p></li>
-<li><p><strong>binary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the content must be <code class="docutils literal notranslate"><span class="pre">bytes</span></code> else <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
-<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>number of bytes or characters written</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
-</dd>
-</dl>
-<div class="versionchanged">
-<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
-</div>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.files.append_lines">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">append_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#append_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.append_lines" title="Permalink to this definition">¶</a></dt>
-<dd><p>Append the lines to a file.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
-<li><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – list of strings w/o newline</p></li>
-<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding</p></li>
-<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>number of characters written</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
@@ -371,68 +381,59 @@ file for <code class="docutils literal notranslate"><span class="pre">new_time</
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.files.on_same_dev">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">on_same_dev</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file1</span></em>, <em class="sig-param"><span class="n">file2</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#on_same_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.on_same_dev" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return <code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition.</p>
-<p><code class="docutils literal notranslate"><span class="pre">file1,</span> <span class="pre">file2</span></code> may also refer to directories.</p>
+<dt id="salmagundi.files.write_all">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">content</span></em>, <em class="sig-param"><span class="n">binary</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_all"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_all" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the content to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>file1</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
-<li><p><strong>file2</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>content</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – file content</p></li>
+<li><p><strong>binary</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the content must be <code class="docutils literal notranslate"><span class="pre">bytes</span></code> else <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
+<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler (ignored if <code class="docutils literal notranslate"><span class="pre">binary=True</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if both files are on the same device/partition</p>
+<dd class="field-even"><p>number of bytes or characters written</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
 </dd>
 </dl>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
+</div>
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.files.copyfile">
-<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">copyfile</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">src</span></em>, <em class="sig-param"><span class="n">dst</span></em>, <em class="sig-param"><span class="n">callback</span></em>, <em class="sig-param"><span class="n">cancel_evt</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#copyfile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.copyfile" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy a file.</p>
-<p>The progess of a long running copy process can be monitored
-and the process can be cancelled.</p>
-<p>The <code class="docutils literal notranslate"><span class="pre">callback</span></code> must be a callable that takes two parameters:</p>
-<ul class="simple">
-<li><p>number of the copied bytes</p></li>
-<li><p>size of the source file</p></li>
-</ul>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">cb</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="si">%d</span><span class="s1"> / </span><span class="si">%d</span><span class="s1"> (</span><span class="si">%.1f%%</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">i</span> <span class="o">/</span> <span class="n">t</span> <span class="o">*</span> <span class="mi">100</span><span class="p">),</span>
-          <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="n">evt</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Start&#39;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="k">try</span><span class="p">:</span>
-    <span class="n">copyfile</span><span class="p">(</span><span class="s1">&#39;/path/to/source/file&#39;</span><span class="p">,</span>
-             <span class="s1">&#39;/path/to/destination/file&#39;</span><span class="p">,</span>
-             <span class="n">cb</span><span class="p">,</span> <span class="n">evt</span><span class="p">)</span>
-    <span class="nb">print</span><span class="p">()</span>
-<span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
-    <span class="n">evt</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
-    <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\r</span><span class="s1">Abbruch                           </span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
+<dt id="salmagundi.files.write_lines">
+<code class="sig-prename descclassname">salmagundi.files.</code><code class="sig-name descname">write_lines</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">file</span></em>, <em class="sig-param"><span class="n">lines</span></em>, <em class="sig-param"><span class="n">encoding</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">errors</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/files.html#write_lines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.files.write_lines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Write the lines to a file.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>) – source filepath</p></li>
-<li><p><strong>dst</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>) – destination filepath (not a directory)</p></li>
-<li><p><strong>callback</strong> – callback function</p></li>
-<li><p><strong>cancel_evt</strong> (<a class="reference external" href="https://docs.python.org/3/library/threading.html#threading.Event" title="(in Python v3.8)"><em>threading.Event</em></a>) – if set the process will be cancelled</p></li>
+<li><p><strong>file</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a> or int) – path to file or file descriptor</p></li>
+<li><p><strong>lines</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – list of strings w/o newline</p></li>
+<li><p><strong>encoding</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of the encoding</p></li>
+<li><p><strong>errors</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – error handler</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>number of characters written</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+</dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – if the file could not be copied</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – on I/O failure</p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.5.0.</span></p>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.6.0: </span>Add parameter <code class="docutils literal notranslate"><span class="pre">errors</span></code></p>
 </div>
 </dd></dl>
 
@@ -450,7 +451,7 @@ and the process can be cancelled.</p>
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

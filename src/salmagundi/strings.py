@@ -12,6 +12,8 @@ from collections import namedtuple
 from datetime import timedelta
 from functools import lru_cache
 
+from wcwidth import wcswidth
+
 from .utils import check_type
 
 __all__ = ['BINARY_PREFIXES', 'BOOLEAN_STATES', 'DECIMAL_PREFIXES', 'NO_PREFIX',
@@ -19,7 +21,8 @@ __all__ = ['BINARY_PREFIXES', 'BOOLEAN_STATES', 'DECIMAL_PREFIXES', 'NO_PREFIX',
            'find_bin_prefix', 'find_dec_prefix', 'format_bin_prefix',
            'format_dec_prefix', 'format_timedelta', 'insert_separator',
            'int2str', 'is_hexdigit', 'parse_timedelta', 'purge', 'shorten',
-           'slugify', 'split_host_port', 'str2bool', 'str2port', 'str2tuple']
+           'slugify', 'split_host_port', 'str2bool', 'str2port', 'str2tuple',
+           'walign', 'wlen', 'wshorten']
 
 BOOLEAN_STATES = configparser.ConfigParser.BOOLEAN_STATES.copy()
 """Dictionary with mappings from strings to boolean values.
@@ -718,3 +721,142 @@ class TranslationTable:
         if n in self._delete_chars:
             return None
         raise ValueError('character "%s" (%d) is not allowed' % (chr(n), n))
+
+
+def wlen(text):
+    r"""Determine the number of columns a string actually occupies in a terminal.
+
+    Though most characters need just one column there are characters that use
+    zero (e.g. NULL) or two (e.g. Japanese) columns. The :func:`len` function
+    counts the number of characters in a string.
+
+    Examples::
+
+        >>> s1 = 'a\0b'
+        >>> s2 = 'は日本'
+        >>> len(s1)
+        3
+        >>> len(s2)
+        3
+        >>> print(s1)
+        ab
+        >>> print(s2)
+        は日本
+        >>> wlen(s1)
+        2
+        >>> wlen(s2)
+        6
+
+    :param str text: the string
+    :return: number of columns
+    :rtype: int
+    :raises ValueError: if length could not be determined
+
+    .. versionadded:: 0.15.0
+    """
+    w = wcswidth(text)
+    if w == -1:
+        raise ValueError('length could not be determined')
+    return w
+
+
+def walign(text, width, fill=' ', align='center'):
+    """Align a string even if not all characters occupy only one column\
+    in a terminal.
+
+    The string methods :meth:`~str.center`, :meth:`~str.ljust`,
+    and :meth:`~str.rjust` only consider the number of characters when
+    aligning a string. If a string contains characters that occupy
+    zero or two columns (see :func:`wlen`) the result is wrong when
+    displayed in a terminal::
+
+       s = 'abcde'
+       w = 'は日本競馬'
+       wlen(s) -> 5
+       wlen(w) -> 10
+       s.center(12, '.') -> 12 columns (correct)
+       w.center(12, '.') -> 17 columns (wrong)
+       walign(s, 12, '.', 'center') -> 12 columns (correct)
+       walign(w, 12, '.', 'center') -> 12 columns (correct)
+
+    :param str text: the string
+    :param int width: number of columns wherein to align the string
+    :param str fill: fill character
+    :param str align: alignment (one of ``'center', 'left', 'right``)
+    :return: aligned string (if ``wlen(text) >= width`` the original
+             string is returned)
+    :raises ValueError: if length could not be determined,
+                        ``align`` is unknown or ``wlen(fill) != 1``
+
+    .. versionadded:: 0.15.0
+    """
+    if wcswidth(fill) != 1:
+        raise ValueError('wlen(fill) must be 1')
+    if align not in ('center', 'left', 'right'):
+        raise ValueError(f'unknown alignment {align!r}')
+    w = wlen(text)
+    if w >= width:
+        return text
+    d = width - w
+    if align == 'center':
+        return d // 2 * fill + text + (width - w - d // 2) * fill
+    if align == 'left':
+        return text + (width - w) * fill
+    if align == 'right':
+        return (width - w) * fill + text
+
+
+def wshorten(text, width=80, placeholder='…', pos='right'):
+    """Shorten the text to fit in the given width even if not all characters\
+    occupy only one column in a terminal.
+
+    :param str text: the text
+    :param int width: the width
+    :param str placeholder: the placeholder
+    :param str pos: position (``'left', 'middle', 'right'``) of
+                    placeholder in text
+    :return: the shortened text (may be one character less then ``width``)
+    :rtype: str
+    :raises ValueError: if length could not be determined,
+                        ``width < wlen(placeholder)`` or ``pos`` is unknown
+
+    .. versionadded:: 0.15.0
+    """
+    w = wlen(placeholder)
+    if width < w:
+        raise ValueError('width must be >= wlen(placeholder)')
+    if pos not in ('left', 'right', 'middle'):
+        raise ValueError(f'unknown pos: {pos}')
+    if wlen(text) <= width:
+        return text
+    if pos == 'right':
+        result = _slice(text, width - w) + placeholder
+    elif pos == 'left':
+        result = placeholder + _slice(text, -width + w)
+    else:
+        result = _slice(text, math.ceil((width - w) / 2)) + placeholder
+        result += _slice(text, -width + wlen(result))
+    return result
+
+
+def _slice(string, length):
+    if not length:
+        return ''
+    if abs(length) >= wlen(string):
+        return string
+    if length < 0:
+        s = list(reversed(string))
+        l = abs(length)
+    else:
+        s = string
+        l = length
+    for i, _ in enumerate(s, 1):
+        if wlen(s[:i]) > l:
+            result = s[:i - 1]
+            break
+        elif wlen(s[:i]) == l:
+            result = s[:i]
+            break
+    if length < 0:
+        return ''.join(reversed(result))
+    return result

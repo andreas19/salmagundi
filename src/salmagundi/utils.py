@@ -113,7 +113,7 @@ def docopt_helper(text, *, name=None, version=None, version_str=None, argv=None,
 
     The optional argument ``converters`` is a mapping with the same keys as in
     the dictionary returned by |docopt_api|_. The values are callables which
-    take one argument of (an) appropriate type(s) and return a value of the
+    take one argument of an appropriate type and return a value of the
     desired type. It is not required to provide a converter for every option,
     argument and command. If a value cannot be converted the converter should
     raise a :exc:`ValueError`.

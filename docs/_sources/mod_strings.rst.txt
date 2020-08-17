@@ -34,6 +34,9 @@ Module *strings*
       str2bool
       str2port
       str2tuple
+      walign
+      wlen
+      wshorten
 
 
    .. autodata:: BOOLEAN_STATES

@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>salmagundi.inputs &#8212; Salmagundi 0.14.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -88,6 +89,7 @@
 
 <span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">getpass</span> <span class="kn">import</span> <span class="n">getpass</span>
 
 <span class="kn">from</span> <span class="nn">ansictrls</span> <span class="kn">import</span> <span class="n">CS</span>
 
@@ -99,7 +101,8 @@
 <span class="n">_cs_print</span> <span class="o">=</span> <span class="n">partial</span><span class="p">(</span><span class="nb">print</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">flush</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+<div class="viewcode-block" id="read"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.read">[docs]</a><span class="k">def</span> <span class="nf">read</span><span class="p">(</span><span class="n">prompt</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+         <span class="o">*</span><span class="p">,</span> <span class="n">noecho</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Read a line of input and check if it is allowed.</span>
 
 <span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
@@ -126,11 +129,15 @@
 <span class="sd">    :param check: the check parameter (see above)</span>
 <span class="sd">    :type check: callable(str) or None</span>
 <span class="sd">    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception</span>
+<span class="sd">    :param bool noecho: if set to ``True`` :func:`~getpass.getpass` will be used</span>
+<span class="sd">                        instead of :func:`input`</span>
 <span class="sd">    :return: (converted) input value or ``None`` if input was cancelled and</span>
 <span class="sd">              ``exc_on_cancel=False``</span>
 <span class="sd">    :rtype: str or return-type of the ``check`` callable or None</span>
 <span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
 <span class="sd">    :raises TypeError: if ``default`` is not of type ``str``</span>
+
+<span class="sd">    .. versionchanged:: 0.15.0 Add parameter ``noecho``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">check_type</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
     <span class="n">value</span> <span class="o">=</span> <span class="kc">None</span>
@@ -141,7 +148,10 @@
     <span class="n">_cs_print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">CUU</span><span class="p">,</span> <span class="n">CS</span><span class="o">.</span><span class="n">SCP</span><span class="p">)</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">try</span><span class="p">:</span>
-            <span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default</span>
+            <span class="k">if</span> <span class="n">noecho</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="n">getpass</span><span class="p">(</span><span class="n">prompt</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">a</span> <span class="o">=</span> <span class="nb">input</span><span class="p">(</span><span class="n">line</span><span class="p">)</span> <span class="ow">or</span> <span class="n">default</span>
         <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">exc_on_cancel</span><span class="p">:</span>
@@ -419,7 +429,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

@@ -2,3 +2,4 @@ ansictrls >=0.1.0
 docopt >=0.6.2
 easimpconf >=0.1.0
 pygemina >=0.1.0
+wcwidth >=0.2.5

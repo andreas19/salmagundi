@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>salmagundi.strings &#8212; Salmagundi 0.14.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
@@ -92,6 +93,8 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">lru_cache</span>
 
+<span class="kn">from</span> <span class="nn">wcwidth</span> <span class="kn">import</span> <span class="n">wcswidth</span>
+
 <span class="kn">from</span> <span class="nn">.utils</span> <span class="kn">import</span> <span class="n">check_type</span>
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;BINARY_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;BOOLEAN_STATES&#39;</span><span class="p">,</span> <span class="s1">&#39;DECIMAL_PREFIXES&#39;</span><span class="p">,</span> <span class="s1">&#39;NO_PREFIX&#39;</span><span class="p">,</span>
@@ -99,7 +102,8 @@
            <span class="s1">&#39;find_bin_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;find_dec_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;format_bin_prefix&#39;</span><span class="p">,</span>
            <span class="s1">&#39;format_dec_prefix&#39;</span><span class="p">,</span> <span class="s1">&#39;format_timedelta&#39;</span><span class="p">,</span> <span class="s1">&#39;insert_separator&#39;</span><span class="p">,</span>
            <span class="s1">&#39;int2str&#39;</span><span class="p">,</span> <span class="s1">&#39;is_hexdigit&#39;</span><span class="p">,</span> <span class="s1">&#39;parse_timedelta&#39;</span><span class="p">,</span> <span class="s1">&#39;purge&#39;</span><span class="p">,</span> <span class="s1">&#39;shorten&#39;</span><span class="p">,</span>
-           <span class="s1">&#39;slugify&#39;</span><span class="p">,</span> <span class="s1">&#39;split_host_port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2bool&#39;</span><span class="p">,</span> <span class="s1">&#39;str2port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2tuple&#39;</span><span class="p">]</span>
+           <span class="s1">&#39;slugify&#39;</span><span class="p">,</span> <span class="s1">&#39;split_host_port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2bool&#39;</span><span class="p">,</span> <span class="s1">&#39;str2port&#39;</span><span class="p">,</span> <span class="s1">&#39;str2tuple&#39;</span><span class="p">,</span>
+           <span class="s1">&#39;walign&#39;</span><span class="p">,</span> <span class="s1">&#39;wlen&#39;</span><span class="p">,</span> <span class="s1">&#39;wshorten&#39;</span><span class="p">]</span>
 
 <span class="n">BOOLEAN_STATES</span> <span class="o">=</span> <span class="n">configparser</span><span class="o">.</span><span class="n">ConfigParser</span><span class="o">.</span><span class="n">BOOLEAN_STATES</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
 <span class="sd">&quot;&quot;&quot;Dictionary with mappings from strings to boolean values.</span>
@@ -798,6 +802,145 @@
         <span class="k">if</span> <span class="n">n</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_delete_chars</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;character &quot;</span><span class="si">%s</span><span class="s1">&quot; (</span><span class="si">%d</span><span class="s1">) is not allowed&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">chr</span><span class="p">(</span><span class="n">n</span><span class="p">),</span> <span class="n">n</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="wlen"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.wlen">[docs]</a><span class="k">def</span> <span class="nf">wlen</span><span class="p">(</span><span class="n">text</span><span class="p">):</span>
+    <span class="sa">r</span><span class="sd">&quot;&quot;&quot;Determine the number of columns a string actually occupies in a terminal.</span>
+
+<span class="sd">    Though most characters need just one column there are characters that use</span>
+<span class="sd">    zero (e.g. NULL) or two (e.g. Japanese) columns. The :func:`len` function</span>
+<span class="sd">    counts the number of characters in a string.</span>
+
+<span class="sd">    Examples::</span>
+
+<span class="sd">        &gt;&gt;&gt; s1 = &#39;a\0b&#39;</span>
+<span class="sd">        &gt;&gt;&gt; s2 = &#39;は日本&#39;</span>
+<span class="sd">        &gt;&gt;&gt; len(s1)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; len(s2)</span>
+<span class="sd">        3</span>
+<span class="sd">        &gt;&gt;&gt; print(s1)</span>
+<span class="sd">        ab</span>
+<span class="sd">        &gt;&gt;&gt; print(s2)</span>
+<span class="sd">        は日本</span>
+<span class="sd">        &gt;&gt;&gt; wlen(s1)</span>
+<span class="sd">        2</span>
+<span class="sd">        &gt;&gt;&gt; wlen(s2)</span>
+<span class="sd">        6</span>
+
+<span class="sd">    :param str text: the string</span>
+<span class="sd">    :return: number of columns</span>
+<span class="sd">    :rtype: int</span>
+<span class="sd">    :raises ValueError: if length could not be determined</span>
+
+<span class="sd">    .. versionadded:: 0.15.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">wcswidth</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;length could not be determined&#39;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">w</span></div>
+
+
+<div class="viewcode-block" id="walign"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.walign">[docs]</a><span class="k">def</span> <span class="nf">walign</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="p">,</span> <span class="n">fill</span><span class="o">=</span><span class="s1">&#39; &#39;</span><span class="p">,</span> <span class="n">align</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Align a string even if not all characters occupy only one column\</span>
+<span class="sd">    in a terminal.</span>
+
+<span class="sd">    The string methods :meth:`~str.center`, :meth:`~str.ljust`,</span>
+<span class="sd">    and :meth:`~str.rjust` only consider the number of characters when</span>
+<span class="sd">    aligning a string. If a string contains characters that occupy</span>
+<span class="sd">    zero or two columns (see :func:`wlen`) the result is wrong when</span>
+<span class="sd">    displayed in a terminal::</span>
+
+<span class="sd">       s = &#39;abcde&#39;</span>
+<span class="sd">       w = &#39;は日本競馬&#39;</span>
+<span class="sd">       wlen(s) -&gt; 5</span>
+<span class="sd">       wlen(w) -&gt; 10</span>
+<span class="sd">       s.center(12, &#39;.&#39;) -&gt; 12 columns (correct)</span>
+<span class="sd">       w.center(12, &#39;.&#39;) -&gt; 17 columns (wrong)</span>
+<span class="sd">       walign(s, 12, &#39;.&#39;, &#39;center&#39;) -&gt; 12 columns (correct)</span>
+<span class="sd">       walign(w, 12, &#39;.&#39;, &#39;center&#39;) -&gt; 12 columns (correct)</span>
+
+<span class="sd">    :param str text: the string</span>
+<span class="sd">    :param int width: number of columns wherein to align the string</span>
+<span class="sd">    :param str fill: fill character</span>
+<span class="sd">    :param str align: alignment (one of ``&#39;center&#39;, &#39;left&#39;, &#39;right``)</span>
+<span class="sd">    :return: aligned string (if ``wlen(text) &gt;= width`` the original</span>
+<span class="sd">             string is returned)</span>
+<span class="sd">    :raises ValueError: if length could not be determined,</span>
+<span class="sd">                        ``align`` is unknown or ``wlen(fill) != 1``</span>
+
+<span class="sd">    .. versionadded:: 0.15.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">wcswidth</span><span class="p">(</span><span class="n">fill</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;wlen(fill) must be 1&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">align</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unknown alignment </span><span class="si">{</span><span class="n">align</span><span class="si">!r}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">wlen</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">w</span> <span class="o">&gt;=</span> <span class="n">width</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">width</span> <span class="o">-</span> <span class="n">w</span>
+    <span class="k">if</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;center&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">d</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">+</span> <span class="n">text</span> <span class="o">+</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">w</span> <span class="o">-</span> <span class="n">d</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fill</span>
+    <span class="k">if</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span> <span class="o">+</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">fill</span>
+    <span class="k">if</span> <span class="n">align</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">*</span> <span class="n">fill</span> <span class="o">+</span> <span class="n">text</span></div>
+
+
+<div class="viewcode-block" id="wshorten"><a class="viewcode-back" href="../../mod_strings.html#salmagundi.strings.wshorten">[docs]</a><span class="k">def</span> <span class="nf">wshorten</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="mi">80</span><span class="p">,</span> <span class="n">placeholder</span><span class="o">=</span><span class="s1">&#39;…&#39;</span><span class="p">,</span> <span class="n">pos</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Shorten the text to fit in the given width even if not all characters\</span>
+<span class="sd">    occupy only one column in a terminal.</span>
+
+<span class="sd">    :param str text: the text</span>
+<span class="sd">    :param int width: the width</span>
+<span class="sd">    :param str placeholder: the placeholder</span>
+<span class="sd">    :param str pos: position (``&#39;left&#39;, &#39;middle&#39;, &#39;right&#39;``) of</span>
+<span class="sd">                    placeholder in text</span>
+<span class="sd">    :return: the shortened text</span>
+<span class="sd">    :rtype: str</span>
+<span class="sd">    :raises ValueError: if length could not be determined,</span>
+<span class="sd">                        ``width &lt; wlen(placeholder)`` or ``pos`` is unknown</span>
+
+<span class="sd">    .. versionadded:: 0.15.0</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">w</span> <span class="o">=</span> <span class="n">wlen</span><span class="p">(</span><span class="n">placeholder</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">width</span> <span class="o">&lt;</span> <span class="n">w</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;width must be &gt;= wlen(placeholder)&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="s1">&#39;right&#39;</span><span class="p">,</span> <span class="s1">&#39;middle&#39;</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;unknown pos: </span><span class="si">{</span><span class="n">pos</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">wlen</span><span class="p">(</span><span class="n">text</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">width</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">text</span>
+    <span class="k">if</span> <span class="n">pos</span> <span class="o">==</span> <span class="s1">&#39;right&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_slice</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">+</span> <span class="n">placeholder</span>
+    <span class="k">elif</span> <span class="n">pos</span> <span class="o">==</span> <span class="s1">&#39;left&#39;</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">placeholder</span> <span class="o">+</span> <span class="n">_slice</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">-</span><span class="n">width</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">_slice</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">((</span><span class="n">width</span> <span class="o">-</span> <span class="n">w</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">))</span> <span class="o">+</span> <span class="n">placeholder</span>
+        <span class="n">result</span> <span class="o">+=</span> <span class="n">_slice</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="o">-</span><span class="n">width</span> <span class="o">+</span> <span class="n">wlen</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span></div>
+
+
+<span class="k">def</span> <span class="nf">_slice</span><span class="p">(</span><span class="n">string</span><span class="p">,</span> <span class="n">length</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+    <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="n">length</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">wlen</span><span class="p">(</span><span class="n">string</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">string</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">string</span><span class="p">))</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">length</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">string</span>
+        <span class="n">l</span> <span class="o">=</span> <span class="n">length</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">wlen</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span> <span class="o">&gt;</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">i</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">break</span>
+        <span class="k">elif</span> <span class="n">wlen</span><span class="p">(</span><span class="n">s</span><span class="p">[:</span><span class="n">i</span><span class="p">])</span> <span class="o">==</span> <span class="n">l</span><span class="p">:</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">s</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span>
+            <span class="k">break</span>
+    <span class="k">if</span> <span class="n">length</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">result</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">result</span>
 </pre></div>
 
           </div>
@@ -810,7 +953,7 @@
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

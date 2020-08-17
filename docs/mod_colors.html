@@ -4,6 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module colors &#8212; Salmagundi 0.14.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -159,6 +160,49 @@
 </dd></dl>
 
 <dl class="py function">
+<dt id="salmagundi.colors.floats2rgb">
+<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">floats2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rgb</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#floats2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.floats2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert a RGB-triple with floats to one with ints.</p>
+<p>Useful when using functions that take or return RGB values as
+floats from 0 to 1, e.g. the functions in module <a class="reference external" href="https://docs.python.org/3/library/colorsys.html#module-colorsys" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">colorsys</span></code></a>.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>rgb</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>)</em>) – RGB-triple with values ∈ [0, 1]</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RGB-triple with values ∈ [0..255]</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)</p>
+</dd>
+</dl>
+<div class="versionadded">
+<p><span class="versionmodified added">New in version 0.2.0.</span></p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="salmagundi.colors.hex2rgb">
+<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">hex2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hexstr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#hex2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.hex2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from hexadecimal to RGB.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>hexstr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – string with three or six hex digits,
+optionally prefixed with #</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>RGB-triple</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt id="salmagundi.colors.is_valid_name">
 <code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">is_valid_name</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#is_valid_name"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.is_valid_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Return whether name is a valid color name.</p>
@@ -171,26 +215,6 @@
 </dd>
 <dt class="field-odd">Return type</dt>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.colors.name2rgb">
-<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">name2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#name2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.name2rgb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Return the RGB values for name.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – color name</p>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>RGB-triple</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)</p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.8)"><strong>KeyError</strong></a> – if name is not valid</p>
 </dd>
 </dl>
 </dd></dl>
@@ -216,37 +240,12 @@
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.colors.rgb2hex">
-<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">rgb2hex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">g</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#rgb2hex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.rgb2hex" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert from RGB to hexadecimal.</p>
+<dt id="salmagundi.colors.name2rgb">
+<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">name2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#name2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.name2rgb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return the RGB values for name.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – red value ∈ [0..255]</p></li>
-<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – green value ∈ [0..255]</p></li>
-<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – blue value ∈ [0..255]</p></li>
-</ul>
-</dd>
-<dt class="field-even">Returns</dt>
-<dd class="field-even"><p>hexadecimal string (# + 6 hex digits)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
-</dd>
-<dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt id="salmagundi.colors.hex2rgb">
-<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">hex2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">hexstr</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#hex2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.hex2rgb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert from hexadecimal to RGB.</p>
-<dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>hexstr</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – string with three or six hex digits,
-optionally prefixed with #</p>
+<dd class="field-odd"><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – color name</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>RGB-triple</p>
@@ -255,7 +254,7 @@ optionally prefixed with #</p>
 <dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.8)"><strong>KeyError</strong></a> – if name is not valid</p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,25 +282,27 @@ floats from 0 to 1, e.g. the functions in module <a class="reference external" h
 </dd></dl>
 
 <dl class="py function">
-<dt id="salmagundi.colors.floats2rgb">
-<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">floats2rgb</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">rgb</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#floats2rgb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.floats2rgb" title="Permalink to this definition">¶</a></dt>
-<dd><p>Convert a RGB-triple with floats to one with ints.</p>
-<p>Useful when using functions that take or return RGB values as
-floats from 0 to 1, e.g. the functions in module <a class="reference external" href="https://docs.python.org/3/library/colorsys.html#module-colorsys" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">colorsys</span></code></a>.</p>
+<dt id="salmagundi.colors.rgb2hex">
+<code class="sig-prename descclassname">salmagundi.colors.</code><code class="sig-name descname">rgb2hex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">r</span></em>, <em class="sig-param"><span class="n">g</span></em>, <em class="sig-param"><span class="n">b</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/colors.html#rgb2hex"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.colors.rgb2hex" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from RGB to hexadecimal.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>rgb</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>)</em>) – RGB-triple with values ∈ [0, 1]</p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>r</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – red value ∈ [0..255]</p></li>
+<li><p><strong>g</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – green value ∈ [0..255]</p></li>
+<li><p><strong>b</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – blue value ∈ [0..255]</p></li>
+</ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>RGB-triple with values ∈ [0..255]</p>
+<dd class="field-even"><p>hexadecimal string (# + 6 hex digits)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a>(<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a>)</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if one of the arguments is not in [0..255]</p>
 </dd>
 </dl>
-<div class="versionadded">
-<p><span class="versionmodified added">New in version 0.2.0.</span></p>
-</div>
 </dd></dl>
 
 </div>
@@ -318,7 +319,7 @@ floats from 0 to 1, e.g. the functions in module <a class="reference external" h
       &copy;2018-2020, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>
