@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>salmagundi.strings &#8212; Salmagundi 0.14.0 documentation</title>
+    <title>salmagundi.strings &#8212; Salmagundi 0.15.0 documentation</title>
     <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
@@ -896,7 +896,7 @@
 <span class="sd">    :param str placeholder: the placeholder</span>
 <span class="sd">    :param str pos: position (``&#39;left&#39;, &#39;middle&#39;, &#39;right&#39;``) of</span>
 <span class="sd">                    placeholder in text</span>
-<span class="sd">    :return: the shortened text</span>
+<span class="sd">    :return: the shortened text (may be one character less then ``width``)</span>
 <span class="sd">    :rtype: str</span>
 <span class="sd">    :raises ValueError: if length could not be determined,</span>
 <span class="sd">                        ``width &lt; wlen(placeholder)`` or ``pos`` is unknown</span>

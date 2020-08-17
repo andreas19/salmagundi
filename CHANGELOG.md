@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-08-17 (0.15.0)**
  - Add parameter noecho to inputs.read
  - Add functions walign, wlen, wshorten to module strings
 
