@@ -1,6 +1,7 @@
 History
 -------
 
+**2020-12-26 (0.15.1)**
  - Bugfix: strings.int2str now works with negative integers
  - Remove deprecated modules config and crypto
  - Include docopt.py in package and silence DeprecationWarnings
