@@ -149,7 +149,7 @@ def docopt_helper(text, *, name=None, version=None, version_str=None, argv=None,
     .. versionchanged:: 0.11.0
        Add parameter ``err_code``
     """
-    import docopt
+    from . import _docopt
 
     if name is None:
         name = os.path.basename(sys.argv[0])
@@ -159,7 +159,7 @@ def docopt_helper(text, *, name=None, version=None, version_str=None, argv=None,
         version_str = f'{name} {version}'
     mapping = dict(name=name, version=version, version_str=version_str)
     try:
-        arguments = docopt.docopt(
+        arguments = _docopt.docopt(
             string.Template(
                 textwrap.dedent(text)).substitute(mapping, **kwargs),
             version=version_str, argv=argv, help=help,

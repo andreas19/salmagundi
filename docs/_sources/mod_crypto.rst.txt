@@ -1,4 +1,0 @@
-Module *crypto*
-===============
-
-.. automodule:: salmagundi.crypto

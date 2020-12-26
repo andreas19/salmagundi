@@ -1,4 +1,0 @@
-Module *config*
-===============
-
-.. automodule:: salmagundi.config

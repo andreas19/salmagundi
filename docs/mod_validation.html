@@ -43,8 +43,6 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_config.html">Module <em>config</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_crypto.html">Module <em>crypto</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_inputs.html">Module <em>inputs</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_strings.html">Module <em>strings</em></a></li>
@@ -103,8 +101,8 @@
 </div>
 <p id="def-validator-function">In this module a <code class="docutils literal notranslate"><span class="pre">validator</span> <span class="pre">function</span></code> is a callable that takes
 a value as its only argument and returns normally if the value
-is considered valid or raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> otherwise. It
-may raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the value is not of the right type.</p>
+is considered valid or raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> otherwise. It
+may raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a> if the value is not of the right type.</p>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
 <table class="longtable docutils align-default">
@@ -193,7 +191,7 @@ may raise a <a class="reference external" href="https://docs.python.org/3/librar
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if one of the <code class="docutils literal notranslate"><span class="pre">validators</span></code> is not callable</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if one of the <code class="docutils literal notranslate"><span class="pre">validators</span></code> is not callable</p>
 </dd>
 </dl>
 </dd></dl>
@@ -205,16 +203,16 @@ may raise a <a class="reference external" href="https://docs.python.org/3/librar
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – minimum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>max_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – maximum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>min_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">min_value</span></code> is included</p></li>
-<li><p><strong>max_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">max_value</span></code> is included</p></li>
-<li><p><strong>allow_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/math.html#math.nan" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">math.nan</span></code></a> is allowed as the
+<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – minimum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>max_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – maximum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>min_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">min_value</span></code> is included</p></li>
+<li><p><strong>max_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">max_value</span></code> is included</p></li>
+<li><p><strong>allow_nan</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/math.html#math.nan" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">math.nan</span></code></a> is allowed as the
 argument of the returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p></li>
-<li><p><strong>allow_inf</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/math.html#math.inf" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">math.inf</span></code></a> is allowed as the
+<li><p><strong>allow_inf</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/math.html#math.inf" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">math.inf</span></code></a> is allowed as the
 argument of the returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p></li>
-<li><p><strong>allow_ints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an integer value as the argument of the
-returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> will not raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>.</p></li>
+<li><p><strong>allow_ints</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an integer value as the argument of the
+returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> will not raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -222,9 +220,9 @@ returned <a class="reference internal" href="#def-validator-function"><span clas
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span></code> or <code class="docutils literal notranslate"><span class="pre">max_value</span></code> are not
-of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span></code> or <code class="docutils literal notranslate"><span class="pre">max_value</span></code> are not
+of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -234,7 +232,7 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dt id="salmagundi.validation.func2validator">
 <code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">func2validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">err_result</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#func2validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.func2validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert a function to a <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a>.</p>
-<p>The returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if <code class="docutils literal notranslate"><span class="pre">func()</span></code> returns
+<p>The returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> raises a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if <code class="docutils literal notranslate"><span class="pre">func()</span></code> returns
 <code class="docutils literal notranslate"><span class="pre">err_result</span></code>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">vf</span> <span class="o">=</span> <span class="n">func2validator</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">isupper</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vf</span><span class="p">(</span><span class="s1">&#39;A&#39;</span><span class="p">)</span>
@@ -248,7 +246,7 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>func</strong> – callable that takes a value as its only argument</p></li>
-<li><p><strong>err_result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – the result, that will raise the ValueError</p></li>
+<li><p><strong>err_result</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – the result, that will raise the ValueError</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -265,7 +263,7 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>container</strong> – container object (must support the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator)</p></li>
-<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the value is valid if it is  <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code>
+<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the value is valid if it is  <code class="docutils literal notranslate"><span class="pre">not</span> <span class="pre">in</span></code>
 the container.</p></li>
 </ul>
 </dd>
@@ -273,7 +271,7 @@ the container.</p></li>
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">container</span></code> does not support the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">container</span></code> does not support the <code class="docutils literal notranslate"><span class="pre">in</span></code> operator</p>
 </dd>
 </dl>
 </dd></dl>
@@ -283,16 +281,16 @@ the container.</p></li>
 <code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">int_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">min_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_value</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">allow_floats</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#int_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.int_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks whether a value is a valid integer.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">allow_floats</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code>, a float value as the argument of the
-returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> will not raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Instead a value that
+returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> will not raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">TypeError</span></code></a>. Instead a value that
 represents an integer (such as <code class="docutils literal notranslate"><span class="pre">1.0</span></code>) and is in the interval
 <code class="docutils literal notranslate"><span class="pre">[min_value,</span> <span class="pre">max_value]</span></code> will be considered valid. All other cases will
-raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – minimum value (inclusive, <code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>max_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – maximum value (inclusive, <code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>allow_floats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see function description</p></li>
+<li><p><strong>min_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – minimum value (inclusive, <code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>max_value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – maximum value (inclusive, <code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>allow_floats</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – see function description</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -300,9 +298,9 @@ raise a <a class="reference external" href="https://docs.python.org/3/library/ex
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span></code> or <code class="docutils literal notranslate"><span class="pre">max_value</span></code> are not
-of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span></code> or <code class="docutils literal notranslate"><span class="pre">max_value</span></code> are not
+of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -319,15 +317,15 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>min_value</strong> – minimum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
 <li><p><strong>max_value</strong> – maximum value (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>min_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">min_value</span></code> is included</p></li>
-<li><p><strong>max_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">max_value</span></code> is included</p></li>
+<li><p><strong>min_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">min_value</span></code> is included</p></li>
+<li><p><strong>max_incl</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">max_value</span></code> is included</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_value</span> <span class="pre">&gt;</span> <span class="pre">max_value</span></code></p>
 </dd>
 </dl>
 </dd></dl>
@@ -341,16 +339,16 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 are allowed and the length of the string must be 13.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the string is a valid EAN-13</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if a character is not allowed or the length is wrong</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if a character is not allowed or the length is wrong</p>
 </dd>
 </dl>
 </dd></dl>
@@ -364,16 +362,16 @@ are allowed and the length of the string must be 13.</p>
 only the characters <code class="docutils literal notranslate"><span class="pre">A-Z</span></code> and <code class="docutils literal notranslate"><span class="pre">0-9</span></code> are allowed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the string is a valid IBAN</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if a character is not allowed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if a character is not allowed</p>
 </dd>
 </dl>
 </dd></dl>
@@ -388,16 +386,16 @@ plus <code class="docutils literal notranslate"><span class="pre">X</span></code
 either 10 or 13.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the string is a valid ISBN</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if a character is not allowed or the length is wrong</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if a character is not allowed or the length is wrong</p>
 </dd>
 </dl>
 </dd></dl>
@@ -412,16 +410,16 @@ a variety of identification numbers, e.g. credit card numbers.</p>
 are allowed.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if the string is valid</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if a character is not allowed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if a character is not allowed</p>
 </dd>
 </dl>
 </dd></dl>
@@ -431,20 +429,20 @@ are allowed.</p>
 <code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">length_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">min_len</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">max_len</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#length_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.length_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks the length.</p>
 <p>The type of the checked values must support the
-<a class="reference external" href="https://docs.python.org/3/library/functions.html#len" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> function.</p>
+<a class="reference external" href="https://docs.python.org/3/library/functions.html#len" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the minimum length</p></li>
-<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – the maximum length (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>min_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the minimum length</p></li>
+<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – the maximum length (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_len</span></code> or <code class="docutils literal notranslate"><span class="pre">max_len</span></code> are negative integers
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_len</span></code> or <code class="docutils literal notranslate"><span class="pre">max_len</span></code> are negative integers
 or <code class="docutils literal notranslate"><span class="pre">min_len</span></code> &gt; <code class="docutils literal notranslate"><span class="pre">max_len</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_len</span></code> or <code class="docutils literal notranslate"><span class="pre">max_len</span></code> are not
-of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">min_len</span></code> or <code class="docutils literal notranslate"><span class="pre">max_len</span></code> are not
+of type <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a></p></li>
 </ul>
 </dd>
 </dl>
@@ -461,14 +459,14 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>validator</strong> – <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p></li>
-<li><p><strong>what</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – see function description</p></li>
+<li><p><strong>what</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – see function description</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
 </dd>
 </dl>
 </dd></dl>
@@ -494,11 +492,11 @@ of type <a class="reference external" href="https://docs.python.org/3/library/fu
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>validator</strong> (<em>callable</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p></li>
-<li><p><strong>value_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.8)"><em>type</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – the type of the value (not checked if <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
-<li><p><strong>strict_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> instances of subclasses of
+<li><p><strong>validator</strong> (<em>callable</em><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p></li>
+<li><p><strong>value_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.9)"><em>type</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – the type of the value (not checked if <code class="docutils literal notranslate"><span class="pre">None</span></code>)</p></li>
+<li><p><strong>strict_type</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> instances of subclasses of
 <code class="docutils literal notranslate"><span class="pre">value_type</span></code> are not allowed</p></li>
-<li><p><strong>allow_none</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">None</span></code> values are valid even
+<li><p><strong>allow_none</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> <code class="docutils literal notranslate"><span class="pre">None</span></code> values are valid even
 when <code class="docutils literal notranslate"><span class="pre">value_type</span></code> is set</p></li>
 </ul>
 </dd>
@@ -506,7 +504,7 @@ when <code class="docutils literal notranslate"><span class="pre">value_type</sp
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable or
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable or
 <code class="docutils literal notranslate"><span class="pre">value_type</span></code> is not a type-object</p>
 </dd>
 </dl>
@@ -517,9 +515,9 @@ when <code class="docutils literal notranslate"><span class="pre">value_type</sp
 <code class="sig-prename descclassname">salmagundi.validation.</code><code class="sig-name descname">pattern_validator</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pattern</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/validation.html#pattern_validator"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.validation.pattern_validator" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a function that checks a value with a pattern.</p>
 <p>The type of the argument for the returned <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> can be either
-<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>. It must be the same type that
+<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code></a>. It must be the same type that
 is used for the pattern.</p>
-<p>The check is done by using <a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern.search" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">re.Pattern.search()</span></code></a>.</p>
+<p>The check is done by using <a class="reference external" href="https://docs.python.org/3/library/re.html#re.Pattern.search" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">re.Pattern.search()</span></code></a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># validator for values of type str and length 5-10</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vf</span> <span class="o">=</span> <span class="n">pattern_validator</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;^.{5,10}$&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">vf</span><span class="p">(</span><span class="s1">&#39;abcde&#39;</span><span class="p">)</span>
@@ -535,10 +533,10 @@ is used for the pattern.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.8)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><em>compiled pattern</em>) – regular expression pattern (see: module <a class="reference external" href="https://docs.python.org/3/library/re.html#module-re" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a>)</p>
+<dd class="field-odd"><p><strong>pattern</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#bytes" title="(in Python v3.9)"><em>bytes</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><em>compiled pattern</em>) – regular expression pattern (see: module <a class="reference external" href="https://docs.python.org/3/library/re.html#module-re" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">re</span></code></a>)</p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> has the wrong type</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">pattern</span></code> has the wrong type</p>
 </dd>
 </dl>
 </dd></dl>
@@ -551,7 +549,7 @@ is used for the pattern.</p>
 to a <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> or <code class="docutils literal notranslate"><span class="pre">None</span></code> if only the existence of a property should be
 checked. If the argument value for the returned
 <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> is missing a property, the value is considered invalid (no
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised).</p>
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AttributeError</span></code></a> will be raised).</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">mapping</span></code> is <code class="docutils literal notranslate"><span class="pre">True</span></code> the value must be a mapping with string keys
 that are used as properties.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">validators</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="n">func2validator</span><span class="p">(</span><span class="nb">str</span><span class="o">.</span><span class="n">isupper</span><span class="p">),</span> <span class="n">b</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -570,12 +568,12 @@ that are used as properties.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>validators</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> for each property</p></li>
-<li><p><strong>mapping</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the value must be a mapping</p></li>
+<li><p><strong>validators</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – <a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a> for each property</p></li>
+<li><p><strong>mapping</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the value must be a mapping</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validators</span></code> is not a mapping or keys are not
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validators</span></code> is not a mapping or keys are not
 strings or values are not callable or <code class="docutils literal notranslate"><span class="pre">None</span></code></p>
 </dd>
 </dl>
@@ -603,7 +601,7 @@ each item in the sequence.</p>
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
 </dd>
 </dl>
 </dd></dl>
@@ -622,7 +620,7 @@ each element in the set.</p>
 <dd class="field-even"><p><a class="reference internal" href="#def-validator-function"><span class="std std-ref">validator function</span></a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">validator</span></code> is not callable</p>
 </dd>
 </dl>
 </dd></dl>

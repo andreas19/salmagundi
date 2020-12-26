@@ -658,10 +658,12 @@ def int2str(n, base):
     s = ''
     if not n:
         return '0'
+    sign = '-' if n < 0 else ''
+    n = abs(n)
     while n > 0:
         n, r = divmod(n, base)
         s = _DIGITS[r] + s
-    return s
+    return sign + s
 
 
 _SLUGIFY_CHAR_MAP = str.maketrans({' ': '-', '\t': '-', '\n': '-', "'": '-',

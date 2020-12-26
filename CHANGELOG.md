@@ -1,6 +1,10 @@
 History
 -------
 
+ - Bugfix: strings.int2str now works with negative integers
+ - Remove deprecated modules config and crypto
+ - Include docopt.py in package and silence DeprecationWarnings
+
 **2020-08-17 (0.15.0)**
  - Add parameter noecho to inputs.read
  - Add functions walign, wlen, wshorten to module strings

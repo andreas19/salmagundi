@@ -43,8 +43,6 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_config.html">Module <em>config</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_crypto.html">Module <em>crypto</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_inputs.html">Module <em>inputs</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_strings.html">Module <em>strings</em></a></li>
@@ -119,10 +117,10 @@
 <td><p>Raised by <a class="reference internal" href="#salmagundi.utils.StopWatch" title="salmagundi.utils.StopWatch"><code class="xref py py-class docutils literal notranslate"><span class="pre">StopWatch</span></code></a> if an action is not allowed.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.check_bytes_like" title="salmagundi.utils.check_bytes_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_bytes_like</span></code></a></p></td>
-<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p></td>
+<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.9)"><span class="xref std std-term">bytes-like object</span></a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.utils.check_path_like" title="salmagundi.utils.check_path_like"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_path_like</span></code></a></p></td>
-<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p></td>
+<td><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.9)"><span class="xref std std-term">path-like object</span></a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.utils.check_type" title="salmagundi.utils.check_type"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_type</span></code></a></p></td>
 <td><p>Check the type of an object.</p></td>
@@ -150,7 +148,7 @@
 <dd><p>Simple stop watch.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the stop watch starts immediately</p>
+<dd class="field-odd"><p><strong>start</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the stop watch starts immediately</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -189,7 +187,7 @@
 <dd class="field-odd"><p>the elapsed time in seconds</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is not running</p>
@@ -206,7 +204,7 @@
 <dd class="field-odd"><p>the elapsed time in seconds</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch is not running</p>
@@ -234,7 +232,7 @@
 <dd class="field-odd"><p>the currently elapsed time in seconds</p>
 </dd>
 <dt class="field-even">Return type</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)">float</a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)">float</a></p>
 </dd>
 <dt class="field-odd">Raises</dt>
 <dd class="field-odd"><p><a class="reference internal" href="#salmagundi.utils.StopWatchError" title="salmagundi.utils.StopWatchError"><strong>StopWatchError</strong></a> – if the stop watch has not been started</p>
@@ -256,17 +254,17 @@
 <dl class="py function">
 <dt id="salmagundi.utils.check_bytes_like">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_bytes_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_bytes_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_bytes_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.8)"><span class="xref std std-term">bytes-like object</span></a>.</p>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-bytes-like-object" title="(in Python v3.9)"><span class="xref std std-term">bytes-like object</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – alternative message</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if the check fails</p>
 </dd>
 </dl>
 </dd></dl>
@@ -274,17 +272,17 @@
 <dl class="py function">
 <dt id="salmagundi.utils.check_path_like">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">check_path_like</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">obj</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">'object'</span></em>, <em class="sig-param"><span class="n">msg</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#check_path_like"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.check_path_like" title="Permalink to this definition">¶</a></dt>
-<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>.</p>
+<dd><p>Check if an object is a <a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.9)"><span class="xref std std-term">path-like object</span></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alternative message</p></li>
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – alternative message</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if the check fails</p>
 </dd>
 </dl>
 </dd></dl>
@@ -310,14 +308,14 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.8)"><em>object</em></a>) – the object</p></li>
-<li><p><strong>classinfo</strong> – see <a class="reference external" href="https://docs.python.org/3/library/functions.html#isinstance" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a></p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name shown in the exception message</p></li>
-<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – message for the exception</p></li>
+<li><p><strong>obj</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#object" title="(in Python v3.9)"><em>object</em></a>) – the object</p></li>
+<li><p><strong>classinfo</strong> – see <a class="reference external" href="https://docs.python.org/3/library/functions.html#isinstance" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">isinstance()</span></code></a></p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name shown in the exception message</p></li>
+<li><p><strong>msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – message for the exception</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the check fails</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if the check fails</p>
 </dd>
 </dl>
 </dd></dl>
@@ -327,13 +325,13 @@
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">docopt_helper</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">name</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">version</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">version_str</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">argv</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">help</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">options_first</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">converters</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">err_code</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#docopt_helper"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.docopt_helper" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function for <a class="reference external" href="https://pypi.org/project/docopt/">docopt</a>.</p>
 <p>The <code class="docutils literal notranslate"><span class="pre">name</span></code> defaults to <code class="docutils literal notranslate"><span class="pre">os.path.basename(sys.argv[0])</span></code>.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">version</span></code> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> it will be converted to a string
+<p>If <code class="docutils literal notranslate"><span class="pre">version</span></code> is a <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></a> it will be converted to a string
 with <code class="docutils literal notranslate"><span class="pre">'.'.join(map(str,</span> <span class="pre">version))</span></code>.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">version_str</span></code> is set it will be printed if called with <code class="docutils literal notranslate"><span class="pre">--version</span></code>.
 Else if <code class="docutils literal notranslate"><span class="pre">version</span></code> is set the resulting string will be
 <code class="docutils literal notranslate"><span class="pre">name</span> <span class="pre">+</span> <span class="pre">'</span> <span class="pre">'</span> <span class="pre">+</span> <span class="pre">version</span></code>.</p>
 <p>Within the help message string substitution is supported with
-<a class="reference external" href="https://docs.python.org/3/library/string.html#template-strings" title="(in Python v3.8)"><span class="xref std std-ref">template strings</span></a>. The placeholder
+<a class="reference external" href="https://docs.python.org/3/library/string.html#template-strings" title="(in Python v3.9)"><span class="xref std std-ref">template strings</span></a>. The placeholder
 identifiers <code class="docutils literal notranslate"><span class="pre">name</span></code>, <code class="docutils literal notranslate"><span class="pre">version</span></code> and <code class="docutils literal notranslate"><span class="pre">version_str</span></code> are always available;
 more can be added with <code class="docutils literal notranslate"><span class="pre">kwargs</span></code>.</p>
 <p>If the help message is indented it will be dedented so that the least
@@ -343,7 +341,7 @@ the dictionary returned by <a class="reference external" href="https://pypi.org/
 take one argument of an appropriate type and return a value of the
 desired type. It is not required to provide a converter for every option,
 argument and command. If a value cannot be converted the converter should
-raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
+raise a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a>.</p>
 <p>Example (naval_fate.py):</p>
 <div class="highlight-python3 notranslate"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/env python3</span>
 <span class="sd">&quot;&quot;&quot;$title Version $version.</span>
@@ -439,15 +437,15 @@ error in &#39;--speed&#39;: invalid literal for int() with base 10: &#39;abc&#39
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – help message</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name of program/script</p></li>
-<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a>) – version</p></li>
-<li><p><strong>version_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – version string</p></li>
-<li><p><strong>argv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
-<li><p><strong>option_first</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
-<li><p><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
-<li><p><strong>converters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – see <a class="reference internal" href="#ref-convs"><span class="std std-ref">above</span></a></p></li>
-<li><p><strong>err_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – exit status code if an error occurs</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – help message</p></li>
+<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name of program/script</p></li>
+<li><p><strong>version</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – version</p></li>
+<li><p><strong>version_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – version string</p></li>
+<li><p><strong>argv</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.9)"><em>list</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>)</em>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>option_first</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>help</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – see: <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p></li>
+<li><p><strong>converters</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a>) – see <a class="reference internal" href="#ref-convs"><span class="std std-ref">above</span></a></p></li>
+<li><p><strong>err_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – exit status code if an error occurs</p></li>
 <li><p><strong>kwargs</strong> – additional values for substitution in the help message</p></li>
 </ul>
 </dd>
@@ -455,11 +453,11 @@ error in &#39;--speed&#39;: invalid literal for int() with base 10: &#39;abc&#39
 <dd class="field-even"><p>result of <a class="reference external" href="https://pypi.org/project/docopt/#api">docopt.docopt()</a></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)">dict</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><strong>SystemExit</strong></a> – if program was invoked with incorrect arguments or
-a converter function raised a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.9)"><strong>SystemExit</strong></a> – if program was invoked with incorrect arguments or
+a converter function raised a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -500,7 +498,7 @@ in the <code class="docutils literal notranslate"><span class="pre">lockdir</spa
 instead of a lock file and the name of the socket will be the value of
 <code class="docutils literal notranslate"><span class="pre">lockname</span></code>.</p>
 <p>This function should work on Windows and any platform that supports
-<a class="reference external" href="https://docs.python.org/3/library/fcntl.html#module-fcntl" title="(in Python v3.8)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code></a> but it is only tested on Linux. The user running the
+<a class="reference external" href="https://docs.python.org/3/library/fcntl.html#module-fcntl" title="(in Python v3.9)"><code class="xref py py-mod docutils literal notranslate"><span class="pre">fcntl</span></code></a> but it is only tested on Linux. The user running the
 program/script must have the permissions to create and delete the lock file.
 If the program/script will be run by multiple users the single instance
 restriction can be per user or system wide. The temporary directory on
@@ -517,28 +515,28 @@ argument can be used:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>lockname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – user defined lock name</p></li>
-<li><p><strong>lockdir</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.8)"><span class="xref std std-term">path-like object</span></a>) – user defined directory for lock files (must exist and the
+<li><p><strong>lockname</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – user defined lock name</p></li>
+<li><p><strong>lockdir</strong> (<a class="reference external" href="https://docs.python.org/3/glossary.html#term-path-like-object" title="(in Python v3.9)"><span class="xref std std-term">path-like object</span></a>) – user defined directory for lock files (must exist and the
 path must be absolute; ignored if <code class="docutils literal notranslate"><span class="pre">use_socket=True</span></code>)</p></li>
-<li><p><strong>extra</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – will be appended to lock name</p></li>
-<li><p><strong>err_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – exit status code if another instance is running (if set to
+<li><p><strong>extra</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – will be appended to lock name</p></li>
+<li><p><strong>err_code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – exit status code if another instance is running (if set to
 <code class="docutils literal notranslate"><span class="pre">None</span></code> <a class="reference internal" href="#salmagundi.utils.AlreadyRunning" title="salmagundi.utils.AlreadyRunning"><code class="xref py py-exc docutils literal notranslate"><span class="pre">AlreadyRunning</span></code></a> will be raised instead of
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemExit</span></code></a>)</p></li>
-<li><p><strong>err_msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – error message (if <code class="docutils literal notranslate"><span class="pre">None</span></code> it defaults to
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">SystemExit</span></code></a>)</p></li>
+<li><p><strong>err_msg</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – error message (if <code class="docutils literal notranslate"><span class="pre">None</span></code> it defaults to
 <code class="docutils literal notranslate"><span class="pre">f'already</span> <span class="pre">running:</span> <span class="pre">{sys.argv[0]}'</span></code>)</p></li>
-<li><p><strong>use_socket</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if true an abstract domain socket is used
+<li><p><strong>use_socket</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if true an abstract domain socket is used
 (<strong>Linux only</strong>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><strong>SystemExit</strong></a> – if another instance is running and <code class="docutils literal notranslate"><span class="pre">err_code</span></code>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.9)"><strong>SystemExit</strong></a> – if another instance is running and <code class="docutils literal notranslate"><span class="pre">err_code</span></code>
 is not None</p></li>
 <li><p><a class="reference internal" href="#salmagundi.utils.AlreadyRunning" title="salmagundi.utils.AlreadyRunning"><strong>AlreadyRunning</strong></a> – if another instance is running and <code class="docutils literal notranslate"><span class="pre">err_code</span></code>
 is None</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.8)"><strong>RuntimeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">lockdir</span></code> is not absolute or <code class="docutils literal notranslate"><span class="pre">use_socket=True</span></code>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.9)"><strong>RuntimeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">lockdir</span></code> is not absolute or <code class="docutils literal notranslate"><span class="pre">use_socket=True</span></code>
 and platform is not Linux</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.8)"><strong>OSError</strong></a> – if the lock file could not be created/deleted</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#OSError" title="(in Python v3.9)"><strong>OSError</strong></a> – if the lock file could not be created/deleted</p></li>
 </ul>
 </dd>
 </dl>
@@ -554,22 +552,22 @@ and platform is not Linux</p></li>
 <dt id="salmagundi.utils.sys_exit">
 <code class="sig-prename descclassname">salmagundi.utils.</code><code class="sig-name descname">sys_exit</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">arg</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">code</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">logger</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/utils.html#sys_exit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.utils.sys_exit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Exit from Python.</p>
-<p>If <code class="docutils literal notranslate"><span class="pre">code</span></code> is not an integer, this function calls <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a> with
+<p>If <code class="docutils literal notranslate"><span class="pre">code</span></code> is not an integer, this function calls <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a> with
 <code class="docutils literal notranslate"><span class="pre">arg</span></code> as its argument. Otherwise <code class="docutils literal notranslate"><span class="pre">arg</span></code> will be printed to
-<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> if it is not <code class="docutils literal notranslate"><span class="pre">None</span></code> and <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a>
+<a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a> if it is not <code class="docutils literal notranslate"><span class="pre">None</span></code> and <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a>
 will be called with <code class="docutils literal notranslate"><span class="pre">code</span></code> as its argument.</p>
 <p>If <code class="docutils literal notranslate"><span class="pre">logger</span></code> is set, the message, if any, will be logged with level
-<code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> instead of printing it to <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.8)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.</p>
+<code class="docutils literal notranslate"><span class="pre">CRITICAL</span></code> instead of printing it to <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.stderr" title="(in Python v3.9)"><code class="xref py py-data docutils literal notranslate"><span class="pre">sys.stderr</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>arg</strong> – see: <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a></p></li>
-<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – exit code (ignored if not an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
-<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.8)"><em>logging.Logger</em></a>) – a logger</p></li>
+<li><p><strong>arg</strong> – see: <a class="reference external" href="https://docs.python.org/3/library/sys.html#sys.exit" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sys.exit()</span></code></a></p></li>
+<li><p><strong>code</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – exit code (ignored if not an <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a>)</p></li>
+<li><p><strong>logger</strong> (<a class="reference external" href="https://docs.python.org/3/library/logging.html#logging.Logger" title="(in Python v3.9)"><em>logging.Logger</em></a>) – a logger</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.8)"><strong>SystemExit</strong></a> – </p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#SystemExit" title="(in Python v3.9)"><strong>SystemExit</strong></a> – </p>
 </dd>
 </dl>
 <div class="versionadded">

@@ -43,8 +43,6 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_config.html">Module <em>config</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_crypto.html">Module <em>crypto</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_inputs.html">Module <em>inputs</em></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>strings</em></a><ul>
@@ -204,7 +202,7 @@
 </ul>
 </dd>
 </dl>
-<p>These are the same as in <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.BOOLEAN_STATES" title="(in Python v3.8)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">configparser.ConfigParser.BOOLEAN_STATES</span></code></a>.</p>
+<p>These are the same as in <a class="reference external" href="https://docs.python.org/3/library/configparser.html#configparser.ConfigParser.BOOLEAN_STATES" title="(in Python v3.9)"><code class="xref py py-attr docutils literal notranslate"><span class="pre">configparser.ConfigParser.BOOLEAN_STATES</span></code></a>.</p>
 </dd></dl>
 
 <dl class="py data">
@@ -238,25 +236,25 @@
 <dt id="salmagundi.strings.TranslationTable">
 <em class="property">class </em><code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">TranslationTable</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">mapped_chars</span></em>, <em class="sig-param"><span class="n">unmapped_chars</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">delete_chars</span><span class="o">=</span><span class="default_value">''</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#TranslationTable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.TranslationTable" title="Permalink to this definition">¶</a></dt>
 <dd><p>TranslationTable class.</p>
-<p>This class is for use with <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.translate" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.translate()</span></code></a>. If a character is not
+<p>This class is for use with <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.translate" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.translate()</span></code></a>. If a character is not
 in <code class="docutils literal notranslate"><span class="pre">mapped_chars</span></code>, <code class="docutils literal notranslate"><span class="pre">unmapped_chars</span></code>, or <code class="docutils literal notranslate"><span class="pre">delete_chars</span></code>
-a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised. See also: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.maketrans" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.maketrans()</span></code></a>.</p>
+a <a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> will be raised. See also: <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.maketrans" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">str.maketrans()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>mapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – mapping from character to replacement string</p></li>
-<li><p><strong>unmapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – string with characters that will not be replaced</p></li>
-<li><p><strong>delete_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – string with characters that will be deleted</p></li>
+<li><p><strong>mapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.9)"><em>dict</em></a><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>, </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>)</em>) – mapping from character to replacement string</p></li>
+<li><p><strong>unmapped_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – string with characters that will not be replaced</p></li>
+<li><p><strong>delete_chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – string with characters that will be deleted</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the resulting string</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if a character is not allowed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if a character is not allowed</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -270,7 +268,7 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
 <dd><p>Get an appropriate binary prefix for an integer number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the number</p>
+<dd class="field-odd"><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the number</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>binary prefix</p>
@@ -279,7 +277,7 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
 <dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if value is not an integer</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if value is not an integer</p>
 </dd>
 </dl>
 </dd></dl>
@@ -291,8 +289,8 @@ a <a class="reference external" href="https://docs.python.org/3/library/exceptio
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – the number</p></li>
-<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the number</p></li>
+<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
 i.e. <em>hecto, deca, deci, centi</em> are skipped</p></li>
 </ul>
 </dd>
@@ -303,7 +301,7 @@ i.e. <em>hecto, deca, deci, centi</em> are skipped</p></li>
 <dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if value is not of type int or float</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if value is not of type int or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -314,13 +312,13 @@ i.e. <em>hecto, deca, deci, centi</em> are skipped</p></li>
 <dd><p>Find binary prefix for name or symbol.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive)</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive)</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>binary prefix or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not found</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -331,14 +329,14 @@ i.e. <em>hecto, deca, deci, centi</em> are skipped</p></li>
 <dd><p>Find decimal prefix for name or symbol.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive);
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – name (case-insensitive) or symbol (case-sensitive);
 instead of the symbol <code class="docutils literal notranslate"><span class="pre">µ</span></code> the letter <code class="docutils literal notranslate"><span class="pre">u</span></code> can be used</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>decimal prefix or <code class="docutils literal notranslate"><span class="pre">None</span></code> if not found</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+<dd class="field-odd"><p><a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix">Prefix</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -356,9 +354,9 @@ instead of the symbol <code class="docutils literal notranslate"><span class="pr
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></p></li>
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the number</p></li>
-<li><p><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – can be a binary prefix object, name, or symbol</p></li>
+<li><p><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the number</p></li>
+<li><p><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – can be a binary prefix object, name, or symbol</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -366,10 +364,10 @@ instead of the symbol <code class="docutils literal notranslate"><span class="pr
 <code class="docutils literal notranslate"><span class="pre">num_frmt</span></code> with a space character and <code class="docutils literal notranslate"><span class="pre">prefix.symbol</span></code> appended</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if value is not an integer</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if value is not an integer</p>
 </dd>
 </dl>
 </dd></dl>
@@ -387,11 +385,11 @@ instead of the symbol <code class="docutils literal notranslate"><span class="pr
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></p></li>
-<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a>) – the number</p></li>
-<li><p><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – can be a decimal prefix object, name, or symbol;
+<li><p><strong>num_frmt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – number format string as used with <a class="reference external" href="https://docs.python.org/3/library/functions.html#format" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">format()</span></code></a></p></li>
+<li><p><strong>value</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a>) – the number</p></li>
+<li><p><strong>prefix</strong> (<a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><em>Prefix</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – can be a decimal prefix object, name, or symbol;
 instead of the symbol <code class="docutils literal notranslate"><span class="pre">µ</span></code> the letter <code class="docutils literal notranslate"><span class="pre">u</span></code> can be used</p></li>
-<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
+<li><p><strong>restricted</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only integer powers of 1000 are used,
 i.e. <em>hecto, deca, deci, centi</em> are skipped.
 Ignored if <code class="docutils literal notranslate"><span class="pre">prefix</span></code> is set.</p></li>
 </ul>
@@ -401,10 +399,10 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">prefix</
 <code class="docutils literal notranslate"><span class="pre">num_frmt</span></code> with a space character and <code class="docutils literal notranslate"><span class="pre">prefix.symbol</span></code> appended</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if value is not of type int or float</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if value is not of type int or float</p>
 </dd>
 </dl>
 </dd></dl>
@@ -415,8 +413,8 @@ Ignored if <code class="docutils literal notranslate"><span class="pre">prefix</
 <dd><p>Format a time delta.</p>
 <p>The time delta is the difference between two points in time,
 e.g. a duration.</p>
-<p>The delta can be given in seconds as a <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>,
-or as a <a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.8)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></a>. It must be &gt;= 0.</p>
+<p>The delta can be given in seconds as a <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code></a> or <a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code></a>,
+or as a <a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.9)"><code class="xref py py-class docutils literal notranslate"><span class="pre">datetime.timedelta</span></code></a>. It must be &gt;= 0.</p>
 <p id="ref-timedelta-format-specifiers">A format specifier starts with a <code class="docutils literal notranslate"><span class="pre">'%'</span></code> character followed by a flag
 (optional) and a number for the minimum field width (optional)
 followed by a format code.</p>
@@ -496,20 +494,20 @@ be counted from the left. So <code class="docutils literal notranslate"><span cl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the format string</p></li>
-<li><p><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.8)"><em>datetime.timedelta</em></a>) – the time delta</p></li>
+<li><p><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the format string</p></li>
+<li><p><strong>delta</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.9)"><em>datetime.timedelta</em></a>) – the time delta</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the formatted time delta</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is not <code class="docutils literal notranslate"><span class="pre">int,</span> <span class="pre">float</span> <span class="pre">or</span> <span class="pre">timedelta</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is negative or <code class="docutils literal notranslate"><span class="pre">width</span></code> &lt; 1</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is not <code class="docutils literal notranslate"><span class="pre">int,</span> <span class="pre">float</span> <span class="pre">or</span> <span class="pre">timedelta</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if the given <code class="docutils literal notranslate"><span class="pre">delta</span></code> is negative or <code class="docutils literal notranslate"><span class="pre">width</span></code> &lt; 1</p></li>
 </ul>
 </dd>
 </dl>
@@ -532,10 +530,10 @@ be counted from the left. So <code class="docutils literal notranslate"><span cl
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
-<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the separator character(s)</p></li>
-<li><p><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em> or </em><em>sequence of ints</em>) – the size of each group</p></li>
-<li><p><strong>reverse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> group from right to left instead from
+<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p></li>
+<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the separator character(s)</p></li>
+<li><p><strong>group_size</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em> or </em><em>sequence of ints</em>) – the size of each group</p></li>
+<li><p><strong>reverse</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> group from right to left instead from
 left to right</p></li>
 </ul>
 </dd>
@@ -543,10 +541,10 @@ left to right</p></li>
 <dd class="field-even"><p>string with separators</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">&lt;</span> <span class="pre">1</span></code></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">group_size</span> <span class="pre">&lt;</span> <span class="pre">1</span></code></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -565,24 +563,24 @@ left to right</p></li>
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">int2str</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n</span></em>, <em class="sig-param"><span class="n">base</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#int2str"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.int2str" title="Permalink to this definition">¶</a></dt>
 <dd><p>Convert an integer to a string.</p>
 <p>For <code class="docutils literal notranslate"><span class="pre">base</span> <span class="pre">&gt;</span> <span class="pre">10</span></code> lower case letters are used for digits.</p>
-<p>See also the built-in functions <a class="reference external" href="https://docs.python.org/3/library/functions.html#bin" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">bin()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#oct" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">oct()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#hex" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">hex()</span></code></a>.</p>
+<p>See also the built-in functions <a class="reference external" href="https://docs.python.org/3/library/functions.html#bin" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">bin()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#oct" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">oct()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#hex" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">hex()</span></code></a>.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the integer</p></li>
-<li><p><strong>base</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the base (<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">&lt;=</span> <span class="pre">base</span> <span class="pre">&lt;=</span> <span class="pre">36</span></code>)</p></li>
+<li><p><strong>n</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the integer</p></li>
+<li><p><strong>base</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the base (<code class="docutils literal notranslate"><span class="pre">2</span> <span class="pre">&lt;=</span> <span class="pre">base</span> <span class="pre">&lt;=</span> <span class="pre">36</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>converted integer</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">n</span></code> or <code class="docutils literal notranslate"><span class="pre">base</span></code> are not integers</p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">base</span></code> is outside the allowed range</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">n</span></code> or <code class="docutils literal notranslate"><span class="pre">base</span></code> are not integers</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">base</span></code> is outside the allowed range</p></li>
 </ul>
 </dd>
 </dl>
@@ -597,14 +595,14 @@ left to right</p></li>
 <dd><p>Check if all characters are hexadecimal digits.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">True</span></code> if all characters in the string are hexadecimal digits
 and there is at least one character</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -634,8 +632,8 @@ but <code class="docutils literal notranslate"><span class="pre">'000001'</span>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
-<li><p><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – string with
+<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p></li>
+<li><p><strong>fmt_str</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – string with
 <a class="reference internal" href="#ref-timedelta-format-specifiers"><span class="std std-ref">format specifiers</span></a></p></li>
 </ul>
 </dd>
@@ -643,10 +641,10 @@ but <code class="docutils literal notranslate"><span class="pre">'000001'</span>
 <dd class="field-even"><p>timedelta object</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.8)">datetime.timedelta</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/datetime.html#datetime.timedelta" title="(in Python v3.9)">datetime.timedelta</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if the string cannot be parsed</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if the string cannot be parsed</p>
 </dd>
 </dl>
 </dd></dl>
@@ -667,16 +665,16 @@ purged (only applies when <code class="docutils literal notranslate"><span class
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
-<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the characters</p></li>
-<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – see above</p></li>
+<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p></li>
+<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the characters</p></li>
+<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – see above</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>the purged string</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -701,10 +699,10 @@ purged (only applies when <code class="docutils literal notranslate"><span class
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the text</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the width</p></li>
-<li><p><strong>placeholder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the placeholder</p></li>
-<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – position (<code class="docutils literal notranslate"><span class="pre">'left',</span> <span class="pre">'middle',</span> <span class="pre">'right'</span></code>) of
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the text</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the width</p></li>
+<li><p><strong>placeholder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the placeholder</p></li>
+<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – position (<code class="docutils literal notranslate"><span class="pre">'left',</span> <span class="pre">'middle',</span> <span class="pre">'right'</span></code>) of
 placeholder in text</p></li>
 </ul>
 </dd>
@@ -712,10 +710,10 @@ placeholder in text</p></li>
 <dd class="field-even"><p>the shortened text</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">&lt;</span> <span class="pre">len(placeholder)</span></code> or <code class="docutils literal notranslate"><span class="pre">pos</span></code> is unknown</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">&lt;</span> <span class="pre">len(placeholder)</span></code> or <code class="docutils literal notranslate"><span class="pre">pos</span></code> is unknown</p>
 </dd>
 </dl>
 </dd></dl>
@@ -729,13 +727,13 @@ characters are replaced by dashes (<code class="docutils literal notranslate"><s
 dashes but one are eliminated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>slugified string</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -756,18 +754,18 @@ dashes but one are eliminated.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string to split</p></li>
-<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – port that is used if there is none in the string</p></li>
+<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string to split</p></li>
+<li><p><strong>port</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – port that is used if there is none in the string</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>host and port number</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a>, <a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">port</span></code> or the port number in <code class="docutils literal notranslate"><span class="pre">s</span></code>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">port</span></code> or the port number in <code class="docutils literal notranslate"><span class="pre">s</span></code>
 are not in [0..65535] or neither of them is given</p>
 </dd>
 </dl>
@@ -784,16 +782,16 @@ are not in [0..65535] or neither of them is given</p>
 the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a> dictionary.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>a boolean value</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if the string is not in <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a></p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if the string is not in <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-data docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a></p>
 </dd>
 </dl>
 </dd></dl>
@@ -804,16 +802,16 @@ the <a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" titl
 <dd><p>Convert a string to a network port number.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string to convert</p>
+<dd class="field-odd"><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string to convert</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>port number</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">s</span></code> cannot be converted to a number in [0..65535]</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">s</span></code> cannot be converted to a number in [0..65535]</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -841,17 +839,17 @@ or else a tuple with string elements will be returned.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
-<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the separator (whitespace around <code class="docutils literal notranslate"><span class="pre">sep</span></code> will be ignored)</p></li>
-<li><p><strong>converter</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>)</em>) – the converter function</p></li>
-<li><p><strong>maxsplit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – max. number of splits (-1 means no limit)</p></li>
+<li><p><strong>s</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p></li>
+<li><p><strong>sep</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the separator (whitespace around <code class="docutils literal notranslate"><span class="pre">sep</span></code> will be ignored)</p></li>
+<li><p><strong>converter</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>)</em>) – the converter function</p></li>
+<li><p><strong>maxsplit</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – max. number of splits (-1 means no limit)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>tuple with elements of the required type</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)">tuple</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)">tuple</a></p>
 </dd>
 </dl>
 <div class="versionchanged">
@@ -863,8 +861,8 @@ or else a tuple with string elements will be returned.</p>
 <dt id="salmagundi.strings.walign">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">walign</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em>, <em class="sig-param"><span class="n">width</span></em>, <em class="sig-param"><span class="n">fill</span><span class="o">=</span><span class="default_value">' '</span></em>, <em class="sig-param"><span class="n">align</span><span class="o">=</span><span class="default_value">'center'</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#walign"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.walign" title="Permalink to this definition">¶</a></dt>
 <dd><p>Align a string even if not all characters occupy only one column    in a terminal.</p>
-<p>The string methods <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.center" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">center()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.ljust" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ljust()</span></code></a>,
-and <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.rjust" title="(in Python v3.8)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rjust()</span></code></a> only consider the number of characters when
+<p>The string methods <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.center" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">center()</span></code></a>, <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.ljust" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">ljust()</span></code></a>,
+and <a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str.rjust" title="(in Python v3.9)"><code class="xref py py-meth docutils literal notranslate"><span class="pre">rjust()</span></code></a> only consider the number of characters when
 aligning a string. If a string contains characters that occupy
 zero or two columns (see <a class="reference internal" href="#salmagundi.strings.wlen" title="salmagundi.strings.wlen"><code class="xref py py-func docutils literal notranslate"><span class="pre">wlen()</span></code></a>) the result is wrong when
 displayed in a terminal:</p>
@@ -881,10 +879,10 @@ displayed in a terminal:</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of columns wherein to align the string</p></li>
-<li><p><strong>fill</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – fill character</p></li>
-<li><p><strong>align</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – alignment (one of <code class="docutils literal notranslate"><span class="pre">'center',</span> <span class="pre">'left',</span> <span class="pre">'right</span></code>)</p></li>
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of columns wherein to align the string</p></li>
+<li><p><strong>fill</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – fill character</p></li>
+<li><p><strong>align</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – alignment (one of <code class="docutils literal notranslate"><span class="pre">'center',</span> <span class="pre">'left',</span> <span class="pre">'right</span></code>)</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -892,7 +890,7 @@ displayed in a terminal:</p>
 string is returned)</p>
 </dd>
 <dt class="field-odd">Raises</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if length could not be determined,
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if length could not be determined,
 <code class="docutils literal notranslate"><span class="pre">align</span></code> is unknown or <code class="docutils literal notranslate"><span class="pre">wlen(fill)</span> <span class="pre">!=</span> <span class="pre">1</span></code></p>
 </dd>
 </dl>
@@ -906,7 +904,7 @@ string is returned)</p>
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">wlen</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">text</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/strings.html#wlen"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.strings.wlen" title="Permalink to this definition">¶</a></dt>
 <dd><p>Determine the number of columns a string actually occupies in a terminal.</p>
 <p>Though most characters need just one column there are characters that use
-zero (e.g. NULL) or two (e.g. Japanese) columns. The <a class="reference external" href="https://docs.python.org/3/library/functions.html#len" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> function
+zero (e.g. NULL) or two (e.g. Japanese) columns. The <a class="reference external" href="https://docs.python.org/3/library/functions.html#len" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">len()</span></code></a> function
 counts the number of characters in a string.</p>
 <p>Examples:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s1</span> <span class="o">=</span> <span class="s1">&#39;a</span><span class="se">\0</span><span class="s1">b&#39;</span>
@@ -927,16 +925,16 @@ counts the number of characters in a string.</p>
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the string</p>
+<dd class="field-odd"><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the string</p>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>number of columns</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if length could not be determined</p>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if length could not be determined</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -951,10 +949,10 @@ counts the number of characters in a string.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the text</p></li>
-<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – the width</p></li>
-<li><p><strong>placeholder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the placeholder</p></li>
-<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – position (<code class="docutils literal notranslate"><span class="pre">'left',</span> <span class="pre">'middle',</span> <span class="pre">'right'</span></code>) of
+<li><p><strong>text</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the text</p></li>
+<li><p><strong>width</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – the width</p></li>
+<li><p><strong>placeholder</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the placeholder</p></li>
+<li><p><strong>pos</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – position (<code class="docutils literal notranslate"><span class="pre">'left',</span> <span class="pre">'middle',</span> <span class="pre">'right'</span></code>) of
 placeholder in text</p></li>
 </ul>
 </dd>
@@ -962,10 +960,10 @@ placeholder in text</p></li>
 <dd class="field-even"><p>the shortened text (may be one character less then <code class="docutils literal notranslate"><span class="pre">width</span></code>)</p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)">str</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
-<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if length could not be determined,
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if length could not be determined,
 <code class="docutils literal notranslate"><span class="pre">width</span> <span class="pre">&lt;</span> <span class="pre">wlen(placeholder)</span></code> or <code class="docutils literal notranslate"><span class="pre">pos</span></code> is unknown</p>
 </dd>
 </dl>

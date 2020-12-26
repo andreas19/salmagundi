@@ -43,8 +43,6 @@
 <li class="toctree-l1"><a class="reference internal" href="overview.html">Overview</a></li>
 <li class="toctree-l1 current"><a class="reference internal" href="modules.html">Modules</a><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="mod_colors.html">Module <em>colors</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_config.html">Module <em>config</em></a></li>
-<li class="toctree-l2"><a class="reference internal" href="mod_crypto.html">Module <em>crypto</em></a></li>
 <li class="toctree-l2"><a class="reference internal" href="mod_files.html">Module <em>files</em></a></li>
 <li class="toctree-l2 current"><a class="current reference internal" href="#">Module <em>inputs</em></a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#overview">Overview</a></li>
@@ -141,7 +139,7 @@
 <a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>predicate</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.8)"><em>float</em></a><em>)</em>) – predicate function</p>
+<dd class="field-odd"><p><strong>predicate</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.9)"><em>float</em></a><em>)</em>) – predicate function</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -157,7 +155,7 @@
 <a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-func docutils literal notranslate"><span class="pre">read()</span></code></a> function.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>predicate</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a><em>)</em>) – predicate function</p>
+<dd class="field-odd"><p><strong>predicate</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a><em>)</em>) – predicate function</p>
 </dd>
 </dl>
 <div class="versionadded">
@@ -174,10 +172,10 @@
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>min_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – minimal length of the string</p></li>
-<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – maximal length of the string (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
-<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – allowed characters</p></li>
-<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only characters not in <code class="docutils literal notranslate"><span class="pre">chars</span></code>
+<li><p><strong>min_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – minimal length of the string</p></li>
+<li><p><strong>max_len</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – maximal length of the string (<code class="docutils literal notranslate"><span class="pre">None</span></code> means no limit)</p></li>
+<li><p><strong>chars</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – allowed characters</p></li>
+<li><p><strong>negate</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> only characters not in <code class="docutils literal notranslate"><span class="pre">chars</span></code>
 are allowed</p></li>
 </ul>
 </dd>
@@ -221,13 +219,13 @@ input can be cancelled with EOF (<code class="docutils literal notranslate"><spa
 &gt; </pre><dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the prompt</p></li>
-<li><p><strong>titles</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a>) – the titles of the menu options</p></li>
-<li><p><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – number of columns</p></li>
-<li><p><strong>col_by_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the menu will be filled
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the prompt</p></li>
+<li><p><strong>titles</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – the titles of the menu options</p></li>
+<li><p><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of columns</p></li>
+<li><p><strong>col_by_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the menu will be filled
 column-by-column, otherwise row-by-row</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
-<li><p><strong>caption</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – caption for the menu</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>caption</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – caption for the menu</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -235,12 +233,12 @@ column-by-column, otherwise row-by-row</p></li>
 and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.8)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">titles</span></code> is not a tuple</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.9)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">titles</span></code> is not a tuple</p></li>
 </ul>
 </dd>
 </dl>
@@ -261,7 +259,7 @@ input can be cancelled with EOF (<code class="docutils literal notranslate"><spa
 <p>If the <code class="docutils literal notranslate"><span class="pre">check</span></code> parameter is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> any input is allowed,
 else it must be a <code class="docutils literal notranslate"><span class="pre">callable</span></code> that takes a string as a parameter
 and returns the (converted) input value or raises
-<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if the input is not allowed.</p>
+<a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><code class="xref py py-exc docutils literal notranslate"><span class="pre">ValueError</span></code></a> if the input is not allowed.</p>
 <p>There are 3 predefined check functions in this module:
 <a class="reference internal" href="#salmagundi.inputs.check_str" title="salmagundi.inputs.check_str"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_str()</span></code></a>, <a class="reference internal" href="#salmagundi.inputs.check_int" title="salmagundi.inputs.check_int"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_int()</span></code></a> and <a class="reference internal" href="#salmagundi.inputs.check_float" title="salmagundi.inputs.check_float"><code class="xref py py-func docutils literal notranslate"><span class="pre">check_float()</span></code></a>.</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">read</span><span class="p">(</span><span class="s1">&#39;Number: &#39;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s1">&#39;42&#39;</span><span class="p">)</span>
@@ -275,12 +273,12 @@ and returns the (converted) input value or raises
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the prompt</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
-<li><p><strong>check</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – the check parameter (see above)</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
-<li><p><strong>noecho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/getpass.html#getpass.getpass" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">getpass()</span></code></a> will be used
-instead of <a class="reference external" href="https://docs.python.org/3/library/functions.html#input" title="(in Python v3.8)"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a></p></li>
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the prompt</p></li>
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
+<li><p><strong>check</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – the check parameter (see above)</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>noecho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/getpass.html#getpass.getpass" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">getpass()</span></code></a> will be used
+instead of <a class="reference external" href="https://docs.python.org/3/library/functions.html#input" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a></p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -292,8 +290,8 @@ instead of <a class="reference external" href="https://docs.python.org/3/library
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.8)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">default</span></code> is not of type <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.9)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">default</span></code> is not of type <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
 </ul>
 </dd>
 </dl>
@@ -316,13 +314,13 @@ input can be cancelled with EOF (<code class="docutils literal notranslate"><spa
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the prompt</p></li>
-<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.8)"><em>tuple</em></a>) – the options; if all options are only 1 character a string
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the prompt</p></li>
+<li><p><strong>options</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.9)"><em>tuple</em></a>) – the options; if all options are only 1 character a string
 can be used, else a tuple of strings</p></li>
-<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
-<li><p><strong>case_sensitive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code> case of typed characters will
+<li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
+<li><p><strong>case_sensitive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code> case of typed characters will
 be ignored</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -330,12 +328,12 @@ be ignored</p></li>
 and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)">int</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.8)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">options</span></code> is not str or tuple of strings</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.9)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">options</span></code> is not str or tuple of strings</p></li>
 </ul>
 </dd>
 </dl>
@@ -359,11 +357,11 @@ The input can be cancelled with EOF (<code class="docutils literal notranslate">
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the prompt</p></li>
-<li><p><strong>yesno</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – the characters for <code class="docutils literal notranslate"><span class="pre">yes</span></code> (index 0) and <code class="docutils literal notranslate"><span class="pre">no</span></code> (index 1);
+<li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the prompt</p></li>
+<li><p><strong>yesno</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the characters for <code class="docutils literal notranslate"><span class="pre">yes</span></code> (index 0) and <code class="docutils literal notranslate"><span class="pre">no</span></code> (index 1);
 if one is upper and the other lower case, the upper case
 character is the default</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -371,13 +369,13 @@ character is the default</p></li>
 and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=False</span></code></p>
 </dd>
 <dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.8)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.8)">None</a></p>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)">bool</a> or <a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)">None</a></p>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><ul class="simple">
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.8)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.8)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">yesno</span></code> is not of type <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
-<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.8)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">yesno</span></code> is not of length 2</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#EOFError" title="(in Python v3.9)"><strong>EOFError</strong></a> – if input was cancelled and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=True</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.9)"><strong>TypeError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">yesno</span></code> is not of type <code class="docutils literal notranslate"><span class="pre">str</span></code></p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.9)"><strong>ValueError</strong></a> – if <code class="docutils literal notranslate"><span class="pre">yesno</span></code> is not of length 2</p></li>
 </ul>
 </dd>
 </dl>
