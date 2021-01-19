@@ -272,9 +272,23 @@ BINARY_PREFIXES = [
     Prefix('kibi', 'Ki', 2**10),
     NO_PREFIX
 ]
-"""Binary prefixes.
+r"""List with binary prefixes.
 
 The entries in this list are of type :class:`Prefix`.
+
+=====  ======  ======
+Name   Symbol  Factor
+=====  ======  ======
+yobi     Yi    2\ :sup:`80`
+zebi     Zi    2\ :sup:`70`
+exbi     Ei    2\ :sup:`60`
+pebi     Pi    2\ :sup:`50`
+tebi     Ti    2\ :sup:`40`
+gibi     Gi    2\ :sup:`30`
+mebi     Mi    2\ :sup:`20`
+kibi     Ki    2\ :sup:`10`
+\               1
+=====  ======  ======
 """
 
 DECIMAL_PREFIXES = [
@@ -300,9 +314,35 @@ DECIMAL_PREFIXES = [
     Prefix('zepto', 'z', 10**-21),
     Prefix('yocto', 'y', 10**-24),
 ]
-"""Decimal prefixes.
+r"""List with decimal prefixes.
 
 The entries in this list are of type :class:`Prefix`.
+
+=====  ======  ======
+Name   Symbol  Factor
+=====  ======  ======
+yotta    Y     10\ :sup:`24`
+zetta    Z     10\ :sup:`21`
+exa      E     10\ :sup:`18`
+peta     P     10\ :sup:`15`
+tera     T     10\ :sup:`12`
+giga     G     10\ :sup:`9`
+mega     M     10\ :sup:`6`
+kilo     k     10\ :sup:`3`
+hecto    h     10\ :sup:`2`
+deca     da    10\ :sup:`1`
+\               1
+deci     d     10\ :sup:`-1`
+centi    c     10\ :sup:`-2`
+milli    m     10\ :sup:`-3`
+micro    µ     10\ :sup:`-6`
+nano     n     10\ :sup:`-9`
+pico     p     10\ :sup:`-12`
+femto    f     10\ :sup:`-15`
+atto     a     10\ :sup:`-18`
+zepto    z     10\ :sup:`-21`
+yocto    y     10\ :sup:`-24`
+=====  ======  ======
 """
 
 
@@ -655,6 +695,8 @@ def int2str(n, base):
     check_type(base, int, 'base')
     if base < 2 or base > 36:
         raise ValueError('base must be >= 2 and <= 36')
+    if base == 10:
+        return str(n)
     s = ''
     if not n:
         return '0'

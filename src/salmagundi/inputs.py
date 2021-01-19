@@ -2,25 +2,30 @@
 
 .. versionadded:: 0.3.0
 
+.. versionchanged:: 0.16.0
+   The ``exc_on_cancel`` parameters of the functions ``read``, ``select``,
+   ``yesno``, and ``menu`` now default to ``None``. This means that the value
+   of the new module level attribute ``exception_on_cancel`` will be used. As
+   this defaults to ``True`` the default behavior of the functions has changed.
+   To restore the old behavior set ``exception_on_cancel``
+   to ``False``.
+
 The terminal must support `ANSI escape sequences
 <https://en.wikipedia.org/wiki/ANSI_escape_code>`_.
 """
 
 import math
-from functools import partial
 from getpass import getpass
-
-from ansictrls import CS
 
 from .utils import check_type
 
-__all__ = ['check_float', 'check_int', 'check_str', 'menu', 'read', 'select',
-           'yesno']
+__all__ = ['exception_on_cancel', 'check_float', 'check_int', 'check_str',
+           'menu', 'read', 'select', 'yesno']
 
-_cs_print = partial(print, end='', sep='', flush=True)
+exception_on_cancel = True  #: Default value for ``exc_on_cancel`` parameters.
 
 
-def read(prompt='', default=None, check=None, exc_on_cancel=False,
+def read(prompt='', default=None, check=None, exc_on_cancel=None,
          *, noecho=False):
     """Read a line of input and check if it is allowed.
 
@@ -47,7 +52,9 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False,
     :type default: str or None
     :param check: the check parameter (see above)
     :type check: callable(str) or None
-    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param bool exc_on_cancel: if ``True`` an EOF will cause an Exception;
+                               if ``None`` the value of ``exception_on_cancel``
+                               will be used
     :param bool noecho: if set to ``True`` :func:`~getpass.getpass` will be used
                         instead of :func:`input`
     :return: (converted) input value or ``None`` if input was cancelled and
@@ -59,12 +66,14 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False,
     .. versionchanged:: 0.15.0 Add parameter ``noecho``
     """
     default is not None and check_type(default, str, 'default')
+    exc_on_cancel = (exception_on_cancel
+                     if exc_on_cancel is None else exc_on_cancel)
     value = None
     lines = prompt.split('\n')
     line = lines[-1]
     if len(lines) > 1:
         print('\n'.join(lines[:-1]))
-    _cs_print('\n', CS.CUU, CS.SCP)
+    print('\n\x1b[A\x1b[s', end='', flush=True)  # CHANGELOG for version 0.7.2
     while True:
         try:
             if noecho:
@@ -86,11 +95,11 @@ def read(prompt='', default=None, check=None, exc_on_cancel=False,
             else:
                 value = a
                 break
-        _cs_print(CS.RCP, CS.ED)
+        print('\x1b[u\x1b[J', end='', flush=True)
     return value
 
 
-def yesno(prompt, yesno, exc_on_cancel=False):
+def yesno(prompt, yesno, exc_on_cancel=None):
     """Show yes/no input prompt.
 
     If the typed character (case-insensitive) is not allowed
@@ -105,7 +114,9 @@ def yesno(prompt, yesno, exc_on_cancel=False):
     :param str yesno: the characters for ``yes`` (index 0) and ``no`` (index 1);
                       if one is upper and the other lower case, the upper case
                       character is the default
-    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param bool exc_on_cancel: if ``True`` an EOF will cause an Exception;
+                               if ``None`` the value of ``exception_on_cancel``
+                               will be used
     :return: ``True`` for ``yes``, ``False`` for ``no``, ``None`` if cancelled
              and ``exc_on_cancel=False``
     :rtype: bool or None
@@ -135,7 +146,7 @@ def yesno(prompt, yesno, exc_on_cancel=False):
 
 
 def select(prompt, options, default=None, case_sensitive=False,
-           exc_on_cancel=False):
+           exc_on_cancel=None):
     """Show an input with selectable options.
 
     If the input is not allowed the prompt will be shown again. The
@@ -153,7 +164,9 @@ def select(prompt, options, default=None, case_sensitive=False,
     :type default: str or None
     :param bool case_sensitive: if ``False`` case of typed characters will
                                 be ignored
-    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param bool exc_on_cancel: if ``True`` an EOF will cause an Exception;
+                               if ``None`` the value of ``exception_on_cancel``
+                               will be used
     :return: index of the selected option in ``options`` or None if cancelled
              and ``exc_on_cancel=False``
     :rtype: int or None
@@ -176,7 +189,7 @@ def select(prompt, options, default=None, case_sensitive=False,
     return read(prompt, default=default, check=f, exc_on_cancel=exc_on_cancel)
 
 
-def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False,
+def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=None,
          caption=None):
     """Show a simple menu.
 
@@ -219,7 +232,9 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=False,
     :param int cols: number of columns
     :param bool col_by_col: if ``True`` the menu will be filled
                             column-by-column, otherwise row-by-row
-    :param bool exc_on_cancel: if set to ``True`` an EOF will cause an Exception
+    :param bool exc_on_cancel: if ``True`` an EOF will cause an Exception;
+                               if ``None`` the value of ``exception_on_cancel``
+                               will be used
     :param str caption: caption for the menu
     :return: index of the selected option in ``titles`` or None if cancelled
              and ``exc_on_cancel=False``

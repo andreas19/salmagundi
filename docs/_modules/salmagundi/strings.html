@@ -6,13 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>salmagundi.strings &#8212; Salmagundi 0.15.1 documentation</title>
-    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
     <script src="../../_static/jquery.js"></script>
     <script src="../../_static/underscore.js"></script>
     <script src="../../_static/doctools.js"></script>
-    <script src="../../_static/language_data.js"></script>
     <link rel="shortcut icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -353,9 +352,23 @@
     <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;kibi&#39;</span><span class="p">,</span> <span class="s1">&#39;Ki&#39;</span><span class="p">,</span> <span class="mi">2</span><span class="o">**</span><span class="mi">10</span><span class="p">),</span>
     <span class="n">NO_PREFIX</span>
 <span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;Binary prefixes.</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;List with binary prefixes.</span>
 
 <span class="sd">The entries in this list are of type :class:`Prefix`.</span>
+
+<span class="sd">=====  ======  ======</span>
+<span class="sd">Name   Symbol  Factor</span>
+<span class="sd">=====  ======  ======</span>
+<span class="sd">yobi     Yi    2\ :sup:`80`</span>
+<span class="sd">zebi     Zi    2\ :sup:`70`</span>
+<span class="sd">exbi     Ei    2\ :sup:`60`</span>
+<span class="sd">pebi     Pi    2\ :sup:`50`</span>
+<span class="sd">tebi     Ti    2\ :sup:`40`</span>
+<span class="sd">gibi     Gi    2\ :sup:`30`</span>
+<span class="sd">mebi     Mi    2\ :sup:`20`</span>
+<span class="sd">kibi     Ki    2\ :sup:`10`</span>
+<span class="sd">\               1</span>
+<span class="sd">=====  ======  ======</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="n">DECIMAL_PREFIXES</span> <span class="o">=</span> <span class="p">[</span>
@@ -381,9 +394,35 @@
     <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;zepto&#39;</span><span class="p">,</span> <span class="s1">&#39;z&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">21</span><span class="p">),</span>
     <span class="n">Prefix</span><span class="p">(</span><span class="s1">&#39;yocto&#39;</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="o">**-</span><span class="mi">24</span><span class="p">),</span>
 <span class="p">]</span>
-<span class="sd">&quot;&quot;&quot;Decimal prefixes.</span>
+<span class="sa">r</span><span class="sd">&quot;&quot;&quot;List with decimal prefixes.</span>
 
 <span class="sd">The entries in this list are of type :class:`Prefix`.</span>
+
+<span class="sd">=====  ======  ======</span>
+<span class="sd">Name   Symbol  Factor</span>
+<span class="sd">=====  ======  ======</span>
+<span class="sd">yotta    Y     10\ :sup:`24`</span>
+<span class="sd">zetta    Z     10\ :sup:`21`</span>
+<span class="sd">exa      E     10\ :sup:`18`</span>
+<span class="sd">peta     P     10\ :sup:`15`</span>
+<span class="sd">tera     T     10\ :sup:`12`</span>
+<span class="sd">giga     G     10\ :sup:`9`</span>
+<span class="sd">mega     M     10\ :sup:`6`</span>
+<span class="sd">kilo     k     10\ :sup:`3`</span>
+<span class="sd">hecto    h     10\ :sup:`2`</span>
+<span class="sd">deca     da    10\ :sup:`1`</span>
+<span class="sd">\               1</span>
+<span class="sd">deci     d     10\ :sup:`-1`</span>
+<span class="sd">centi    c     10\ :sup:`-2`</span>
+<span class="sd">milli    m     10\ :sup:`-3`</span>
+<span class="sd">micro    µ     10\ :sup:`-6`</span>
+<span class="sd">nano     n     10\ :sup:`-9`</span>
+<span class="sd">pico     p     10\ :sup:`-12`</span>
+<span class="sd">femto    f     10\ :sup:`-15`</span>
+<span class="sd">atto     a     10\ :sup:`-18`</span>
+<span class="sd">zepto    z     10\ :sup:`-21`</span>
+<span class="sd">yocto    y     10\ :sup:`-24`</span>
+<span class="sd">=====  ======  ======</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
 
@@ -736,6 +775,8 @@
     <span class="n">check_type</span><span class="p">(</span><span class="n">base</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;base&#39;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">base</span> <span class="o">&lt;</span> <span class="mi">2</span> <span class="ow">or</span> <span class="n">base</span> <span class="o">&gt;</span> <span class="mi">36</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;base must be &gt;= 2 and &lt;= 36&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">base</span> <span class="o">==</span> <span class="mi">10</span><span class="p">:</span>
+        <span class="k">return</span> <span class="nb">str</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
     <span class="n">s</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">n</span><span class="p">:</span>
         <span class="k">return</span> <span class="s1">&#39;0&#39;</span>
@@ -952,10 +993,10 @@
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2020, Andreas Suhre.
+      &copy;2018-2021, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

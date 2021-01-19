@@ -6,13 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module strings &#8212; Salmagundi 0.15.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -108,13 +107,13 @@
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.strings.BINARY_PREFIXES" title="salmagundi.strings.BINARY_PREFIXES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BINARY_PREFIXES</span></code></a></p></td>
-<td><p>Binary prefixes.</p></td>
+<td><p>List with binary prefixes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.strings.BOOLEAN_STATES" title="salmagundi.strings.BOOLEAN_STATES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">BOOLEAN_STATES</span></code></a></p></td>
 <td><p>Dictionary with mappings from strings to boolean values.</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.strings.DECIMAL_PREFIXES" title="salmagundi.strings.DECIMAL_PREFIXES"><code class="xref py py-obj docutils literal notranslate"><span class="pre">DECIMAL_PREFIXES</span></code></a></p></td>
-<td><p>Decimal prefixes.</p></td>
+<td><p>List with decimal prefixes.</p></td>
 </tr>
 <tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.strings.NO_PREFIX" title="salmagundi.strings.NO_PREFIX"><code class="xref py py-obj docutils literal notranslate"><span class="pre">NO_PREFIX</span></code></a></p></td>
 <td><p>No prefix</p></td>
@@ -214,15 +213,165 @@
 <dl class="py data">
 <dt id="salmagundi.strings.BINARY_PREFIXES">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">BINARY_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.BINARY_PREFIXES" title="Permalink to this definition">¶</a></dt>
-<dd><p>Binary prefixes.</p>
+<dd><p>List with binary prefixes.</p>
 <p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 26%" />
+<col style="width: 52%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Factor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>yobi</p></td>
+<td><p>Yi</p></td>
+<td><p>2<sup>80</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>zebi</p></td>
+<td><p>Zi</p></td>
+<td><p>2<sup>70</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>exbi</p></td>
+<td><p>Ei</p></td>
+<td><p>2<sup>60</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>pebi</p></td>
+<td><p>Pi</p></td>
+<td><p>2<sup>50</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>tebi</p></td>
+<td><p>Ti</p></td>
+<td><p>2<sup>40</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>gibi</p></td>
+<td><p>Gi</p></td>
+<td><p>2<sup>30</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>mebi</p></td>
+<td><p>Mi</p></td>
+<td><p>2<sup>20</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>kibi</p></td>
+<td><p>Ki</p></td>
+<td><p>2<sup>10</sup></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td></td>
+<td><p>1</p></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="py data">
 <dt id="salmagundi.strings.DECIMAL_PREFIXES">
 <code class="sig-prename descclassname">salmagundi.strings.</code><code class="sig-name descname">DECIMAL_PREFIXES</code><a class="headerlink" href="#salmagundi.strings.DECIMAL_PREFIXES" title="Permalink to this definition">¶</a></dt>
-<dd><p>Decimal prefixes.</p>
+<dd><p>List with decimal prefixes.</p>
 <p>The entries in this list are of type <a class="reference internal" href="#salmagundi.strings.Prefix" title="salmagundi.strings.Prefix"><code class="xref py py-class docutils literal notranslate"><span class="pre">Prefix</span></code></a>.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 24%" />
+<col style="width: 56%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Name</p></th>
+<th class="head"><p>Symbol</p></th>
+<th class="head"><p>Factor</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>yotta</p></td>
+<td><p>Y</p></td>
+<td><p>10<sup>24</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>zetta</p></td>
+<td><p>Z</p></td>
+<td><p>10<sup>21</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>exa</p></td>
+<td><p>E</p></td>
+<td><p>10<sup>18</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>peta</p></td>
+<td><p>P</p></td>
+<td><p>10<sup>15</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>tera</p></td>
+<td><p>T</p></td>
+<td><p>10<sup>12</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>giga</p></td>
+<td><p>G</p></td>
+<td><p>10<sup>9</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>mega</p></td>
+<td><p>M</p></td>
+<td><p>10<sup>6</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>kilo</p></td>
+<td><p>k</p></td>
+<td><p>10<sup>3</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>hecto</p></td>
+<td><p>h</p></td>
+<td><p>10<sup>2</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>deca</p></td>
+<td><p>da</p></td>
+<td><p>10<sup>1</sup></p></td>
+</tr>
+<tr class="row-even"><td><p></p></td>
+<td></td>
+<td><p>1</p></td>
+</tr>
+<tr class="row-odd"><td><p>deci</p></td>
+<td><p>d</p></td>
+<td><p>10<sup>-1</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>centi</p></td>
+<td><p>c</p></td>
+<td><p>10<sup>-2</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>milli</p></td>
+<td><p>m</p></td>
+<td><p>10<sup>-3</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>micro</p></td>
+<td><p>µ</p></td>
+<td><p>10<sup>-6</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>nano</p></td>
+<td><p>n</p></td>
+<td><p>10<sup>-9</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>pico</p></td>
+<td><p>p</p></td>
+<td><p>10<sup>-12</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>femto</p></td>
+<td><p>f</p></td>
+<td><p>10<sup>-15</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>atto</p></td>
+<td><p>a</p></td>
+<td><p>10<sup>-18</sup></p></td>
+</tr>
+<tr class="row-odd"><td><p>zepto</p></td>
+<td><p>z</p></td>
+<td><p>10<sup>-21</sup></p></td>
+</tr>
+<tr class="row-even"><td><p>yocto</p></td>
+<td><p>y</p></td>
+<td><p>10<sup>-24</sup></p></td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="py class">
@@ -983,10 +1132,10 @@ placeholder in text</p></li>
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2020, Andreas Suhre.
+      &copy;2018-2021, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

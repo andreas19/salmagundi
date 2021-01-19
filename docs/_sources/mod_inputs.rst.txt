@@ -9,6 +9,7 @@ Module *inputs*
    .. autosummary::
       :nosignatures:
 
+      exception_on_cancel
       check_float
       check_int
       check_str

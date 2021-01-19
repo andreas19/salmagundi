@@ -6,13 +6,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Module inputs &#8212; Salmagundi 0.15.1 documentation</title>
-    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
     <script src="_static/jquery.js"></script>
     <script src="_static/underscore.js"></script>
     <script src="_static/doctools.js"></script>
-    <script src="_static/language_data.js"></script>
     <link rel="shortcut icon" href="_static/favicon.ico"/>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
@@ -99,6 +98,14 @@
 <div class="versionadded">
 <p><span class="versionmodified added">New in version 0.3.0.</span></p>
 </div>
+<div class="versionchanged">
+<p><span class="versionmodified changed">Changed in version 0.16.0: </span>The <code class="docutils literal notranslate"><span class="pre">exc_on_cancel</span></code> parameters of the functions <code class="docutils literal notranslate"><span class="pre">read</span></code>, <code class="docutils literal notranslate"><span class="pre">select</span></code>,
+<code class="docutils literal notranslate"><span class="pre">yesno</span></code>, and <code class="docutils literal notranslate"><span class="pre">menu</span></code> now default to <code class="docutils literal notranslate"><span class="pre">None</span></code>. This means that the value
+of the new module level attribute <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code> will be used. As
+this defaults to <code class="docutils literal notranslate"><span class="pre">True</span></code> the default behavior of the functions has changed.
+To restore the old behavior set <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code>
+to <code class="docutils literal notranslate"><span class="pre">False</span></code>.</p>
+</div>
 <p>The terminal must support <a class="reference external" href="https://en.wikipedia.org/wiki/ANSI_escape_code">ANSI escape sequences</a>.</p>
 <div class="section" id="overview">
 <h2>Overview<a class="headerlink" href="#overview" title="Permalink to this headline">¶</a></h2>
@@ -108,29 +115,38 @@
 <col style="width: 90%" />
 </colgroup>
 <tbody>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.check_float" title="salmagundi.inputs.check_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_float</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.exception_on_cancel" title="salmagundi.inputs.exception_on_cancel"><code class="xref py py-obj docutils literal notranslate"><span class="pre">exception_on_cancel</span></code></a></p></td>
+<td><p>Default value for <code class="docutils literal notranslate"><span class="pre">exc_on_cancel</span></code> parameters.</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.check_float" title="salmagundi.inputs.check_float"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_float</span></code></a></p></td>
 <td><p>Return a check function for floats.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.check_int" title="salmagundi.inputs.check_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_int</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.check_int" title="salmagundi.inputs.check_int"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_int</span></code></a></p></td>
 <td><p>Return a check function for integers.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.check_str" title="salmagundi.inputs.check_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_str</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.check_str" title="salmagundi.inputs.check_str"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_str</span></code></a></p></td>
 <td><p>Return a check function for strings.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.menu" title="salmagundi.inputs.menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.menu" title="salmagundi.inputs.menu"><code class="xref py py-obj docutils literal notranslate"><span class="pre">menu</span></code></a></p></td>
 <td><p>Show a simple menu.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.read" title="salmagundi.inputs.read"><code class="xref py py-obj docutils literal notranslate"><span class="pre">read</span></code></a></p></td>
 <td><p>Read a line of input and check if it is allowed.</p></td>
 </tr>
-<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.select" title="salmagundi.inputs.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a></p></td>
+<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.select" title="salmagundi.inputs.select"><code class="xref py py-obj docutils literal notranslate"><span class="pre">select</span></code></a></p></td>
 <td><p>Show an input with selectable options.</p></td>
 </tr>
-<tr class="row-odd"><td><p><a class="reference internal" href="#salmagundi.inputs.yesno" title="salmagundi.inputs.yesno"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yesno</span></code></a></p></td>
+<tr class="row-even"><td><p><a class="reference internal" href="#salmagundi.inputs.yesno" title="salmagundi.inputs.yesno"><code class="xref py py-obj docutils literal notranslate"><span class="pre">yesno</span></code></a></p></td>
 <td><p>Show yes/no input prompt.</p></td>
 </tr>
 </tbody>
 </table>
+<dl class="py data">
+<dt id="salmagundi.inputs.exception_on_cancel">
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">exception_on_cancel</code><em class="property"> = True</em><a class="headerlink" href="#salmagundi.inputs.exception_on_cancel" title="Permalink to this definition">¶</a></dt>
+<dd><p>Default value for <code class="docutils literal notranslate"><span class="pre">exc_on_cancel</span></code> parameters.</p>
+</dd></dl>
+
 <dl class="py function">
 <dt id="salmagundi.inputs.check_float">
 <code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">check_float</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">predicate</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#check_float"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.check_float" title="Permalink to this definition">¶</a></dt>
@@ -187,7 +203,7 @@ are allowed</p></li>
 
 <dl class="py function">
 <dt id="salmagundi.inputs.menu">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">menu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">titles</span></em>, <em class="sig-param"><span class="n">cols</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">col_by_col</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">menu</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">titles</span></em>, <em class="sig-param"><span class="n">cols</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">col_by_col</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">caption</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#menu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.menu" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show a simple menu.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -224,7 +240,9 @@ input can be cancelled with EOF (<code class="docutils literal notranslate"><spa
 <li><p><strong>cols</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.9)"><em>int</em></a>) – number of columns</p></li>
 <li><p><strong>col_by_col</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> the menu will be filled
 column-by-column, otherwise row-by-row</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception;
+if <code class="docutils literal notranslate"><span class="pre">None</span></code> the value of <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code>
+will be used</p></li>
 <li><p><strong>caption</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – caption for the menu</p></li>
 </ul>
 </dd>
@@ -252,7 +270,7 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 
 <dl class="py function">
 <dt id="salmagundi.inputs.read">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">check</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">noecho</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.read" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">read</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span><span class="o">=</span><span class="default_value">''</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">check</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="o">*</span></em>, <em class="sig-param"><span class="n">noecho</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#read"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.read" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a line of input and check if it is allowed.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -276,7 +294,9 @@ and returns the (converted) input value or raises
 <li><p><strong>prompt</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the prompt</p></li>
 <li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
 <li><p><strong>check</strong> (<em>callable</em><em>(</em><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em>) or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – the check parameter (see above)</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception;
+if <code class="docutils literal notranslate"><span class="pre">None</span></code> the value of <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code>
+will be used</p></li>
 <li><p><strong>noecho</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> <a class="reference external" href="https://docs.python.org/3/library/getpass.html#getpass.getpass" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">getpass()</span></code></a> will be used
 instead of <a class="reference external" href="https://docs.python.org/3/library/functions.html#input" title="(in Python v3.9)"><code class="xref py py-func docutils literal notranslate"><span class="pre">input()</span></code></a></p></li>
 </ul>
@@ -302,7 +322,7 @@ instead of <a class="reference external" href="https://docs.python.org/3/library
 
 <dl class="py function">
 <dt id="salmagundi.inputs.select">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">select</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">options</span></em>, <em class="sig-param"><span class="n">default</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">case_sensitive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#select"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.select" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show an input with selectable options.</p>
 <p>If the input is not allowed the prompt will be shown again. The
 input can be cancelled with EOF (<code class="docutils literal notranslate"><span class="pre">^D</span></code>).</p>
@@ -320,7 +340,9 @@ can be used, else a tuple of strings</p></li>
 <li><p><strong>default</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a><em> or </em><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.9)"><em>None</em></a>) – default value that will be used if no input is provided</p></li>
 <li><p><strong>case_sensitive</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">False</span></code> case of typed characters will
 be ignored</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception;
+if <code class="docutils literal notranslate"><span class="pre">None</span></code> the value of <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code>
+will be used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -344,7 +366,7 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
 
 <dl class="py function">
 <dt id="salmagundi.inputs.yesno">
-<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">yesno</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">yesno</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.yesno" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">salmagundi.inputs.</code><code class="sig-name descname">yesno</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prompt</span></em>, <em class="sig-param"><span class="n">yesno</span></em>, <em class="sig-param"><span class="n">exc_on_cancel</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/salmagundi/inputs.html#yesno"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#salmagundi.inputs.yesno" title="Permalink to this definition">¶</a></dt>
 <dd><p>Show yes/no input prompt.</p>
 <p>If the typed character (case-insensitive) is not allowed
 (i.e. not in <code class="docutils literal notranslate"><span class="pre">yesno</span></code>) the prompt will be shown again.
@@ -361,7 +383,9 @@ The input can be cancelled with EOF (<code class="docutils literal notranslate">
 <li><p><strong>yesno</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.9)"><em>str</em></a>) – the characters for <code class="docutils literal notranslate"><span class="pre">yes</span></code> (index 0) and <code class="docutils literal notranslate"><span class="pre">no</span></code> (index 1);
 if one is upper and the other lower case, the upper case
 character is the default</p></li>
-<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if set to <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception</p></li>
+<li><p><strong>exc_on_cancel</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.9)"><em>bool</em></a>) – if <code class="docutils literal notranslate"><span class="pre">True</span></code> an EOF will cause an Exception;
+if <code class="docutils literal notranslate"><span class="pre">None</span></code> the value of <code class="docutils literal notranslate"><span class="pre">exception_on_cancel</span></code>
+will be used</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
@@ -392,10 +416,10 @@ and <code class="docutils literal notranslate"><span class="pre">exc_on_cancel=F
     <div class="clearer"></div>
   </div>
     <div class="footer">
-      &copy;2018-2020, Andreas Suhre.
+      &copy;2018-2021, Andreas Suhre.
       
       |
-      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.2.0</a>
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.4.1</a>
       &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
       
     </div>

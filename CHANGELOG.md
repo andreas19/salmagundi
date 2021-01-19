@@ -1,17 +1,20 @@
 History
 -------
 
+ - Change in module inputs (see documentation)
+ - Remove dependency on ansictrls
+
 **2020-12-26 (0.15.1)**
- - Bugfix: strings.int2str now works with negative integers
- - Remove deprecated modules config and crypto
- - Include docopt.py in package and silence DeprecationWarnings
+ - Bugfix: strings.int2str() now works with negative integers
+ - Remove deprecated modules config and crypto (use EaSimpConf and PyGemina instead)
+ - Include docopt.py in package and and fix it to silence DeprecationWarnings
 
 **2020-08-17 (0.15.0)**
- - Add parameter noecho to inputs.read
- - Add functions walign, wlen, wshorten to module strings
+ - Add parameter noecho to inputs.read()
+ - Add functions walign(), wlen(), wshorten() to module strings
 
 **2020-07-30 (0.14.0)**
- - Add parameter maxsplit to strings.str2tuple
+ - Add parameter maxsplit to strings.str2tuple()
  - Deprecate modules crypto and config
 
 **2020-07-12 (0.13.0)**
