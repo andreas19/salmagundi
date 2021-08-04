@@ -250,10 +250,11 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=None,
     .. versionchanged:: 0.17.0
        Add parameter ``default``
     """
-    check_type(default, int, 'default')
-    if default is not None and not (0 < default <= (len(titles))):
-        raise ValueError(
-            f'default must be > 0 and <= {len(titles)}, got {default}')
+    if default is not None:
+        check_type(default, int, 'default')
+        if not (0 < default <= (len(titles))):
+            raise ValueError(
+                f'default must be > 0 and <= {len(titles)}, got {default}')
     check_type(titles, tuple, 'titles')
     rows = math.ceil(len(titles) / cols)
     num_width = len(str(len(titles)))

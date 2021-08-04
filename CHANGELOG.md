@@ -1,6 +1,8 @@
 History
 -------
 
+ - Bugfix in inputs.menu()
+
 **2021-08-04 (0.17.0)**
  - Add parameter default to inputs.menu()
 
