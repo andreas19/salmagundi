@@ -270,7 +270,7 @@
 
 
 <div class="viewcode-block" id="menu"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.menu">[docs]</a><span class="k">def</span> <span class="nf">menu</span><span class="p">(</span><span class="n">prompt</span><span class="p">,</span> <span class="n">titles</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">col_by_col</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-         <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+         <span class="n">caption</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Show a simple menu.</span>
 
 <span class="sd">    If the input is not allowed the prompt will be shown again. The</span>
@@ -316,16 +316,24 @@
 <span class="sd">                               if ``None`` the value of ``exception_on_cancel``</span>
 <span class="sd">                               will be used</span>
 <span class="sd">    :param str caption: caption for the menu</span>
+<span class="sd">    :param int default: number of the default menu option</span>
 <span class="sd">    :return: index of the selected option in ``titles`` or None if cancelled</span>
 <span class="sd">             and ``exc_on_cancel=False``</span>
 <span class="sd">    :rtype: int or None</span>
 <span class="sd">    :raises EOFError: if input was cancelled and ``exc_on_cancel=True``</span>
-<span class="sd">    :raises TypeError: if ``titles`` is not a tuple</span>
+<span class="sd">    :raises TypeError: if ``titles`` is not a tuple or ``default`` is not</span>
+<span class="sd">                       an integer</span>
 
 <span class="sd">    .. versionadded:: 0.4.0</span>
 <span class="sd">    .. versionchanged:: 0.6.0</span>
 <span class="sd">       Add parameter ``caption``</span>
+<span class="sd">    .. versionchanged:: 0.17.0</span>
+<span class="sd">       Add parameter ``default``</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">check_type</span><span class="p">(</span><span class="n">default</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="s1">&#39;default&#39;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">default</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="p">(</span><span class="mi">0</span> <span class="o">&lt;</span> <span class="n">default</span> <span class="o">&lt;=</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">))):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s1">&#39;default must be &gt; 0 and &lt;= </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span><span class="si">}</span><span class="s1">, got </span><span class="si">{</span><span class="n">default</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
     <span class="n">check_type</span><span class="p">(</span><span class="n">titles</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="s1">&#39;titles&#39;</span><span class="p">)</span>
     <span class="n">rows</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)</span> <span class="o">/</span> <span class="n">cols</span><span class="p">)</span>
     <span class="n">num_width</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">titles</span><span class="p">)))</span>
@@ -359,7 +367,8 @@
             <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="mi">1</span>
         <span class="k">raise</span> <span class="ne">ValueError</span>
 
-    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">)</span></div>
+    <span class="k">return</span> <span class="n">read</span><span class="p">(</span><span class="n">text</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="n">f</span><span class="p">,</span> <span class="n">exc_on_cancel</span><span class="o">=</span><span class="n">exc_on_cancel</span><span class="p">,</span>
+                <span class="n">default</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">default</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="check_str"><a class="viewcode-back" href="../../mod_inputs.html#salmagundi.inputs.check_str">[docs]</a><span class="k">def</span> <span class="nf">check_str</span><span class="p">(</span><span class="n">min_len</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">max_len</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">chars</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">negate</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>

@@ -1,6 +1,8 @@
 History
 -------
 
+ - Add parameter default to inputs.menu()
+
 **2021-01-19 (0.16.0)**
  - Change in module inputs (see documentation)
  - Remove dependency on ansictrls

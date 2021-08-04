@@ -190,7 +190,7 @@ def select(prompt, options, default=None, case_sensitive=False,
 
 
 def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=None,
-         caption=None):
+         caption=None, default=None):
     """Show a simple menu.
 
     If the input is not allowed the prompt will be shown again. The
@@ -236,16 +236,24 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=None,
                                if ``None`` the value of ``exception_on_cancel``
                                will be used
     :param str caption: caption for the menu
+    :param int default: number of the default menu option
     :return: index of the selected option in ``titles`` or None if cancelled
              and ``exc_on_cancel=False``
     :rtype: int or None
     :raises EOFError: if input was cancelled and ``exc_on_cancel=True``
-    :raises TypeError: if ``titles`` is not a tuple
+    :raises TypeError: if ``titles`` is not a tuple or ``default`` is not
+                       an integer
 
     .. versionadded:: 0.4.0
     .. versionchanged:: 0.6.0
        Add parameter ``caption``
+    .. versionchanged:: 0.17.0
+       Add parameter ``default``
     """
+    check_type(default, int, 'default')
+    if default is not None and not (0 < default <= (len(titles))):
+        raise ValueError(
+            f'default must be > 0 and <= {len(titles)}, got {default}')
     check_type(titles, tuple, 'titles')
     rows = math.ceil(len(titles) / cols)
     num_width = len(str(len(titles)))
@@ -279,7 +287,8 @@ def menu(prompt, titles, cols=1, col_by_col=True, exc_on_cancel=None,
             return i - 1
         raise ValueError
 
-    return read(text, check=f, exc_on_cancel=exc_on_cancel)
+    return read(text, check=f, exc_on_cancel=exc_on_cancel,
+                default=str(default))
 
 
 def check_str(min_len=0, max_len=None, chars=None, negate=False):
