@@ -1,6 +1,7 @@
 History
 -------
 
+**2021-08-04 (0.17.0)**
  - Add parameter default to inputs.menu()
 
 **2021-01-19 (0.16.0)**
